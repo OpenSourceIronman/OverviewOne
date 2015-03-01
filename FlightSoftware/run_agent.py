@@ -31,12 +31,13 @@ def main():
     """ Main entry point for executable. """
 
     a = Agent()
+    Agent.DEBUG = True
 
     cmd_handler = PayloadCommandHandler()
 
     # Register some callbacks
     a.service_handler["Payload Command"] = cmd_handler.dispatch;
-    #a.service_handler["Bus Telemetry"] = cmd_handler.print_it;
+    a.service_handler["Telemetry Packet"] = Agent.print_it;
 
     print("Binding UDP sockets")
     a.bind_udp_sockets()
