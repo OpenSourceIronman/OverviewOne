@@ -160,10 +160,9 @@ class Agent:
                         ack = AckPacket(packet)
                         if Agent.DEBUG: print("Received an ack")
                     else:
-                        if Agent.DEBUG: print("Received a packet!")
-
                         for i in Supernova.SERVICES:
                             if sock == self.service_sock[i]:
+                                if Agent.DEBUG: print("Received a packet: "+i)
                                 self.service_handler[i](packet)
 
             # Timeout condition
