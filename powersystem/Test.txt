@@ -1,0 +1,85 @@
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+SUNRISE of orbit #0
+TK1 was on during orbit number 0 and orbit minute 0
+SWIFT-XTS was on during orbit number 0 and orbit minute 0
+Total power consumption is: 6.4556 Wh
+Total energy consumption is: 0.574 Ah
+TK1 was on during orbit number 0 and orbit minute 30
+See3CamCU130:0 was on during orbit number 0 and orbit minute 30
+See3CamCU130:1 was on during orbit number 0 and orbit minute 30
+MAI-400 was on during orbit number 0 and orbit minute 30
+ThermalKnife was on during orbit number 0 and orbit minute 30
+Total power consumption is: 33.4362 Wh
+Total energy consumption is: 3.981 Ah
+TK1 was on during orbit number 0 and orbit minute 60
+SWIFT-XTS was on during orbit number 0 and orbit minute 60
+MAI-400 was on during orbit number 0 and orbit minute 60
+Total power consumption is: 71.0974 Wh
+Total energy consumption is: 8.807 Ah
+SUNRISE of orbit #1
+TK1 was on during orbit number 1 and orbit minute 0
+Total power consumption is: 114.519 Wh
+Total energy consumption is: 14.113 Ah
+TK1 was on during orbit number 1 and orbit minute 30
+SWIFT-XTS was on during orbit number 1 and orbit minute 30
+Total power consumption is: 164.395 Wh
+Total energy consumption is: 19.993 Ah
+TK1 was on during orbit number 1 and orbit minute 60
+See3CamCU130:0 was on during orbit number 1 and orbit minute 60
+See3CamCU130:1 was on during orbit number 1 and orbit minute 60
+MAI-400 was on during orbit number 1 and orbit minute 60
+Total power consumption is: 226.797 Wh
+Total energy consumption is: 27.706 Ah
+SUNRISE of orbit #2
+TK1 was on during orbit number 2 and orbit minute 0
+SWIFT-XTS was on during orbit number 2 and orbit minute 0
+Total power consumption is: 295.655 Wh
+Total energy consumption is: 35.993 Ah
+TK1 was on during orbit number 2 and orbit minute 30
+See3CamCU130:0 was on during orbit number 2 and orbit minute 30
+See3CamCU130:1 was on during orbit number 2 and orbit minute 30
+MAI-400 was on during orbit number 2 and orbit minute 30
+Total power consumption is: 377.037 Wh
+Total energy consumption is: 46.113 Ah
+TK1 was on during orbit number 2 and orbit minute 60
+SWIFT-XTS was on during orbit number 2 and orbit minute 60
+MAI-400 was on during orbit number 2 and orbit minute 60
+Total power consumption is: 469.1 Wh
+Total energy consumption is: 57.652 Ah
+
+
+
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerGeneration  object was deleted.
+PowerConsumption ThermalKnife object was deleted.
+OperationalPlan object was deleted.
+PowerConsumption MAI-400 object was deleted.
+OperationalPlan object was deleted.
+PowerConsumption SWIFT-XTS object was deleted.
+OperationalPlan object was deleted.
+PowerConsumption See3CamCU130:1 object was deleted.
+OperationalPlan object was deleted.
+PowerConsumption See3CamCU130:0 object was deleted.
+OperationalPlan object was deleted.
+PowerConsumption TK1 object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
+OperationalPlan object was deleted.
