@@ -34,6 +34,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 
+#include <chrono>        //High accuracy microsecond timing in unit test
 
 
 #define DEBUG_STATEMENTS_ON 1   //Toggle error messages on and off
@@ -106,9 +107,9 @@
 	 
 typedef struct gpioPin
 {
-  unsigned int pinName[NUM_GPIO_PINS-1];       //Eight Connect Tech CCG020 pin names (i.e. GPI0, GPO3, etc.)
+  unsigned int pinName[NUM_GPIO_PINS-1];      //Eight Connect Tech CCG020 pin names (i.e. GPI0, GPO3, etc.)
   unsigned int pinDirection[NUM_GPIO_PINS-1]; //Direction on the eight GPIO pins (i.e. Input or Output)
-  int pinValue[NUM_GPIO_PINS-1];     //Current state of the eight input or output pins (i.e. High or Low)
+  int pinValue[NUM_GPIO_PINS-1];              //Current state of the eight input or output pins (i.e. High or Low)
   //TO-DO??? REMOVE int fileDescriptor;       //File ID # for use with system open(), close(), and ioctl() functions 
   //TO-DO??? REMOVE int fdArray[[NUM_GPIO_PINS-1]];  //Array to store all file descriptors for the COM10K1 
 } GPIOPins_t;
@@ -184,6 +185,15 @@ void DisplayAllPins(GPIOPins_t GPIO_pins);
  * @return NOTHING
  */
 void UnitTest();
+
+/**
+ * @brief Test high accuracy (microsecond) timing of Mission Elaspe Time (MET) pin state toggling.
+ *
+ * @param NONE
+ *
+ * @return NOTHING
+ */
+void UnitTest_MET();
 
 
 //Private Function Prototypes with system calls to get and set low level GPIO pin configuration

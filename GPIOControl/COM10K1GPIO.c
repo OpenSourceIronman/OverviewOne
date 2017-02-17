@@ -22,9 +22,6 @@
  * See www.sparkfun.com/products/9118 for example opto shifters.
  */
 
-
-//TO-DO??? #include <chrono>        //High accuracy microsecond timing in unit test
-
 #include "COM10K1GPIO.h"
 
 
@@ -145,6 +142,30 @@ void UnitTest(){
   
   printf("Unit Test successful. Visit www.spacevr.co and go to space!\n");
   
+}
+
+void UnitTest_MET(){
+  
+  //Setup time variables to track Mission Elapsed Time (MET)
+  time_t timer;
+  time(&timer);                   //Get time program / mission started
+  struct tm MissionElapsedTime;
+  int START_OF_YEAR_EPOCH = 1900;
+
+  auto start = std::chrono::high_resolution_clock::now();
+
+  //TO-DO??? DO STUFF HERE
+
+  usleep(1000000); //Delay as part of MET test
+
+  //printf("Mission Elaspe Time (MET) rising edge TRIGGER timeStamp (i.e Year_Month_MonthDay_Hour_Minutes_MilliSeconds) = %d_%d_%d_%d_%d_", 
+  //      (MissionElapsedTime.tm_year+START_OF_YEAR_EPOCH), MissionElapsedTime.tm_mon, MissionElapsedTime.tm_mday, MissionElapsedTime.tm_hour, MissionElapsedTime.tm_min);
+
+  MissionElapsedTime = *localtime(&timer);
+  auto elapsed = std::chrono::high_resolution_clock::now() - start;
+  long long elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+
+  std::cout << std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count() << std::endl;
 }
 
 
