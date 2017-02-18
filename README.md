@@ -1,7 +1,7 @@
 # OverviewOne
 SpaceVR's Overview 1 flight software
 
-@author Blaze Sanders - Email: blaze@spacevr.co Skype: blaze.sanders Twitter: BLazeDSanders
+@author Blaze Sanders - Email: blaze@spacevr.co Skype: blaze.sanders Twitter: @BLazeDSanders
 
 Overview 1 will be the world's first free flying virtual reality space satellite.  Overview 1 uses eigth 4K sensors combined with wide field of view lenses to capture an immersive sphere of video. Our goal is to give everyone the opportunity to experience the truly infinite, boundless universe that we live in...through virtual reality.
 
