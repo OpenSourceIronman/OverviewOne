@@ -20,6 +20,9 @@
  * level shifter are the preffered method for connecting the CGC020  
  * to external devices, since its a more rugged method. 
  * See www.sparkfun.com/products/9118 for example opto shifters.
+ * 
+ * Chrono timing variables will roll over at 06:28:16 UTC on 
+ * Thursday, 7 February 2036. Meta data timestamps will be invalid!!!
  */
  
 #ifndef COM10K1_GPIO_H
@@ -52,17 +55,18 @@
 
 
 //Connect Tech CCG020 Linux refernce pin constants as defined in rc.local script on Abaco COM10K1
-#define NUM_GPIO_PINS 8    //Outputs: GPO0 to GPO3 Inputs: GPI0 to GPI3
-#define NUM_OUTPUT_PINS 4  //The COM10K1 has four output pins when connected to the CCG020
-#define NUM_INPUT_PINS 4   //The COM10K1 has four input pins when connected to the CCG020
-#define GPI0 160         //CCG020 Connector P17 Pin # 17 & COM10K1 Connector J1 Pin # A93
-#define GPI1 161         //CCG020 Connector P17 Pin # 19 & COM10K1 Connector J1 Pin # B54
-#define GPI2 162         //CCG020 Connector P17 Pin # 18 & COM10K1 Connector J1 Pin # B57
-#define GPI3 163         //CCG020 Connector P17 Pin # 20 & COM10K1 Connector J1 Pin # B63
-#define GPO0 164         //CCG020 Connector P17 Pin # 9 & COM10K1 Connector J1 Pin # A54
-#define GPO1 165         //CCG020 Connector P17 Pin # 11 & COM10K1 Connector J1 Pin # A63
-#define GPO2 166         //CCG020 Connector P17 Pin # 13 & COM10K1 Connector J1 Pin # A67
-#define GPO3 83          //CCG020 Connector P17 Pin # 15 & COM10K1 Connector J1 Pin # A85
+#define NUM_GPIO_PINS 8      //Outputs: GPO0 to GPO3 Inputs: GPI0 to GPI3
+#define NUM_OUTPUT_PINS 4    //The COM10K1 has four output pins when connected to the CCG020
+#define NUM_INPUT_PINS 4     //The COM10K1 has four input pins when connected to the CCG020
+#define INPUT_PIN_OFFSET 160 //Offset for easier access to array element (i.e. GPIO - 160 = Array element 0)
+#define GPI0 160             //CCG020 Connector P17 Pin # 17 & COM10K1 Connector J1 Pin # A93
+#define GPI1 161             //CCG020 Connector P17 Pin # 19 & COM10K1 Connector J1 Pin # B54
+#define GPI2 162             //CCG020 Connector P17 Pin # 18 & COM10K1 Connector J1 Pin # B57
+#define GPI3 163             //CCG020 Connector P17 Pin # 20 & COM10K1 Connector J1 Pin # B63
+#define GPO0 164             //CCG020 Connector P17 Pin # 9 & COM10K1 Connector J1 Pin # A54
+#define GPO1 165             //CCG020 Connector P17 Pin # 11 & COM10K1 Connector J1 Pin # A63
+#define GPO2 166             //CCG020 Connector P17 Pin # 13 & COM10K1 Connector J1 Pin # A67
+#define GPO3 83              //CCG020 Connector P17 Pin # 15 & COM10K1 Connector J1 Pin # A85
 
 //TO-DO??? remove these
 //string  GPIO_PU0  = "gpio160";      
@@ -136,22 +140,23 @@ void InitializePins(GPIOPins_t *GPIOpin, unsigned int initOutputPinValues[]);
 /**
  * @brief Read the currect logic level (HIGH or LOW) on an input pin.
  *
+ * @param GPIOpin Pointer to struct holding array of eight (NUM_GPIO_PINS) elements
  * @param name Connect Tech CCG020 pin name (i.e. GPI0, GPO3, etc.)
- * @param currentPinValue Current value/state of pin (LOW  = 0 or HIGH = 1)
  * 
  * @return Logic level on input pin (1 = HIGH and 0 = LOW)
  */
-unsigned int ReadInputPinState(unsigned int name, unsigned int currentPinValue);
+unsigned int ReadInputPinState(GPIOPins_t *GPIOpin, unsigned int name);
 
 /**
  * @brief Write logic level (HIGH or LOW) to an output pin.
  *
+ * @param GPIOpin Pointer to struct holding array of eight (NUM_GPIO_PINS) elements
  * @param name Connect Tech CCG020 pin name (i.e. GPI0, GPO3, etc.)
  * @param newPinValue Logic level to output on GPIO pin
  *
  * @return NOTHING
  */
-void WriteOutputPinState(unsigned int name, unsigned int newPinValue); 
+void WriteOutputPinState(GPIOPins_t *GPIOpin, unsigned int name, unsigned int newPinValue); 
 
 /**
  * @brief Convert an output pin on CCG020 to an input pin.

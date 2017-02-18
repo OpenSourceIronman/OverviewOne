@@ -20,6 +20,9 @@
  * level shifter are the preffered method for connecting the CGC020  
  * to external devices, since its a more rugged method. 
  * See www.sparkfun.com/products/9118 for example opto shifters.
+ * 
+ * Chrono timing variables will roll over at 06:28:16 UTC on 
+ * Thursday, 7 February 2036. Meta data timestamps will be invalid!!!
  */
 
 #include "COM10K1GPIO.h"
@@ -28,7 +31,9 @@
 //See COM10K1GPIO.h for further documentation on the following PUBLIC functions:
 
 void InitializePins(GPIOPins_t *GPIOpin, unsigned int initOutputPinStates[]){
-   
+  
+  bool OK = false;
+
   GPIOpin->pinName[0] = GPI0;
   GPIOpin->pinName[1] = GPI1;
   GPIOpin->pinName[2] = GPI2;
@@ -48,27 +53,52 @@ void InitializePins(GPIOPins_t *GPIOpin, unsigned int initOutputPinStates[]){
   GPIOpin->pinDirection[6] = OUTPUT_PIN;
   GPIOpin->pinDirection[7] = OUTPUT_PIN;
   
-  GPIOpin->pinValue[0] = ReadInputPinState(GPI0, UNDEFINED); //PASS ADDRESS OF INPUT VALUE FILE!!!
-  GPIOpin->pinValue[1] = ReadInputPinState(GPI1, UNDEFINED); //PASS ADDRESS OF INPUT VALUE FILE!!!
-  GPIOpin->pinValue[2] = ReadInputPinState(GPI2, UNDEFINED); //PASS ADDRESS OF INPUT VALUE FILE!!!
-  GPIOpin->pinValue[3] = ReadInputPinState(GPI3, UNDEFINED); //PASS ADDRESS OF INPUT VALUE FILE!!!
-  WriteOutputPinState(GPO0, initOutputPinStates[0]);	     //GPIOpin->pinValue[4]
-  WriteOutputPinState(GPO1, initOutputPinStates[1]);
-  WriteOutputPinState(GPO2, initOutputPinStates[2]);
-  WriteOutputPinState(GPO3, initOutputPinStates[3]);
+  OK = ReadInputPinState(GPIOpin, GPI0); 
+  OK = ReadInputPinState(GPIOpin, GPI1);
+  OK = ReadInputPinState(GPIOpin, GPI2);
+  OK = ReadInputPinState(GPIOpin, GPI3);
+  WriteOutputPinState(GPIOpin, GPO0, initOutputPinStates[0]);	     //GPIOpin->pinValue[4]
+  WriteOutputPinState(GPIOpin, GPO1, initOutputPinStates[1]);
+  WriteOutputPinState(GPIOpin, GPO2, initOutputPinStates[2]);
+  WriteOutputPinState(GPIOpin, GPO3, initOutputPinStates[3]);
+
+  if(!OK && DEBUG_STATEMENTS_ON) printf("InitializePins(&GPIOoin, initOutputPinStates[]) function failed. \n");
  
 }
 
 
-unsigned int ReadInputPinState(unsigned int name, unsigned int currentPinValue){
-  if(DEBUG_STATEMENTS_ON) printf("Getting new gpio%d pin value. Previous logic level was %d \n", name, currentPinValue);
-  return gpio_get_value(name, &currentPinValue);
+unsigned int ReadInputPinState(GPIOPins_t *GPIOpin, unsigned int name){
+  
+  if(DEBUG_STATEMENTS_ON) printf("Getting new gpio%d pin value. \n", name);
+  
+  unsigned int newpinValue = UNDEFINED;
+  bool OK = false; 
+
+  OK = gpio_get_value(name, &newpinValue);
+  GPIOpin->pinValue[name-INPUT_PIN_OFFSET] = newpinValue;
+
+  if(!OK && DEBUG_STATEMENTS_ON) printf("Private gpio_get_value(gpio%d, &value) function failed. \n", name);
+  
+  return newpinValue;
 }
 
 
-void WriteOutputPinState(unsigned int name, unsigned int newPinValue){
+void WriteOutputPinState(GPIOPins_t *GPIOpin, unsigned int name, unsigned int newPinValue){
   if(DEBUG_STATEMENTS_ON) printf("Setting gpio%d pin to %d \n", name, newPinValue);
-  gpio_set_value(name, newPinValue);
+  
+  bool OK = false; 
+
+  OK = gpio_set_value(name, newPinValue);
+  switch(name)
+  {
+    case GPO0: GPIOpin->pinValue[0] = newPinValue; break;
+    case GPO1: GPIOpin->pinValue[1] = newPinValue; break;
+    case GPO2: GPIOpin->pinValue[2] = newPinValue; break;
+    case GPO3: GPIOpin->pinValue[3] = newPinValue; break;
+    default: printf("Invalid output pin name used. Try something other than gpio%d \n", name);
+  }//END SWITCH
+
+  if(!OK && DEBUG_STATEMENTS_ON) printf("Private gpio_set_value(gpio%d, &value) function failed. \n", name);
 }
 
 int ChangeOutputPinToInput(unsigned int name, unsigned int direction, unsigned int initValue){
@@ -82,7 +112,8 @@ void DisplayAllPins(GPIOPins_t GPIO_pins){
 
 
 void UnitTest(){	
-
+  
+  
   GPIOPins_t GPIO_pins;
   unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, HIGH, HIGH, HIGH};   //TO-DO??? NUM_OUTPUTS_PINS-1 was incorrect?
   
@@ -96,14 +127,16 @@ void UnitTest(){
    
   char userInput = 'N';
 
-  while(userInput != 'Y' && userInput != 'y')
-{    printf("Please connect input pins 0, 1, 2, and 3 to 0.0 Volts, then type 'Y' and hit enter to continue...\n");
+  while(userInput != 'Y' && userInput != 'y'){    
+    printf("Please connect input pins 0, 1, 2, and 3 to 0.0 Volts, then type 'Y' and hit enter to continue...\n");
     userInput = getchar();
   }//END WHILE LOOP
 
-  for(int i = 0; i <= 3; i++){
-   ReadInputPinState(GPIO_pins.pinName[i], UNDEFINED); //PASS ADDRESS OF INPUT VALUE FILE!!!
-  }
+  
+  assert(ReadInputPinState(&GPIO_pins, GPI0)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI1)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI2)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI3)); 
   
   
   if(DEBUG_STATEMENTS_ON) DisplayAllPins(GPIO_pins);
@@ -120,13 +153,14 @@ void UnitTest(){
     printf("Please connect input pins 0, 1, 2, and 3 to 3.3Volts, then type 'Y' and hit enter to continue...\n");
     userInput = getchar();
   }//END WHILE LOOP
-
-  for(int j = 0; j <= 3; j++){
-   GPIO_pins.pinValue[j] = ReadInputPinState(GPIO_pins.pinName[j], UNDEFINED); //PASS ADDRESS OF INPUT VALUE FILE!!!
-  }
+  assert(ReadInputPinState(&GPIO_pins, GPI0)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI1)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI2)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI3)); 
+  
   
   for(int k = NUM_GPIO_PINS/2; k < NUM_GPIO_PINS; k++){
-   WriteOutputPinState(GPIO_pins.pinName[k], LOW);        //GPIOpin->pinValue[4]
+   WriteOutputPinState(&GPIO_pins, GPIO_pins.pinName[k], LOW);        //GPIOpin->pinValue[4]
   }
   
   if(DEBUG_STATEMENTS_ON) DisplayAllPins(GPIO_pins);
@@ -140,7 +174,7 @@ void UnitTest(){
   assert(GPIO_pins.pinValue[7] == LOW);
 
   
-  printf("Unit Test successful. Visit www.spacevr.co and go to space!\n");
+  printf("Unit Test successful. Visit www.spacevr.co and #BeAnAstronaut today!\n");
   
 }
 
@@ -148,11 +182,11 @@ void UnitTest_MET(){
   
   //Setup time variables to track Mission Elapsed Time (MET)
   time_t timer;
-  time(&timer);                   //Get time program / mission started
+  time(&timer);                   
   struct tm MissionElapsedTime;
-  int START_OF_YEAR_EPOCH = 1900;
+  int START_OF_YEAR_EPOCH = 1900; //Start of Network Time Protocol epoch. Will roll over At 06:28:16 UTC on Thursday, 7 February 2036
 
-  auto start = std::chrono::high_resolution_clock::now();
+  auto start = std::chrono::high_resolution_clock::now(); //Time this line of code / mission started
 
   //TO-DO??? DO STUFF HERE
 
@@ -165,7 +199,7 @@ void UnitTest_MET(){
   auto elapsed = std::chrono::high_resolution_clock::now() - start;
   long long elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 
-  std::cout << std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count() << std::endl;
+  printf("MET = %d microseconds. \n", std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count());
 }
 
 

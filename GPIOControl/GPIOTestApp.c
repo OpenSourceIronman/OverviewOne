@@ -33,7 +33,8 @@ int main(int argc, char *argv[])
    else printf("One argument expected. Please enter unit test number to run.\n");
 
 
-  switch(unitTestNumber){
+  switch(unitTestNumber)
+  {
     case 1: UnitTest(); break;
     case 2: UnitTest_MET(); break;
     default: printf("No unit tests run.\n");
