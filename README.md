@@ -13,7 +13,7 @@ To run the UVCstill code complete the following steps:
 3) Start recording  still images by running the "./run_capture.py" command in the Linux or Windows Cygwin terminal.
 4) The images will be stored in the current directory you are in but you can change this by opening unity.py script and adding the path in the line that says filename = “cam%d%yuyv”. For example, to save it in documents, just change filename = “/documents/cam%d%yuyv”
 5) To view the images you will (probably) need to convert the raw .yuyv files to .jpg files. To do so run the "./yuyv2jpg *.yuyv" command in the Linux or Windows Cygwin terminal. If you saved the images in a different folder, documents for example, you would run the "./yuyv2jpg  /documents/*.yuyv" command in the Linux or Windows Cygwin terminal.
-6) Stitch images together using PTgui (www.ptgui.com) and you have a 360 images :)
+6) Stitch images together using PTgui (www.ptgui.com) and you have a 360 image :)
 
 ***GPIOcontrol: Control the four input and four output pins on the Abaco COM10K1 single board Linux computer, when attached to the Connect Tech CCG020 carrier board.
 
