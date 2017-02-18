@@ -183,8 +183,8 @@ void UnitTest_MET(){
   //Setup time variables to track Mission Elapsed Time (MET)
   time_t timer;
   time(&timer);                   
-  struct tm MissionElapsedTime;
-  int START_OF_YEAR_EPOCH = 1900; //Start of Network Time Protocol epoch. Will roll over At 06:28:16 UTC on Thursday, 7 February 2036
+  struct tm UTC_minus_8_Time;
+  int START_OF_YEAR_EPOCH = 1900; //Start of Unix Network Time Protocol epoch. Will roll over At 06:28:16 UTC on Thursday, 7 February 2036
 
   auto start = std::chrono::high_resolution_clock::now(); //Time this line of code / mission started
 
@@ -192,14 +192,24 @@ void UnitTest_MET(){
 
   usleep(1000000); //Delay as part of MET test
 
-  //printf("Mission Elaspe Time (MET) rising edge TRIGGER timeStamp (i.e Year_Month_MonthDay_Hour_Minutes_MilliSeconds) = %d_%d_%d_%d_%d_", 
-  //      (MissionElapsedTime.tm_year+START_OF_YEAR_EPOCH), MissionElapsedTime.tm_mon, MissionElapsedTime.tm_mday, MissionElapsedTime.tm_hour, MissionElapsedTime.tm_min);
-
-  MissionElapsedTime = *localtime(&timer);
+  UTC_minus_8_Time = *localtime(&timer);
   auto elapsed = std::chrono::high_resolution_clock::now() - start;
   long long elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 
-  printf("MET = %d microseconds. \n", std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count());
+  printf("UCT-8 Date and Time (i.e Year_Month_Day_Hour_Minute) = %d_%d_%d_%d_%d \n", 
+        (UTC_minus_8_Time.tm_year+START_OF_YEAR_EPOCH), UTC_minus_8_Time.tm_mon, UTC_minus_8_Time.tm_mday, UTC_minus_8_Time.tm_hour, UTC_minus_8_Time.tm_min);
+  
+  printf("Mission Elaspe Time (MET) = %d microseconds. \n", std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count()); 
+
+  elapsed = std::chrono::high_resolution_clock::now() - start;
+  long long event_1_elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+  
+  usleep(2000001);
+  
+  elapsed = std::chrono::high_resolution_clock::now() - start;
+  long long event_2_elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+  
+  printf("Event Mission Elaspe Time (MET) differnece = %d microseconds. \n", event_2_elapsedMircoSeconds - event_1_elapsedMircoSeconds);
 }
 
 
