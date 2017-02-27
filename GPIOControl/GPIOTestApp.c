@@ -32,13 +32,16 @@ int main(int argc, char *argv[])
    else if( argc > 2 ) printf("Too many arguments supplied.\n");
    else printf("One argument expected. Please enter unit test number to run.\n");
 
-
   switch(unitTestNumber)
   {
-    case 1: UnitTest(); break;
-    case 2: UnitTest_MET(); break;
-    default: printf("No unit tests run.\n");
+    case 1: UnitTest(); return 0;
+    case 2: UnitTest_MET(); return 0;
+    default: printf("No unit tests run. Starting your application code now!\n");
   }//END SWITCH
   
+  GPIOPins_t mCOM10K1GPIO_pins;
+  unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, LOOW, LOW, HIGH}; 
+
+  //PUT YOUR CODE HERE// 
    	
 }//END MAIN

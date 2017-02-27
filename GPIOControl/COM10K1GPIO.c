@@ -153,6 +153,7 @@ void UnitTest(){
     printf("Please connect input pins 0, 1, 2, and 3 to 3.3Volts, then type 'Y' and hit enter to continue...\n");
     userInput = getchar();
   }//END WHILE LOOP
+  
   assert(ReadInputPinState(&GPIO_pins, GPI0)); 
   assert(ReadInputPinState(&GPIO_pins, GPI1)); 
   assert(ReadInputPinState(&GPIO_pins, GPI2)); 
@@ -196,8 +197,9 @@ void UnitTest_MET(){
   auto elapsed = std::chrono::high_resolution_clock::now() - start;
   long long elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 
+  //TO-DO??? Why do I need to add one to the month? It is base zero?
   printf("UCT-8 Date and Time (i.e Year_Month_Day_Hour_Minute) = %d_%d_%d_%d_%d \n", 
-        (UTC_minus_8_Time.tm_year+START_OF_YEAR_EPOCH), UTC_minus_8_Time.tm_mon, UTC_minus_8_Time.tm_mday, UTC_minus_8_Time.tm_hour, UTC_minus_8_Time.tm_min);
+        (UTC_minus_8_Time.tm_year+START_OF_YEAR_EPOCH), (UTC_minus_8_Time.tm_mon+1), UTC_minus_8_Time.tm_mday, UTC_minus_8_Time.tm_hour, UTC_minus_8_Time.tm_min);
   
   printf("Mission Elaspe Time (MET) = %d microseconds. \n", std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count()); 
 
