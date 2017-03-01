@@ -111,9 +111,9 @@
 	 
 typedef struct gpioPin
 {
-  unsigned int pinName[NUM_GPIO_PINS-1];      //Eight Connect Tech CCG020 pin names (i.e. GPI0, GPO3, etc.)
-  unsigned int pinDirection[NUM_GPIO_PINS-1]; //Direction on the eight GPIO pins (i.e. Input or Output)
-  int pinValue[NUM_GPIO_PINS-1];              //Current state of the eight input or output pins (i.e. High or Low)
+  unsigned int pinName[NUM_GPIO_PINS];      //Eight Connect Tech CCG020 pin names (i.e. GPI0, GPO3, etc.)
+  unsigned int pinDirection[NUM_GPIO_PINS]; //Direction on the eight GPIO pins (i.e. Input or Output)
+  int pinValue[NUM_GPIO_PINS];              //Current state of the eight input or output pins (i.e. High or Low)
   //TO-DO??? REMOVE int fileDescriptor;       //File ID # for use with system open(), close(), and ioctl() functions 
   //TO-DO??? REMOVE int fdArray[[NUM_GPIO_PINS-1]];  //Array to store all file descriptors for the COM10K1 
 } GPIOPins_t;
@@ -171,7 +171,7 @@ void WriteOutputPinState(GPIOPins_t *GPIOpin, unsigned int name, unsigned int ne
  *
  * @return FALSE = 0 if successful, TRUE = 1 otherwise 
  */
-int ChangeOutputPinToInput(unsigned int name, unsigned int direction, unsigned int initValue);
+unsigned int ChangeOutputPinToInput(unsigned int name, unsigned int direction, unsigned int initValue);
 
 /**
  * @brief Print the logic levels of all eight GPIO pins

@@ -32,7 +32,7 @@
 
 void InitializePins(GPIOPins_t *GPIOpin, unsigned int initOutputPinStates[]){
   
-  bool OK = false;
+  bool error = false;
 
   GPIOpin->pinName[0] = GPI0;
   GPIOpin->pinName[1] = GPI1;
@@ -53,61 +53,61 @@ void InitializePins(GPIOPins_t *GPIOpin, unsigned int initOutputPinStates[]){
   GPIOpin->pinDirection[6] = OUTPUT_PIN;
   GPIOpin->pinDirection[7] = OUTPUT_PIN;
   
-  OK = ReadInputPinState(GPIOpin, GPI0); 
-  OK = ReadInputPinState(GPIOpin, GPI1);
-  OK = ReadInputPinState(GPIOpin, GPI2);
-  OK = ReadInputPinState(GPIOpin, GPI3);
-  WriteOutputPinState(GPIOpin, GPO0, initOutputPinStates[0]);	     //GPIOpin->pinValue[4]
+  error = ReadInputPinState(GPIOpin, GPI0); 
+  error = ReadInputPinState(GPIOpin, GPI1);
+  error = ReadInputPinState(GPIOpin, GPI2);
+  error = ReadInputPinState(GPIOpin, GPI3);
+  WriteOutputPinState(GPIOpin, GPO0, initOutputPinStates[0]);	    
   WriteOutputPinState(GPIOpin, GPO1, initOutputPinStates[1]);
   WriteOutputPinState(GPIOpin, GPO2, initOutputPinStates[2]);
   WriteOutputPinState(GPIOpin, GPO3, initOutputPinStates[3]);
 
-  if(!OK && DEBUG_STATEMENTS_ON) printf("InitializePins(&GPIOoin, initOutputPinStates[]) function failed. \n");
+  if(error && DEBUG_STATEMENTS_ON) printf("InitializePins(&GPIOpin, initOutputPinStates[]) function failed. \n");
  
 }
 
 
 unsigned int ReadInputPinState(GPIOPins_t *GPIOpin, unsigned int name){
   
-  if(DEBUG_STATEMENTS_ON) printf("Getting new gpio%d pin value. \n", name);
+  if(DEBUG_STATEMENTS_ON) printf("Getting new gpio%u pin value. \n", name);
   
   unsigned int newpinValue = UNDEFINED;
-  bool OK = false; 
+  bool error = false; 
 
-  OK = gpio_get_value(name, &newpinValue);
+  error = gpio_get_value(name, &newpinValue);
   GPIOpin->pinValue[name-INPUT_PIN_OFFSET] = newpinValue;
 
-  if(!OK && DEBUG_STATEMENTS_ON) printf("Private gpio_get_value(gpio%d, &value) function failed. \n", name);
+  if(error && DEBUG_STATEMENTS_ON) printf("Private gpio_get_value(gpio%u, *PIN STATE*) function failed. \n", name);
   
   return newpinValue;
 }
 
 
 void WriteOutputPinState(GPIOPins_t *GPIOpin, unsigned int name, unsigned int newPinValue){
-  if(DEBUG_STATEMENTS_ON) printf("Setting gpio%d pin to %d \n", name, newPinValue);
+  if(DEBUG_STATEMENTS_ON) printf("Setting gpio%u pin to %u \n", name, newPinValue);
   
-  bool OK = false; 
+  bool error = false; 
 
-  OK = gpio_set_value(name, newPinValue);
+  error = gpio_set_value(name, newPinValue);
   switch(name)
   {
-    case GPO0: GPIOpin->pinValue[0] = newPinValue; break;
-    case GPO1: GPIOpin->pinValue[1] = newPinValue; break;
-    case GPO2: GPIOpin->pinValue[2] = newPinValue; break;
-    case GPO3: GPIOpin->pinValue[3] = newPinValue; break;
-    default: printf("Invalid output pin name used. Try something other than gpio%d \n", name);
+    case GPO0: GPIOpin->pinValue[4] = newPinValue; break;
+    case GPO1: GPIOpin->pinValue[5] = newPinValue; break;
+    case GPO2: GPIOpin->pinValue[6] = newPinValue; break;
+    case GPO3: GPIOpin->pinValue[7] = newPinValue; break;
+    default: printf("Invalid output pin name used. Try something other than gpio%u \n", name);
   }//END SWITCH
 
-  if(!OK && DEBUG_STATEMENTS_ON) printf("Private gpio_set_value(gpio%d, &value) function failed. \n", name);
+  if(error && DEBUG_STATEMENTS_ON) printf("Private gpio_set_value(gpio%u, %u) function failed. \n", name, newPinValue);
 }
 
-int ChangeOutputPinToInput(unsigned int name, unsigned int direction, unsigned int initValue){
+unsigned int ChangeOutputPinToInput(unsigned int name, unsigned int direction, unsigned int initValue){
   //TO-DO??? NOTE!!! Changing the inputs to outputs may cause damage to the COM10K1.
 }
 
 void DisplayAllPins(GPIOPins_t GPIO_pins){
-  printf("Input pin GPI0  = %i, Input pin GPI1  = %i, Input pin GPI2  = %i, Input pin GPI3  = %i \n", GPIO_pins.pinValue[0], GPIO_pins.pinValue[1], GPIO_pins.pinValue[2], GPIO_pins.pinValue[3]);
-  printf("Output pin GPO0  = %i, Output pin GPO1  = %i, Output pin GPO2  = %i, Output pin GPO3  = %i \n" , GPIO_pins.pinValue[4], GPIO_pins.pinValue[5], GPIO_pins.pinValue[6], GPIO_pins.pinValue[7]); 
+  printf("Input pin GPI0  = %u, Input pin GPI1  = %u, Input pin GPI2  = %u, Input pin GPI3  = %u \n", GPIO_pins.pinValue[0], GPIO_pins.pinValue[1], GPIO_pins.pinValue[2], GPIO_pins.pinValue[3]);
+  printf("Output pin GPO0  = %u, Output pin GPO1  = %u, Output pin GPO2  = %u, Output pin GPO3  = %u \n" , GPIO_pins.pinValue[4], GPIO_pins.pinValue[5], GPIO_pins.pinValue[6], GPIO_pins.pinValue[7]); 
 }
 
 
@@ -115,7 +115,7 @@ void UnitTest(){
   
   
   GPIOPins_t GPIO_pins;
-  unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, HIGH, HIGH, HIGH};   //TO-DO??? NUM_OUTPUTS_PINS-1 was incorrect?
+  unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, HIGH, HIGH, HIGH}; 
   
   printf("STARTING UNIT TEST\n");
 
@@ -128,56 +128,59 @@ void UnitTest(){
   char userInput = 'N';
 
   while(userInput != 'Y' && userInput != 'y'){    
-    printf("Please connect input pins 0, 1, 2, and 3 to 0.0 Volts, then type 'Y' and hit enter to continue...\n");
+    printf("Please connect input pin GPI0 to 3.3 Volts, then type 'Y' and hit enter to continue...\n");
     userInput = getchar();
   }//END WHILE LOOP
 
   
-  assert(ReadInputPinState(&GPIO_pins, GPI0)); 
-  assert(ReadInputPinState(&GPIO_pins, GPI1)); 
-  assert(ReadInputPinState(&GPIO_pins, GPI2)); 
-  assert(ReadInputPinState(&GPIO_pins, GPI3)); 
+  assert(ReadInputPinState(&GPIO_pins, GPI0) == HIGH);  
+  assert(ReadInputPinState(&GPIO_pins, GPI1) == LOW);    
+  assert(ReadInputPinState(&GPIO_pins, GPI2) == LOW);   
+  assert(ReadInputPinState(&GPIO_pins, GPI3) == LOW); 
   
-  
-  if(DEBUG_STATEMENTS_ON) DisplayAllPins(GPIO_pins);
-  assert(GPIO_pins.pinValue[0] == LOW);
-  assert(GPIO_pins.pinValue[1] == LOW);
-  assert(GPIO_pins.pinValue[2] == LOW);
-  assert(GPIO_pins.pinValue[3] == LOW);
-  assert(GPIO_pins.pinValue[4] == HIGH);
-  assert(GPIO_pins.pinValue[5] == HIGH);
-  assert(GPIO_pins.pinValue[6] == HIGH);
-  assert(GPIO_pins.pinValue[7] == HIGH);
-
-  while(userInput != 'Y' && userInput != 'y'){
-    printf("Please connect input pins 0, 1, 2, and 3 to 3.3Volts, then type 'Y' and hit enter to continue...\n");
-    userInput = getchar();
-  }//END WHILE LOOP
-  
-  assert(ReadInputPinState(&GPIO_pins, GPI0)); 
-  assert(ReadInputPinState(&GPIO_pins, GPI1)); 
-  assert(ReadInputPinState(&GPIO_pins, GPI2)); 
-  assert(ReadInputPinState(&GPIO_pins, GPI3)); 
-  
-  
-  for(int k = NUM_GPIO_PINS/2; k < NUM_GPIO_PINS; k++){
-   WriteOutputPinState(&GPIO_pins, GPIO_pins.pinName[k], LOW);        //GPIOpin->pinValue[4]
-  }
   
   if(DEBUG_STATEMENTS_ON) DisplayAllPins(GPIO_pins);
   assert(GPIO_pins.pinValue[0] == HIGH);
+  assert(GPIO_pins.pinValue[1] == LOW);
+  assert(GPIO_pins.pinValue[2] == LOW);
+  assert(GPIO_pins.pinValue[3] == LOW);
+  assert(GPIO_pins.pinValue[4] == HIGH); 
+  assert(GPIO_pins.pinValue[5] == HIGH);
+  assert(GPIO_pins.pinValue[6] == HIGH);
+  assert(GPIO_pins.pinValue[7] == HIGH);
+  
+  userInput = 'N';
+  while(userInput != 'Y' && userInput != 'y'){    
+    userInput = getchar();  //Grab extra carriage return character from first user input
+    printf("Please connect input pin GPI1 to 3.3 Volts, then type 'Y' and hit enter to continue...\n");
+    userInput = getchar();  //Grab "Is GPI1 connected to 3.3V?" user input
+  }//END WHILE LOOP
+ 
+  
+  assert(ReadInputPinState(&GPIO_pins, GPI0) == LOW); 
+  assert(ReadInputPinState(&GPIO_pins, GPI1) == HIGH); 
+  assert(ReadInputPinState(&GPIO_pins, GPI2) == LOW); 
+  assert(ReadInputPinState(&GPIO_pins, GPI3) == LOW); 
+  
+  
+  for(int k = NUM_GPIO_PINS/2; k < NUM_GPIO_PINS; k++){
+   WriteOutputPinState(&GPIO_pins, GPIO_pins.pinName[k], LOW);
+  }
+  
+  if(DEBUG_STATEMENTS_ON) DisplayAllPins(GPIO_pins);
+  assert(GPIO_pins.pinValue[0] == LOW);
   assert(GPIO_pins.pinValue[1] == HIGH);
-  assert(GPIO_pins.pinValue[2] == HIGH);
-  assert(GPIO_pins.pinValue[3] == HIGH);
+  assert(GPIO_pins.pinValue[2] == LOW);
+  assert(GPIO_pins.pinValue[3] == LOW);
   assert(GPIO_pins.pinValue[4] == LOW);
   assert(GPIO_pins.pinValue[5] == LOW);
   assert(GPIO_pins.pinValue[6] == LOW);
   assert(GPIO_pins.pinValue[7] == LOW);
-
   
-  printf("Unit Test successful. Visit www.spacevr.co and #BeAnAstronaut today!\n");
+  printf("Unit Test successful. Visit www.spacevr.co/preorder and #BeAnAstronaut today!\n");
   
 }
+
 
 void UnitTest_MET(){
   
@@ -185,11 +188,9 @@ void UnitTest_MET(){
   time_t timer;
   time(&timer);                   
   struct tm UTC_minus_8_Time;
-  int START_OF_YEAR_EPOCH = 1900; //Start of Unix Network Time Protocol epoch. Will roll over At 06:28:16 UTC on Thursday, 7 February 2036
+  int START_OF_YEAR_EPOCH = 1900; //Start of Unix Network Time Protocol epoch. This code will roll over At 06:28:16 UTC on Thursday, 7 February 2036. We better be on Mars by then :)
 
-  auto start = std::chrono::high_resolution_clock::now(); //Time this line of code / mission started
-
-  //TO-DO??? DO STUFF HERE
+  auto start = std::chrono::high_resolution_clock::now(); //Start timer on this line of code
 
   usleep(1000000); //Delay as part of MET test
 
@@ -197,11 +198,11 @@ void UnitTest_MET(){
   auto elapsed = std::chrono::high_resolution_clock::now() - start;
   long long elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
 
-  //TO-DO??? Why do I need to add one to the month? It is base zero?
-  printf("UCT-8 Date and Time (i.e Year_Month_Day_Hour_Minute) = %d_%d_%d_%d_%d \n", 
+  //TO-DO??? Why do I need to add one to the month, is it zero indexed?
+  printf("UCT-8 Date and Time (i.e Year_Month_Day_Hour_Minute) = %u_%u_%u_%u_%u \n", 
         (UTC_minus_8_Time.tm_year+START_OF_YEAR_EPOCH), (UTC_minus_8_Time.tm_mon+1), UTC_minus_8_Time.tm_mday, UTC_minus_8_Time.tm_hour, UTC_minus_8_Time.tm_min);
   
-  printf("Mission Elaspe Time (MET) = %d microseconds. \n", std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count()); 
+  printf("Mission Elaspe Time (MET) = %llu microseconds. \n", std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count()); 
 
   elapsed = std::chrono::high_resolution_clock::now() - start;
   long long event_1_elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
@@ -211,7 +212,7 @@ void UnitTest_MET(){
   elapsed = std::chrono::high_resolution_clock::now() - start;
   long long event_2_elapsedMircoSeconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
   
-  printf("Event Mission Elaspe Time (MET) differnece = %d microseconds. \n", event_2_elapsedMircoSeconds - event_1_elapsedMircoSeconds);
+  printf("Event Mission Elaspe Time (MET) differnece = %llu microseconds. \n", event_2_elapsedMircoSeconds - event_1_elapsedMircoSeconds);
 }
 
 

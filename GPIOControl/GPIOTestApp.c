@@ -20,7 +20,7 @@
 
 using namespace std;
 
-//Compiled using g++ GPIOTestApp.c COM10K1GPIO.c -std=c++11 -o GPIOTestApp
+//Compiled using command "g++ GPIOTestApp.c COM10K1GPIO.c -std=c++11 -o GPIOTestApp"
 
 int main(int argc, char *argv[])
 {
@@ -29,9 +29,8 @@ int main(int argc, char *argv[])
   printf("Program name: %s\n", argv[0]);
   
    if(argc == 2) unitTestNumber = atoi(argv[1]);
-   else if( argc > 2 ) printf("Too many arguments supplied.\n");
-   else printf("One argument expected. Please enter unit test number to run.\n");
-
+   else if( argc > 2 ) printf("Too many arguments supplied. Please enter only single parameter with unit test number to run.\n");
+  
   switch(unitTestNumber)
   {
     case 1: UnitTest(); return 0;
@@ -40,7 +39,7 @@ int main(int argc, char *argv[])
   }//END SWITCH
   
   GPIOPins_t mCOM10K1GPIO_pins;
-  unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, LOOW, LOW, HIGH}; 
+  unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, LOW, LOW, HIGH}; 
 
   //PUT YOUR CODE HERE// 
    	
