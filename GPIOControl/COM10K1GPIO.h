@@ -68,10 +68,6 @@
 #define GPO2 166             //CCG020 Connector P17 Pin # 13 & COM10K1 Connector J1 Pin # A67
 #define GPO3 83              //CCG020 Connector P17 Pin # 15 & COM10K1 Connector J1 Pin # A85
 
-//TO-DO??? remove these
-//string  GPIO_PU0  = "gpio160";      
-
-
 /** Copy of rc.local.sh file at filepath /etc/rc.local
   #disable pause frame support
   ethtool -A eth0 autoneg off rx off tx off
@@ -114,8 +110,6 @@ typedef struct gpioPin
   unsigned int pinName[NUM_GPIO_PINS];      //Eight Connect Tech CCG020 pin names (i.e. GPI0, GPO3, etc.)
   unsigned int pinDirection[NUM_GPIO_PINS]; //Direction on the eight GPIO pins (i.e. Input or Output)
   int pinValue[NUM_GPIO_PINS];              //Current state of the eight input or output pins (i.e. High or Low)
-  //TO-DO??? REMOVE int fileDescriptor;       //File ID # for use with system open(), close(), and ioctl() functions 
-  //TO-DO??? REMOVE int fdArray[[NUM_GPIO_PINS-1]];  //Array to store all file descriptors for the COM10K1 
 } GPIOPins_t;
  
 
@@ -209,7 +203,7 @@ void UnitTest_MET();
  * @section DESCRIPTION
  *
  * This function should NEVER be called but has been added for completion. On boot the
- * Abaco COM10K1 runs a script "rc.local" in the "???"" directory that performs this task.
+ * Abaco COM10K1 runs a script "rc.local" in the "/etc"" directory that performs this task.
  *
  * @param gpio Name of the GPIO pin to open on the COM10K1 (i.e. GPI0, GPO3, etc.)
  *
@@ -226,7 +220,8 @@ static int gpio_export(unsigned int gpio);
  * 
 * @section DESCRIPTION
  *
- * TO-DO???
+ * This function should NEVER be called but has been added for completion. 
+ * Redefinition of the GPIO table would only be needed it not using the Abaco mCOM10K1 hardware
  *
  * @param gpio Name of the GPIO pin to open on the COM10K1 (i.e. GPI0, GPO3, etc.)
  *
