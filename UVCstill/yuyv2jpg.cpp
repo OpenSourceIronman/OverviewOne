@@ -1,9 +1,13 @@
-// YUYV -> JPG Conversion Program
-//
-// Copyright SpaceVR, 2016.  All rights reserved.
-//
-// Author: Aaron Hurst (aaronpaulhurst@gmail.com)
-// Date:   September 16, 2016
+/**
+ * @file yuyv2jpg.cpp
+ * @author Aaron Hurst SpaceVR(TM)
+ * @date 09/16/16
+ * @link https://en.wikipedia.org/wiki/YUV
+ * @version 1.0
+ *
+ * @brief Convert raw 26 MB YUYV image to 1 MB JPG image
+ * 
+ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -28,7 +32,14 @@ int g_jpg_quality = 90;
 // Image Manipulation
 // --------------------------------------------------------
 
-// Convert 'buf' to JPG.
+/**
+ * @brief Convert RGB image data into a .JPEG image format
+ *
+ * @param buf Memory location of the inital RGB image file
+ * @param out Memory location of the compress JPEG output
+ * 
+ * @return Size of JPEG image
+ */
 size_t rgb_to_jpg(u8 * buf, u8 ** out /*output, must free*/) {
    tjhandle jpegCompressor = tjInitCompress();
 
@@ -42,7 +53,29 @@ size_t rgb_to_jpg(u8 * buf, u8 ** out /*output, must free*/) {
 }
 
 
-// Convert YUV bytes into RGB bytes.
+/**
+ * @brief Convert YUYV420 images bytes into a RGB image bytes
+ *
+ * @link https://en.wikipedia.org/wiki/YUV
+ *
+ * @section DESCRIPTION
+ *
+ * YUV is a color space typically used as part of a color image 
+ * pipeline. It encodes a color image or video taking human perception 
+ * into account, allowing reduced bandwidth for chrominance components, 
+ * thereby typically enabling transmission errors or compression artifacts 
+ * to be more efficiently masked by the human perception than using a 
+ * "direct" RGB-representation.
+ * 
+ * @param y Luma (or brigthness) of the image
+ * @param u First chrominance (or color) component 
+ * @param v Second chrominance (or color) component 
+ * @param r Red chrominance (or color) component value from 0 to 255
+ * @param g Green chrominance (or color) component value from 0 to 255
+ * @param b Blue chrominance (or color) component value from 0 to 255
+ * 
+ * @return NOTHING
+ */
 static void yuv_to_rgb_pixel(
     int y, int u, int v,
     u8 *r, u8 *g, u8 *b)
@@ -64,7 +97,16 @@ static void yuv_to_rgb_pixel(
     *b = b0;
 }
 
-
+/**
+ * @brief Cycle through and convert every pixel in a  YUYV420 image
+ *
+ * @link https://en.wikipedia.org/wiki/YUV
+ * 
+ * @param yuyv_buf Memory location of the inital YUYV420 image file
+ * @param yuyv_buf Memory location of the outout RGB image file
+ * 
+ * @return NOTHING
+ */
 static void yuyv_to_rgb(
         u8 * yuyv_buf,
         u8 * rgb_buf)
@@ -90,12 +132,13 @@ static void yuyv_to_rgb(
 
 }
 
-
-// --------------------------------------------------------
-// Main
-// --------------------------------------------------------
-
-
+/**
+ * @brief Get current Linux system time to milisecond resolution. 
+ * 
+ * @param NONE
+ *
+ * @return milisecond system time 
+ */
 long get_msec() {
     struct timeval tp;
     gettimeofday(&tp, NULL);
@@ -120,6 +163,7 @@ int main(int argc, char **argv)
     // Parse options
     vector<string> infilenames;
 
+    //TO-DO??? Comment this better
     for(int i=1; i<argc; ++i) {
         const char * opt = argv[i];
 

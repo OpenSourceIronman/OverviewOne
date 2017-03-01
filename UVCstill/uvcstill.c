@@ -1,32 +1,42 @@
-// ----------------------------------------------------------
-// UVC Still Capture Linux Driver
-//
-// Copyright SpaceVR, 2016.  All rights reserved.
-//
-// Author: Aaron Hurst (aaronpaulhurst@gmail.com)
-// Date:   June 28, 2016
-// ----------------------------------------------------------
+/**
+ * @file uvcstill.c
+ * @author Aaron Hurst SpaceVR(TM)
+ * @date 06/28/16
+ * @link www.cajunbot.com/wiki/images/8/85/USB_Video_Class_1.1.pdf 
+ * @version 1.0
+ *
+ * @brief Custom 4K UVC still image capture Linux USB Driver
+ * 
+ */
 
-// Defining the following forces the driver to ignore the webcam
-// built into my HP laptop (when I want to test the Unity device
-// on that host).
+/**
+ * Defining the following forces the driver to ignore the webcam
+ * built into my HP laptop (when I want to test the Unity device
+ * on that host).
+ */
 #undef DISABLE_HP_WEBCAM
 
-// Defining the following causes the USB host to use DMA transfer.
-// This is more cpu-efficient and results in faster URB processing.
+/**
+ * Defining the following causes the USB host to use DMA transfer.
+ * This is more cpu-efficient and results in faster URB processing.
+ */
 #undef USE_DMA
 
-// Definiting the following causes the driver to delay the URB
-// processing and resubmission to another kernel thread, outside
-// of the interrupt handler.  Despite this being "good design",
-// it appears to hamper the throughput because we run out of
-// URBs before any are resubmitted.
+/**
+ * Definiting the following causes the driver to delay the URB
+ * processing and resubmission to another kernel thread, outside
+ * of the interrupt handler.  Despite this being "good design",
+ * it appears to hamper the throughput because we run out of
+ * URBs before any are resubmitted.
+ */
 #define DELAYED_WORK
 
-// Defining the following causes the driver to enforce exclusive
-// access to the /dev/still device.  Nothing good will happen
-// when two clients are interacting with the same camera, but this
-// can cause lock-out if a file handle is left open and dangling.
+/** 
+ * Defining the following causes the driver to enforce exclusive
+ * access to the /dev/still device.  Nothing good will happen
+ * when two clients are interacting with the same camera, but this
+ * can cause lock-out if a file handle is left open and dangling.
+ */
 #undef EXCLUSIVE_ACCESS
 
 #include <linux/module.h>
@@ -108,11 +118,12 @@ struct urb_buffer {
     struct uvc_device *dev;
 };
 
-// ----------------------------------------------------------
-// Main device structure
-//
-// This is allocated and initialized for each UVC device when
-// it is first probed.
+/** ----------------------------------------------------------
+ * Main device structure
+ *
+ * This is allocated and initialized for each UVC device when
+ * it is first probed.
+ */
 
 int next_dev_id = 1;
 
@@ -241,7 +252,7 @@ static void uncond_status_transition(struct uvc_device *dev, int to)
 }
 
 
-// File operations prototypes
+// Private file operations prototypes
 static int     uvc_dev_open(struct inode *, struct file *);
 static int     uvc_dev_release(struct inode *, struct file *);
 static ssize_t uvc_dev_read(struct file *, char *, size_t, loff_t *);

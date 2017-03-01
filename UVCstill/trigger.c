@@ -1,15 +1,20 @@
-// UVC Still Capture Trigger Application
-//
-// Copyright SpaceVR, 2016.  All rights reserved.
-//
-// Author: Aaron Hurst (aaronpaulhurst@gmail.com)
-// Date:   June 28, 2016
+/**
+ * @file trigger.c
+ * @author Aaron Hurst SpaceVR(TM)
+ * @date 06/28/16
+ * @link www.cajunbot.com/wiki/images/8/85/USB_Video_Class_1.1.pdf
+ * @version 1.0
+ *
+ * @brief UVC Still Capture Trigger Application
+ * 
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>		/* open */
 #include <unistd.h>		/* exit */
-#include <sys/ioctl.h>		/* ioctl */
+#include <sys/ioctl.h>  /* ioctl */
+
 #include "uvcstill.h"
 
 int main(int argc, char **argv)

@@ -1,9 +1,13 @@
-// UVC Still Capture User Application
-//
-// Copyright SpaceVR, 2016.  All rights reserved.
-//
-// Author: Aaron Hurst (aaronpaulhurst@gmail.com)
-// Date:   June 28, 2016
+/**
+ * @file yuyv2jpg.cpp
+ * @author Aaron Hurst SpaceVR(TM)
+ * @date 06/28/16
+ * @link www.cajunbot.com/wiki/images/8/85/USB_Video_Class_1.1.pdf 
+ * @version 1.0
+ *
+ * @brief UVC Still Capture User Application
+ * 
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
