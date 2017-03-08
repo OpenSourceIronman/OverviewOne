@@ -1,0 +1,52 @@
+https://support.tethers.com/display/SWIFTUG/linkfmt
+https://support.tethers.com/display/SWIFTUG/Link+Library
+https://support.tethers.com/plugins/servlet/docs/c1011-d1012/tutorials.html#tutorials
+https://support.tethers.com/plugins/servlet/docs/c1011-d1012/api.html#def-find-command-data-by-name
+https://portal.wush.net/portal/package/info_subversion/
+https://www.swiftstack.com/docs/install/configure_networking.html
+
+
+
+sudo ifconfig eth0 192.168.1.70                        // Change IP address of flight computer to 192.168.1.70
+telnet 192.168.1.42                                    // Connect to the SWIFT Radio 
+
+sysinfo
+linkcfg tx0
+linkcod tx0 -s none -l none -a false                    // No scrambling type and no line-coding
+                                                        // NOT IMPLEMENTED linkcrypt tx0 -??? aes-ecb ??? ???  ???  ???
+linkfec tx0 -i cc7 -r 0.875                              // Convolutional w/ constraint length 7 with inner 7/8-rate (0.875)and no outer convolutional encoding 
+                                                        // NOT IMPLEMENTED linkfilt tx0 -??? rrc -1 ???
+// ? linkfmt tx0 -f raw -n 7776 -s true -a false             // Raw data of 7,776 Bytes (one line of a 2592 x 1944 (5MP) 24-bit image), with  Frame synchronization marker (-s)  http://www.vreoinnovation.com/product/5
+linkfreq tx0 -f 2.050e9                                 // 2.050 GHz DOWNLINK frequency offset to 2.050 GHz DOWNLINK frequency
+// ? linkmod tx0 -m bpsk -p true -a false                    // BPSK modulation, with 180 degree (pi radian) phase shift, which is the deafult modulation
+// ? linkport tx0 -p 0                                       // Connect tx0 to port 0, which is the default port
+linkrate tx0 -r 10e6                                    // Link rate of 10 Mbps binary???
+// ? linkspread tx0 -f none -c ?-1? -x ?-1? -a false         // No family (802.11, GPS doesn't make sense for flight) with default code instance and default spreading factor
+linkopen tx0
+linkfind -n tx0
+linklist
+
+While Loop for 15 mins
+  linkinfo tx0
+  sysstat
+  txtemp -c 0 -s 0                                        // Temperature of daugther slot (-c) #0 and sensor (-s) #0
+  linkpause tx0                                           // Pause tx0 as needed for debugging
+  linkstat tx0 -r false                                   // Don't reset link stat after returned
+
+linkclose tx0
+
+/* O1_SWIFT_MarkII.txt Commands to pipe into ./SWIFTClient 198.27.128.3 23 to run Radio Test Plan Test Case #1
+ * Created by Blaze Sanders on 2016-06-07 (ISO standard date)
+ * Office Router IP address  https://192.168.42.1
+ * SWIFT-XTS Radio IP ddress https://198.27.128.3 23
+ *
+ * $ sysstat while txen was tunrned on for 3 mins as FlatSat
+ *
+ *
+ *                         Uptime : 4828 seconds
+ *                    Temperature : 40.339 degC
+ *                    Input Power : 8.260W (rail=5.173V, load=1.597A)
+ *           Time Synchronization : holdover 
+ *
+ *
+ */ 

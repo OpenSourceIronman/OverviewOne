@@ -1,0 +1,42 @@
+sysinfo
+linkcfg tx0
+linkcod tx0 -s none -l none -a false                    // No scrambling type and no line-coding
+linkcrypt tx0 -??? aes-ecb ??? ???  ???  ???
+linkfec tx0 -i cc7 -r 0.875 -o cc7 -d 0.875 -a false    // Convolutional w/ constraint length 7 with 7/8-rate (0.875) convolutional encoding 
+linkfilt tx0 -??? rrc -1 ???
+linkfmt tx0 -f raw -n 7776 -s true -a false             // Raw data of 7,776 Bytes (one line of a 2592 x 1944 (5MP) 24-bit image), with  Frame synchronization marker (-s)  http://www.vreoinnovation.com/product/5
+linkfreq tx0 -f 2072000 -o 22000 -a false               // 2.072 GHz UPLINK frequency offset to 2.050 GHz DOWNLINK frequency
+linkmod tx0 -m bpsk -p true -a false                    // BPSK modulation, with 180 degree (pi radian) phase shift
+linkport tx0 -p 0                                       // Connect tx0 to port 0
+linkrate tx0 -r ?2? -a false                            // Link rate of 2 / binary???
+linkspread tx0 -f none -c ?-1? -x ?-1? -a false         // No family (802.11, GPS doesn't make sense for flight) with default code instance and default spreading factor
+linkopen tx0
+linkfind -n tx0
+linklist
+txen -s 0 -c 0 -a false -d ??? -b ??? -i ??? -k ??? -l ??? -m ??? -r ??? -p ??? -x mask  // So many questions :)	
+
+While Loop for 15 mins
+linkinfo tx0
+sysstat
+txtemp -c 0 -s 0                                        // Temperature of daugther slot (-c) #0 and sensor (-s) #0
+linkpause tx0                                           // Pause tx0 as needed for debugging
+linkstat tx0 -r false                                   // Don't reset link stat after returned
+
+linkclose tx0
+txdis -s 0 -c 0 -a false -d ??? -b ??? -i ??? -k ??? -l ??? -m ??? -r ??? -p ??? -x mask  // So many questions :)
+
+/* O1_SWIFT_MarkI.txt Commands to pipe into ./SWIFTClient 198.27.128.3 23 to run Radio Test Plan Test Case #1
+ * Created by Blaze Sanders on 2016-06-07 (ISO standard date)
+ * Office Router IP address  https://192.168.42.1
+ * SWIFT-XTS Radio IP ddress https://198.27.128.3 23
+ *
+ * $ sysstat while txen was tunrned on for 3 mins as FlatSat
+ *
+ *
+ *                         Uptime : 4828 seconds
+ *                    Temperature : 40.339 degC
+ *                    Input Power : 8.260W (rail=5.173V, load=1.597A)
+ *           Time Synchronization : holdover 
+ *
+ *
+ */ 
