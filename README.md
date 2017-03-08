@@ -1,13 +1,13 @@
 # OverviewOne
 SpaceVR's Overview 1 flight software
 
-@author Blaze Sanders - Email: blaze@spacevr.co Skype: blaze.sanders Twitter: @BLazeDSanders
+@author Blaze Sanders - Email: blaze@spacevr.co Skype: blaze.sanders Twitter: @BlazeDSanders
 
 Overview 1 will be the world's first free flying virtual reality space satellite.  Overview 1 uses eigth 4K sensors combined with wide field of view lenses to capture an immersive sphere of video. Our goal is to give everyone the opportunity to experience the truly infinite, boundless universe that we live in...through virtual reality.
 
 This Git repo holds code that will run onboard the Overview 1. It's broken down into the following two directories (UVCstill, GPIOcontrol), and we will continue to update the code base as the mission unfolds. We look forward to community support to help push VR in space to the next step.
 
-***UVCstill: Custom UVC USB 3.0 driver to caputure 4K (4224x3106) images from multiple cameras on any Linux OS. Tested on the Abaco COM10K1 with Sony FCB-MA133 cameras. Contact SpaceVR at blaze@spacevr.co to purchase our custom Camera Interface Hub (CIH) hardware, which connects four Sony FCB-MA133 cameras to one USB 3.0 port.
+***UVCstill: Custom UVC USB 3.0 driver to caputure 4K (4224x3106) images from multiple cameras on any Linux OS. Tested on the Abaco COM10K1 with Sony FCB-MA133 cameras. Contact SpaceVR at blaze@spacevr.co to purchase our custom Camera Interface Hub (CIH) hardware ($1000), which connects four Sony FCB-MA133 cameras to a single USB 3.0 port.
 
 To run the UVCstill code complete the following steps:
 1) Load the uvcstill module. THIS IS THE MOST IMPORTANT STEP. It needs to be done only once every time you are about to record for the first time or connect everything. IF you unplug a camera, you need to run this again before recording. 
@@ -17,6 +17,7 @@ To run the UVCstill code complete the following steps:
 5) To view the images you will (probably) need to convert the raw .yuyv files to .jpg files. To do so run the "./yuyv2jpg *.yuyv" command in the Linux or Windows Cygwin terminal. If you saved the images in a different folder, documents for example, you would run the "./yuyv2jpg  /documents/*.yuyv" command in the Linux or Windows Cygwin terminal.
 6) Stitch images together using PTgui (www.ptgui.com) and you have a 360 image :)
 
+
 ***GPIOcontrol: Control the four input and four output pins on the Abaco COM10K1 single board Linux computer, when attached to the Connect Tech CCG020 carrier board.
 
 To run the GPIOcontrol code complete the following steps:
@@ -24,3 +25,12 @@ To run the GPIOcontrol code complete the following steps:
 2) Run the command "./GPIOTestApp 1" or "./GPIOTestApp 2" to run Unit test number 1 or 2 respectively.
 3) You should see a lot of debug statements and no assert failures. You can turn off the debug statements by redefining to "DEBUG_STATEMENTS_ON 0" in the COM10K1GPIO.h file
 4) Make edits to "GPIOTestAPp.c" to begin writing your own code. Run the "make clean" and then "make" commands in the Linux or Windows Cygwin terminal to recompile your code.
+
+
+***SWIFT_XTS_API: Transfer an image or text file from any Linux computer to the SWIFT-XTS (www.tethers.com/SpecSheets/Brochure_SWIFT_XTS.pdf) Software Defined Radio (SDR) and transmit data via S-Band (and X-Band coming soon) RF link to SpecNet Box or Atlas Space Operations (www.atlasground.com) ground station.
+
+To run the SWIFT_XTS_API code complete the following steps:
+1) Purchase a Tethers Unlimited SWIFT radio (www.tethers.com/Contact.html) and connect to a Single Board Linux Computer (SBC) via LAN Ethernet cable.
+2) Run the command "python Main.py" while in the "/SWIFT_XTS_API/pyswift-spacevr-stable/Scripts/spacevr" directory.
+3) You should see a lot of debug statements. You can turn off the debug statements by setting "DEBUG_STATEMENTS_ON = False" in the all the Python files in the "/SWIFT_XTS_API/pyswift-spacevr-stable/Scripts/spacevr" directory.
+4) Make edits to "Main.py" to begin writing your own code. 
