@@ -7,16 +7,29 @@ CXXFLAGS=$(INCDIRS) -std=c++11
 # Linker flags
 LDFLAGS=$(LIBDIRS) $(LIBS)
 
-# List of source files that should be compiled into the final executable program
-SOURCES=GPIOTestApp.c COM10K1GPIO.c
+# List of header files are included
+HEADERS=COM10K1GPIO.h
 
-# List of header files that should be included while compiling
-HEADERS=COM10K1GPIO.h 
+all:    GPIOTestApp WaitForPinApp
 
-all:    GPIOTestApp
+%.o: %.c $(HEADERS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
-GPIOTestApp:    $(SOURCES) $(HEADERS)
-	$(CXX) -o GPIOTestApp $(SOURCES) $(CXXFLAGS) $(LDFLAGS)  
+# List of GPIOTestApp dependencies.
+GPIOTESTAPP_DEPS=\
+   GPIOTestApp.o \
+   COM10K1GPIO.o \
+
+GPIOTestApp: $(GPIOTESTAPP_DEPS)
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+
+# List of WaitForPinApp dependencies.
+WAITFORPINAPP_DEPS=\
+   WaitForPinApp.o \
+   COM10K1GPIO.o \
+
+WaitForPinApp: $(WAITFORPINAPP_DEPS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^
 
 clean:
-	rm -f *.o GPIOTestApp
+	rm -f *.o GPIOTestApp WaitForPinApp

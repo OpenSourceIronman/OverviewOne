@@ -27,6 +27,7 @@
 
 #include "COM10K1GPIO.h"
 
+bool DEBUG_STATEMENTS_ON = true;  //Toggle error messages on and off
 
 //See COM10K1GPIO.h for further documentation on the following PUBLIC functions:
 

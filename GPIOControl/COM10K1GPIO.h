@@ -39,8 +39,7 @@
 
 #include <chrono>        //High accuracy microsecond timing in unit test
 
-
-#define DEBUG_STATEMENTS_ON 1   //Toggle error messages on and off
+extern bool DEBUG_STATEMENTS_ON;  //Toggle error messages on and off
 
 //Pin value constants
 #define LOW   0   
