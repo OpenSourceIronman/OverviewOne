@@ -8,7 +8,7 @@
  * 
  * @section DESCRIPTION
  * 
- * The high signal must last for a minimum of 1ms.
+ * The high signal must last for a minimum of 20 ms (conservative switch debounce)
  */
 
 #include "COM10K1GPIO.h"
@@ -20,20 +20,21 @@ int main(int argc, char *argv[])
     DEBUG_STATEMENTS_ON=false;
 
     GPIOPins_t GPIO_pins;
-    unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, HIGH, HIGH, HIGH};
+    unsigned int initOutputPinValues[NUM_OUTPUT_PINS] = {HIGH, HIGH, HIGH, HIGH}; //Turn on all cameras
 
     InitializePins(&GPIO_pins, initOutputPinValues);
-
-    while(1) {
+    
+    bool buttonNotPressed = true;
+    while(buttonNotPressed) {
         for(int i = 0; i < NUM_INPUT_PINS; i++) {
             if (ReadInputPinState(&GPIO_pins, GPIO_pins.pinName[i]) == HIGH) {
                 printf("%d\n", i);
-                return 0; // success
+                buttonNotPressed = false;
             }
         }
 
-        usleep(1000 /*microseconds*/);
+        usleep(20000 /*microseconds*/); //= 20 milliseconds
     }
 
-    return 1;
+    //TO-DO???? Other camera stuff using the python scripts
 }
