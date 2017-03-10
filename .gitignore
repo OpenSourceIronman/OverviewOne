@@ -1,1 +1,7 @@
 *.exe
+*.o
+*.pyc
+__pycache__
+GPIOTestApp
+WaitForPinApp
+.coverage
