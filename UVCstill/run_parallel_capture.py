@@ -1,4 +1,7 @@
-#!/usr/bin/env python3.4
+#!/usr/bin/env python2
+
+# Suppress print statement in favor of print method
+from __future__ import print_function
 
 import time
 from threading import Thread
