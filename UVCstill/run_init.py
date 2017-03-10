@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.4
 
 import re, os, os.path, subprocess, sys, time
-import unity
+import uvcstill
 
 print("-------------------------------------------");
 print("SpaceVR Camera Tests");
@@ -65,7 +65,7 @@ else:
 
 # Searching for /dev/stillX drivers
 print("Checking for /dev/still devices... ", end="")
-numDevs = unity.get_num_cameras()
+numDevs = uvcstill.get_num_cameras()
 print(numDevs)
 
 print("Waiting 2 seconds...")
@@ -74,9 +74,9 @@ time.sleep(2);
 # Testing small image
 print("")
 print("Retrieving a 1280 720 image...")
-unity.test_all_cameras(numDevs, 1280, 720)
+uvcstill.test_all_cameras(numDevs, 1280, 720)
 
 # Testing full image
 print("")
 print("Retrieving a 4192 x 3104 image...")
-unity.test_all_cameras(numDevs, 4192, 3104)
+uvcstill.test_all_cameras(numDevs, 4192, 3104)

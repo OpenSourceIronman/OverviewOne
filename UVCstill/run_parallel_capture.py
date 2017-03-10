@@ -3,7 +3,7 @@
 import time
 from threading import Thread
 import re, os, os.path, subprocess, sys
-#import unity
+#import uvcstill
 
 # The 'schedule' dictionary is a map from the
 # camera ID to the millisecond offset.
