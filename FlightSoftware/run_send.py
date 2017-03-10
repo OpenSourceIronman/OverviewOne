@@ -19,4 +19,5 @@ def main():
     print("Sending shell command to self...")
     send_payload_cmd(my_id, my_id, 0x00, "ls")
 
-main()
+if __name__ == "__main__":
+    main()

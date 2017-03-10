@@ -38,4 +38,5 @@ def main():
         cmd = raw_input()
         send_payload_cmd(MY_ID, DEST_ID, PayloadCommandHandler.SHELL_CMD, cmd)
 
-main()
+if __name__ == "__main__":
+    main()

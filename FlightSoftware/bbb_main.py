@@ -30,4 +30,5 @@ class BbbSoftware:
         print("Waiting for bus")
         self.agent.run()
 
-BbbSoftware().main()
+if __name__ == "__main__":
+    BbbSoftware().main()

@@ -31,4 +31,5 @@ class Tk1Software:
         print("Waiting for bus")
         self.agent.run()
 
-Tk1Software().main()
+if __name__ == "__main__":
+    Tk1Software().main()

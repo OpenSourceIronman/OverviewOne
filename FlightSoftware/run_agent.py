@@ -44,4 +44,5 @@ def main():
     print("Waiting for bus")
     a.run()
 
-main()
+if __name__ == "__main__":
+    main()
