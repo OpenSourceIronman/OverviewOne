@@ -27,8 +27,11 @@ MY_DIR   = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe(
 ROOT_DIR = os.path.dirname(MY_DIR)
 # Add the UVCStill folder to the sys.path
 sys.path.append(os.path.join(ROOT_DIR, 'UVCstill'))
+sys.path.append(os.path.join(ROOT_DIR, 'SWIFT_XTS_API'))
 
 import uvcstill
+import SpaceVR_Configuration_Connection_Telemetry
+import TransferFile
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -78,9 +81,16 @@ def trigger_cameras():
     read_all_cameras(numCams=4, width=1920, height=1080, iter=4)
     read_all_cameras(numCams=4, width=1920, height=1080, iter=5)
     return
-
+ 
 def transmit_images():
-    #TODO
+   #TODO 
+   SpaceVR_Configuration_Connection_Telemetry.InitializeRadio(???, DEV_MODEL, "192.168.1.42", "192.168.1.50", 30000, 30100,30200)
+   for camNum in range(4) 
+     for image in range (5)
+       filename = "/media/ubuntu/EVO8501TB/test_output/cam%d.%d.yuyv" % (camNum, image)
+       TransmitFile.ToSWIFT("192.168.1.42", TBD, filename, False)
+
+    TransmitFile.DownlinkToGroundStation(???, ???, ???)
     return
 
 def main():
