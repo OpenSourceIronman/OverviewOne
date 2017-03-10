@@ -1,7 +1,22 @@
-*.exe
+# Temporary build artifacts:
 *.o
+*.ko
+*.mod.c
 *.pyc
 __pycache__
+.coverage
+.tmp_versions
+.uvcstill*
+Module.symvers
+modules.order
+
+# Executables:
+*.exe
 GPIOTestApp
 WaitForPinApp
-.coverage
+snapshot
+trigger
+yuyv2jpg
+yuyv2png
+yuyv2webp
+
