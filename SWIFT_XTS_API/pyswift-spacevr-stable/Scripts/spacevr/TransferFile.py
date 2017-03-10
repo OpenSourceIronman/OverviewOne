@@ -15,6 +15,10 @@ __doc__ = "Script for sending a file to the radio to be downlinked."
 
 STX_PKTSIZE = 1115
 DEBUG_STATEMENTS_ON = True      # Toogle debug statements on and off for this python file
+JPEG = 0
+YUYV = 1
+PNG = 2 
+TXT = 3 
 
 def UplinkFromGroundStation(link):
 	try:
