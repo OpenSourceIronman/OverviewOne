@@ -14,7 +14,7 @@ To run the UVCstill code complete the following steps:
 2) Run the command "./run_init.py" in the Linux or Windows Cygwin terminal. Make sure it says eigth cameras and all cam 0 through 7 read “Ok” for 1280 X 720. Don’t worry if anything says “incomplete”. As long as they don’t “Timeout”, you’re good. 
 3) Start recording  still images by running the "./run_capture.py" command in the Linux or Windows Cygwin terminal.
 4) The images will be stored in the current directory you are in but you can change this by opening unity.py script and adding the path in the line that says filename = “cam%d%yuyv”. For example, to save it in documents, just change filename = “/documents/cam%d%yuyv”
-5) To view the images you will (probably) need to convert the raw .yuyv files to .jpg files. To do so run the "./yuyv2jpg *.yuyv" command in the Linux or Windows Cygwin terminal. If you saved the images in a different folder, documents for example, you would run the "./yuyv2jpg  /documents/*.yuyv" command in the Linux or Windows Cygwin terminal.
+5) To view the images you will (probably) need to convert the raw .yuyv files to .jpg files. To do so run the "./yuyv2jpg *.yuyv" command in the Linux or Windows Cygwin terminal. If you saved the images in a different folder, documents for example, you would run the "./yuyv2jpg  /documents/ *.yuyv" command in the Linux or Windows Cygwin terminal.
 6) Stitch images together using PTgui (www.ptgui.com) and you have a 360 image :)
 
 
@@ -22,9 +22,10 @@ To run the UVCstill code complete the following steps:
 
 To run the GPIOcontrol code complete the following steps:
 1) Purchase an Abaco mCOM10K1 (https://goo.gl/KHcO28) Single Board Linux Computer (SBC) and Connect Tech CCG020 (https://goo.gl/IUNXin) carrier board
-2) Run the command "./GPIOTestApp 1" or "./GPIOTestApp 2" to run Unit test number 1 or 2 respectively.
-3) You should see a lot of debug statements and no assert failures. You can turn off the debug statements by redefining to "DEBUG_STATEMENTS_ON 0" in the COM10K1GPIO.h file
-4) Make edits to "GPIOTestAPp.c" to begin writing your own code. Run the "make clean" and then "make" commands in the Linux or Windows Cygwin terminal to recompile your code.
+2) Run the command "make" to compile the WaitForPinApp.c, GPIOTestapp.c, and COM10K1GPIO.c file.
+3) Run the command "./GPIOTestApp 1" or "./GPIOTestApp 2" to run Unit test number 1 or 2 respectively.
+4) You should see a lot of debug statements and no assert failures. You can turn off the debug statements by redefining to "DEBUG_STATEMENTS_ON 0" in the COM10K1GPIO.h file
+5) Make edits to "GPIOTestAPp.c" to begin writing your own code. Run the "make clean" and then "make" commands in the Linux or Windows Cygwin terminal to recompile your code.
 
 
 ***SWIFT_XTS_API: Transfer an image or text file from any Linux computer to the SWIFT-XTS (www.tethers.com/SpecSheets/Brochure_SWIFT_XTS.pdf) Software Defined Radio (SDR) and transmit data via S-Band (and X-Band coming soon) RF link to SpecNet Box or Atlas Space Operations (www.atlasground.com) ground station.
