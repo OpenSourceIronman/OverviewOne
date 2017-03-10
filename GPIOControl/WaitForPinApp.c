@@ -24,17 +24,16 @@ int main(int argc, char *argv[])
 
     InitializePins(&GPIO_pins, initOutputPinValues);
     
-    bool buttonNotPressed = true;
-    while(buttonNotPressed) {
+    while(true) {
         for(int i = 0; i < NUM_INPUT_PINS; i++) {
             if (ReadInputPinState(&GPIO_pins, GPIO_pins.pinName[i]) == HIGH) {
                 printf("%d\n", i);
-                buttonNotPressed = false;
+                return 0; //success
             }
         }
 
         usleep(20000 /*microseconds*/); //= 20 milliseconds
     }
 
-    //TO-DO???? Other camera stuff using the python scripts
+    return 1; //failure
 }
