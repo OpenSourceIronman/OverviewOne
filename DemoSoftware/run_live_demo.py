@@ -27,7 +27,7 @@ MY_DIR   = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe(
 ROOT_DIR = os.path.dirname(MY_DIR)
 # Add the UVCStill folder to the sys.path
 sys.path.append(os.path.join(ROOT_DIR, 'UVCstill'))
-sys.path.append(os.path.join(ROOT_DIR, 'SWIFT_XTS_API'))
+sys.path.append(os.path.join(ROOT_DIR, 'SWIFT_XTS_API/pyswift-spacevr-stable/Scripts/spacevr'))
 
 import uvcstill
 import SpaceVR_Configuration_Connection_Telemetry
@@ -82,22 +82,26 @@ def trigger_cameras():
     read_all_cameras(numCams=4, width=1920, height=1080, iter=5)
     return
  
-def transmit_images():
-   #TODO 
-   SpaceVR_Configuration_Connection_Telemetry.InitializeRadio(???, DEV_MODEL, "192.168.1.42", "192.168.1.50", 30000, 30100,30200)
-   for camNum in range(4) 
-     for image in range (5)
-       filename = "/media/ubuntu/EVO8501TB/test_output/cam%d.%d.yuyv" % (camNum, image)
-       TransmitFile.ToSWIFT("192.168.1.42", TBD, filename, False)
-
-    TransmitFile.DownlinkToGroundStation(???, ???, ???)
-    return
+def transmit_images(imageType):
+   radio = SwiftRadioEthernet("192.168.1.42")
+   SpaceVR_Configuration_Connection_Telemetry.InitializeRadio(radio, DEV_MODEL, "192.168.1.42", "192.168.1.50", 30000, 30100,30200)
+   for camNum in range(4): 
+     for image in range(5):
+       if (YUYV): filename = "/media/ubuntu/EVO8501TB/test_output/cam%d.%d.yuyv" % (camNum, image) 
+       elif (JPEG): filename = "/media/ubuntu/EVO8501TB/test_output/cam%d.%d.jpg" % (camNum, image) #WATCH OUT FOR cam%d.%d.yuyv.jpg
+       elif (PNG): filename  = "/media/ubuntu/EVO8501TB/test_output/cam%d.%d.png" % (camNum, image) #WATCH OUT FOR cam%d.%d.yuyv.png
+       elif (TXT): filename  = "/home/ubuntu/git-repos/OverviewOne/SWIFT_XTS_API/pyswift-spacevr-stable/Scripts/spacevr.sampleData.txt" % (camNum, image)
+       else: print("Invalid image file type selected")
+       #TODO??? What if file is missing because of an incomplete frame?
+       TransmitFile.ToSWIFT("192.168.1.42", STX_SOCKET_DEFAULT_NUM, filename, False)
+       TransmitFile.DownlinkToGroundStation(radio, STX_LINK_DEV, filename)
 
 def main():
+    #TODO??? DO Python main functions just keep looping?
     print("Initializing cameras...")
     init_cameras()
 
-    while True:
+    while True: 
         print("Waiting for a GPIO pin to go high...")
         wait_for_gpio()
 
@@ -105,7 +109,7 @@ def main():
         trigger_cameras()
 
         print("Transmitting...")
-        transmit_images()
+        transmit_images(JPEG)
 
 if __name__ == "__main__":
     main()
