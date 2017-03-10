@@ -14,17 +14,69 @@ The goals of this demonstation:
 Copyright SpaceVR, 2017.  All rights reserved.
 """
 
-import sys
+# Suppress print statement in favor of print method
+from __future__ import print_function
+
+import re
+import sys, os.path
+import subprocess
+
+# Determine project root directory
+import os,sys,inspect
+MY_DIR   = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+ROOT_DIR = os.path.dirname(MY_DIR)
+# Add the UVCStill folder to the sys.path
+sys.path.append(os.path.join(ROOT_DIR, 'UVCstill'))
+
+import uvcstill
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
 
 def wait_for_gpio():
-    #TODO
+    exit_code = subprocess.call([os.path.join(ROOT_DIR, 'GPIOControl', 'WaitForPinApp')])
+    if exit_code != 0:
+        raise Exception("Error when running WaitForPinApp")
     return
 
+def init_cameras():
+    # Unbinding uvcvideo
+    print("Unbinding uvcvideo... ", end="")
+    numOldDevs = 0
+    for f in os.listdir("/sys/bus/usb/drivers/uvcvideo/"):
+        if re.match(".*:1.0", f):
+            numOldDevs +=1
+            subprocess.call("sudo sh -c 'echo %s > /sys/bus/usb/drivers/uvcvideo/unbind'" % f, shell=True)
+
+    print("%d devices" % numOldDevs)
+
+    # Remove existing uvcstill module
+    print("Unloading uvcstill module... ", end="")
+    try:
+        code = subprocess.call(["sudo", "rmmod", "uvcstill"])
+    except:
+        code = code
+    if code == 0:
+        print("OK")
+    else:
+        print("NO")
+
+    # Install module
+    print("Loading uvcstill module... ", end="")
+    code = subprocess.call(["sudo", "insmod", 
+                           os.path.join(ROOT_DIR, "UVCstill", "uvcstill.ko")])
+    if code == 0:
+        print("OK")
+    else:
+        print("***FAILED***")
+        sys.exit(1)
+
 def trigger_cameras():
-    #TODO
+    read_all_cameras(numCams=4, width=1920, height=1080, iter=1)
+    read_all_cameras(numCams=4, width=1920, height=1080, iter=2)
+    read_all_cameras(numCams=4, width=1920, height=1080, iter=3)
+    read_all_cameras(numCams=4, width=1920, height=1080, iter=4)
+    read_all_cameras(numCams=4, width=1920, height=1080, iter=5)
     return
 
 def transmit_images():
@@ -32,6 +84,9 @@ def transmit_images():
     return
 
 def main():
+    print("Initializing cameras...")
+    init_cameras()
+
     while True:
         print("Waiting for a GPIO pin to go high...")
         wait_for_gpio()
@@ -42,4 +97,5 @@ def main():
         print("Transmitting...")
         transmit_images()
 
-main()
+if __name__ == "__main__":
+    main()
