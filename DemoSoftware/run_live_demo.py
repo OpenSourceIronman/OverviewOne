@@ -75,11 +75,11 @@ def init_cameras():
         sys.exit(1)
 
 def trigger_cameras():
-    read_all_cameras(numCams=4, width=1920, height=1080, iter=1)
-    read_all_cameras(numCams=4, width=1920, height=1080, iter=2)
-    read_all_cameras(numCams=4, width=1920, height=1080, iter=3)
-    read_all_cameras(numCams=4, width=1920, height=1080, iter=4)
-    read_all_cameras(numCams=4, width=1920, height=1080, iter=5)
+    uvcstill.read_all_cameras(numCams=4, width=1920, height=1080, iter=1)
+    uvcstill.read_all_cameras(numCams=4, width=1920, height=1080, iter=2)
+    uvcstill.read_all_cameras(numCams=4, width=1920, height=1080, iter=3)
+    uvcstill.read_all_cameras(numCams=4, width=1920, height=1080, iter=4)
+    uvcstill.read_all_cameras(numCams=4, width=1920, height=1080, iter=5)
     return
  
 def transmit_images(imageType):
