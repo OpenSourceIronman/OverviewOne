@@ -1,3 +1,0 @@
-"""
-swiftradio utils sub-package
-"""

@@ -1,2 +1,0 @@
-pyswift_distro
-swiftradio

@@ -1,5 +1,0 @@
-include setuptools_bs.py
-recursive-include Scripts/examples *
-recursive-include Scripts/spacevr *
-recursive-include Scripts/common *
-recursive-include Thirdparty *
