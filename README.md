@@ -10,7 +10,7 @@ This Git repo holds code that will run onboard the Overview 1. It's broken down 
 ***UVCstill: Custom UVC USB 3.0 driver to caputure 4K (4224x3106) images from multiple cameras on any Linux OS. Tested on the Abaco COM10K1 with Sony FCB-MA133 cameras. Contact SpaceVR at blaze@spacevr.co to purchase our custom Camera Interface Hub (CIH) hardware ($1000), which connects four Sony FCB-MA133 cameras to a single USB 3.0 port.
 
 To run the UVCstill code complete the following steps:
-1) Load the uvcstill module. THIS IS THE MOST IMPORTANT STEP. It needs to be done only once every time you are about to record for the first time or connect everything. IF you unplug a camera, you need to run this again before recording. 
+1) Load the uvcstill module, by running the command "sudo insmod uvcstill.ko" in the Linux or Windows Cygwin terminal. THIS IS THE MOST IMPORTANT STEP. It needs to be done only once every time you are about to record for the first time or connect everything. IF you unplug a camera, you need to run this again before recording. 
 2) Run the command "./run_init.py" in the Linux or Windows Cygwin terminal. Make sure it says eigth cameras and all cam 0 through 7 read “Ok” for 1280 X 720. Don’t worry if anything says “incomplete”. As long as they don’t “Timeout”, you’re good. 
 3) Start recording  still images by running the "./run_capture.py" command in the Linux or Windows Cygwin terminal.
 4) The images will be stored in the current directory you are in but you can change this by opening unity.py script and adding the path in the line that says filename = “cam%d%yuyv”. For example, to save it in documents, just change filename = “/documents/cam%d%yuyv”
