@@ -266,14 +266,14 @@ class Packet(object):
         # Divide by maximum data length (rounding up)
         seq_len = ( (self.data_len-1) // Packet.MAX_DATA_SIZE ) + 1
         # ... and we still need a single packet even if the data is empty
-        seq_len = min(1, seq_len)
+        seq_len = max(1, seq_len)
         if seq_len == 0:
             seq_len = 1
 
         next_data = 0
 
         # Start making copies of the current packet and adding them to the sequence
-        for i in range(seq_len):
+        for i in range(0, seq_len):
             cur = copy.deepcopy(self)
 
             # Need to correctly set seq_flags

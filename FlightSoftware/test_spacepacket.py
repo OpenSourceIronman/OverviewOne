@@ -74,6 +74,22 @@ def test_seq1():
     assert seq[0].data_len == 1
     assert seq[0].data == bytearray([0xAA])
 
+def test_seq2():
+    ''' Test the breakdown of (large packets) into a sequence of smaller ones.
+    
+    This variant tests a sequence of 2 packets.
+    '''
+
+    p = Packet()
+    p.data_len = 2 * p.MAX_DATA_SIZE
+    p.data = bytearray(p.data_len)
+
+    seq = p.make_seq()
+
+    assert len(seq) == 2
+    assert seq[0].data_len == p.MAX_DATA_SIZE
+    assert seq[1].data_len == p.MAX_DATA_SIZE
+
 def test_telemetry_deserialize():
     ''' Test the deserialization of a telemetry packet.
     '''
