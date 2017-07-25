@@ -14,4 +14,8 @@ CORE_SOURCES_COV_OPTS = $(patsubst %.py,--cov=%,$(CORE_SOURCES))
 test:
 	pytest $(CORE_SOURCES_COV_OPTS) --cov-report term-missing
 
+test-verbose:
+	pytest -s $(CORE_SOURCES_COV_OPTS) --cov-report term-missing
+
 default: test
+
