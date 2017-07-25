@@ -267,8 +267,6 @@ class Packet(object):
         seq_len = ( (self.data_len-1) // Packet.MAX_DATA_SIZE ) + 1
         # ... and we still need a single packet even if the data is empty
         seq_len = max(1, seq_len)
-        if seq_len == 0:
-            seq_len = 1
 
         next_data = 0
 

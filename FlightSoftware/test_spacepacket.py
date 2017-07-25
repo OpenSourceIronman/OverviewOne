@@ -101,7 +101,7 @@ def test_telemetry_deserialize():
     tp = TelemetryPacket(p)
     tp.deserialize()
 
-def test_packet_seriailize():
+def test_packet_serialize():
     ''' Test the serialization of a packet headers.
     '''
 
@@ -156,3 +156,29 @@ def test_debug_output():
 
     Packet.DEBUG = False
     TelemetryPacket.DEBUG = False
+
+def test_invalid_packets():
+    ''' Test an invalid packets.
+    '''
+
+    p = Packet()
+    p.data = bytearray(267)
+
+    # Exceptional: Invalid ACK packet
+    with pytest.raises(ValueError) as ex:
+        p.data_len = 5 # ACK packets should have data_len = 4
+        ack = AckPacket(p)
+        ack.deserialize()
+
+    # Exceptional: Invalid telemetry packet (old format)
+    with pytest.raises(ValueError) as ex:
+        p.data_len = 247 # Telemetry packets should have data_len = 266
+        tp = TelemetryPacket(p)
+        tp.deserialize()
+
+    # Exceptional: Invalid telemetry packet (too big)
+    with pytest.raises(ValueError) as ex:
+        p.data_len = 267 # Telemetry packets should have data_len = 266
+        tp = TelemetryPacket(p)
+        tp.deserialize()
+        
