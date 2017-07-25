@@ -277,9 +277,9 @@ class Packet(object):
             # Need to correctly set seq_flags
             cur.seq_flags = 0
             if i == 0:
-                cur.seq_flags = cur.seq_flags & Packet.SEQ_FLAG_FIRST
+                cur.seq_flags = cur.seq_flags | Packet.SEQ_FLAG_FIRST
             if i == (seq_len-1):
-                cur.seq_flags = cur.seq_flags & Packet.SEQ_FLAG_LAST
+                cur.seq_flags = cur.seq_flags | Packet.SEQ_FLAG_LAST
 
             # Copy data, up to maximum packet size
             cur.data_len = self.data_len - next_data
