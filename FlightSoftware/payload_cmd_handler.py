@@ -7,7 +7,7 @@ import shlex
 from agent import Agent
 from supernova import Supernova
 from spacepacket import Packet
-from send import send_payload_cmd
+from send import Send
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -84,7 +84,8 @@ class PayloadCommandHandler:
             print("Running in shell...\n $ %s \n" % (shell_cmd))
 
             # TODO: add some safeguards against timeout, exceptions, etc.
-            shell_rsl = subprocess.check_output(shlex.split(shell_cmd), shell=True)
+            shell_rsl = subprocess.check_output(shell_cmd, shell=True)
+            # shell_rsl = subprocess.check_output(shlex.split(shell_cmd), shell=False) # if we don't want to use shell
 
             if PayloadCommandHandler.DEBUG:
                 print('================= BEGIN OUTPUT =================')
@@ -94,7 +95,7 @@ class PayloadCommandHandler:
             # Send reponse packet
             #TODO: are the src/dest wrong?
             #send_payload_cmd(packet.dst_node, packet.src_node, PayloadCommandHandler.SHELL_RESP, shell_rsl)
-            send_payload_cmd(4, 4, PayloadCommandHandler.SHELL_RESP, shell_rsl)
+            Send.send_payload_cmd(4, 4, PayloadCommandHandler.SHELL_RESP, shell_rsl)
 
     @staticmethod
     def run_echo(packet):
@@ -104,4 +105,4 @@ class PayloadCommandHandler:
 
         #TODO: are the src/dest wrong?
         #send_payload_cmd(packet.dst_node, packet.src_node, PayloadCommandHandler.ECHO_RESP, shell_rsl)
-        send_payload_cmd(4, 4, PayloadCommandHandler.ECHO_RESP, packet.data)
+        Send.send_payload_cmd(4, 4, PayloadCommandHandler.ECHO_RESP, packet.data)

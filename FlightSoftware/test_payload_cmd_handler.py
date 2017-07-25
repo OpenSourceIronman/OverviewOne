@@ -3,10 +3,12 @@ import sys, os
 
 from spacepacket import Packet
 from payload_cmd_handler import PayloadCommandHandler
+from send import Send
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
 
+# Test the payload command to simply echo data
 def test_echo():
     payload = PayloadCommandHandler()
 
@@ -18,10 +20,12 @@ def test_echo():
     payload.dispatch(p)
 
 
+# Test the payload command to run a shell command
 def test_shell():
     payload = PayloadCommandHandler()
 
     PayloadCommandHandler.DEBUG = True
+    Send.ENABLE_TRACE = True
 
     # Send a single-packet command
     p = Packet()
@@ -31,9 +35,15 @@ def test_shell():
     p.pkt_id = PayloadCommandHandler.SHELL_CMD
     payload.dispatch(p)
 
+    # Check output
+    assert len(Send.TRACE_QUEUE) == 1
+    rsl = Packet(Send.TRACE_QUEUE.pop())
+    assert rsl.data == b"Linux\n"
+
     # Send a multi-packet command
+    # Test options
     p = Packet()
-    p.data = b"uname" + (" "*300) + "-a"
+    p.data = b"uname" + (" "*300) + "-o"
     p.data_len = len(p.data)
     p.pkt_id = PayloadCommandHandler.SHELL_CMD
 
@@ -42,6 +52,12 @@ def test_shell():
     for s in seq:
         payload.dispatch(s)
 
+    # Check output
+    assert len(Send.TRACE_QUEUE) == 1
+    rsl = Packet(Send.TRACE_QUEUE.pop())
+    assert rsl.data == b"GNU/Linux\n"
+
+# Test error or invalid inputs
 def test_error_cases():
     payload = PayloadCommandHandler()
 

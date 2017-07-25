@@ -14,7 +14,7 @@ import sys
 
 from agent import Agent
 from payload_cmd_handler import PayloadCommandHandler
-from send import send_payload_cmd
+from send import Send
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -36,7 +36,7 @@ def main():
     # Send user input, one line at a time
     while(True):
         cmd = raw_input()
-        send_payload_cmd(MY_ID, DEST_ID, PayloadCommandHandler.SHELL_CMD, cmd)
+        Send.send_payload_cmd(MY_ID, DEST_ID, PayloadCommandHandler.SHELL_CMD, cmd)
 
 if __name__ == "__main__":
     main()

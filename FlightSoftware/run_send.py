@@ -3,7 +3,7 @@
 # Copyright SpaceVR, 2017.  All rights reserved.
 
 import sys
-from send import BusCommands, send_payload_cmd
+from send import BusCommands, Send
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -17,7 +17,7 @@ def main():
     bc.noop()
 
     print("Sending shell command to self...")
-    send_payload_cmd(my_id, my_id, 0x00, "ls")
+    Send.send_payload_cmd(my_id, my_id, 0x00, "ls")
 
 if __name__ == "__main__":
     main()
