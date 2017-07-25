@@ -20,6 +20,8 @@ class PayloadCommandHandler:
                    and returns the result
     """
 
+    DEBUG = False
+
     # These are arbitrary command codes for the common payload-specific
     # commands that this class implements by default.
     SHELL_CMD  = 0x00
@@ -71,28 +73,28 @@ class PayloadCommandHandler:
 
         if (packet.seq_flags & Packet.SEQ_FLAG_FIRST):
             # On the first packet, clear whatever old command string
-            shell_cmd = ""
+            PayloadCommandHandler.shell_cmd = ""
 
-        shell_cmd = shell_cmd + packet.data.decode("utf-8")
+        PayloadCommandHandler.shell_cmd = PayloadCommandHandler.shell_cmd + packet.data.decode("utf-8")
+        shell_cmd = PayloadCommandHandler.shell_cmd
 
         if (packet.seq_flags & Packet.SEQ_FLAG_LAST):
 
-           # On the last packet, we actually run the command
-           print("Running in shell...\n $ %s \n" % (shell_cmd))
+            # On the last packet, we actually run the command
+            print("Running in shell...\n $ %s \n" % (shell_cmd))
 
-           # TODO: add some safeguards against timeout, exceptions, etc.
-           shell_rsl = subprocess.check_output(shlex.split(shell_cmd), shell=True)
+            # TODO: add some safeguards against timeout, exceptions, etc.
+            shell_rsl = subprocess.check_output(shlex.split(shell_cmd), shell=True)
 
-           """
-           print('================= BEGIN OUTPUT =================')
-           print(shell_rsl)
-           print('================== END OUTPUT ==================')
-           """
+            if PayloadCommandHandler.DEBUG:
+                print('================= BEGIN OUTPUT =================')
+                print(shell_rsl)
+                print('================== END OUTPUT ==================')
 
-           # Send reponse packet
-           #TODO: are the src/dest wrong?
-           #send_payload_cmd(packet.dst_node, packet.src_node, PayloadCommandHandler.SHELL_RESP, shell_rsl)
-           send_payload_cmd(4, 4, PayloadCommandHandler.SHELL_RESP, shell_rsl)
+            # Send reponse packet
+            #TODO: are the src/dest wrong?
+            #send_payload_cmd(packet.dst_node, packet.src_node, PayloadCommandHandler.SHELL_RESP, shell_rsl)
+            send_payload_cmd(4, 4, PayloadCommandHandler.SHELL_RESP, shell_rsl)
 
     @staticmethod
     def run_echo(packet):
@@ -102,4 +104,4 @@ class PayloadCommandHandler:
 
         #TODO: are the src/dest wrong?
         #send_payload_cmd(packet.dst_node, packet.src_node, PayloadCommandHandler.ECHO_RESP, shell_rsl)
-        send_payload_cmd(4, 4, PayloadCommandHandler.ECHO_RESP, shell_rsl)
+        send_payload_cmd(4, 4, PayloadCommandHandler.ECHO_RESP, packet.data)
