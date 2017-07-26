@@ -117,8 +117,10 @@ class Packet(object):
         node = (ph0 & 0x07E0) >> 5                      # Node
         if self.pkt_type == 0x00:                       # Assign to src or dst depending on type
           self.src_node = node
+          self.dst_node = -1
         else:
           self.dst_node = node
+          self.src_node = -1
         self.service = ph0 & 0x001F                     # APID Service
         self.seq_flags = ((ph1 & 0xC000) >> 14)         # Sequence Flags
         self.seq_count = ph1 & 0x3FFF                   # Sequence Count
