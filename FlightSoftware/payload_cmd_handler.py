@@ -53,10 +53,12 @@ class PayloadCommandHandler:
 
         cmd = packet.pkt_id
         if cmd in self.handlers:
-            print("Known command %x" % (cmd))
+            if PayloadCommandHandler.DEBUG:
+                print("Known command %x" % (cmd))
             self.handlers[cmd](packet)
         else:
-            print("Unknown command %x.  Ignoring." % (cmd))
+            if PayloadCommandHandler.DEBUG:
+                print("Unknown command %x.  Ignoring." % (cmd))
 
 
     shell_cmd = ""
