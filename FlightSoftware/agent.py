@@ -9,6 +9,7 @@ import socket
 import time
 import select
 import sys
+import os
 
 from spacepacket import Packet,TelemetryPacket,AckPacket
 from supernova import Supernova
@@ -38,8 +39,7 @@ class Agent:
         All service handlers are initially set to do nothing.
         """
 
-        self.payload_id = 4         # The Supernova ID of this process.
-
+        self.payload_id = Agent.get_my_id()
         self.service_sock = {}
 
         # Service handler functions.
@@ -55,6 +55,22 @@ class Agent:
             "Data Upload"       : Agent.do_nothing,
             "Time"              : Agent.do_nothing,
         }
+
+    @staticmethod
+    def get_my_id():
+        """ Returns the Supernova bus ID of this process.
+        """
+
+        try:
+            payload_id = int(os.getenv("SUPERNOVA_ID")) # The Supernova ID of this process.
+            if payload_id < 1 or payload_id > 4:
+                raise ValueError()
+        except Exception as e:
+            print("Must set the SUPERNOVA_ID environment variable to the bus ID.\n")
+            print("Valid values are between 1 and 4.\n")
+            sys.exit(1)
+
+        return payload_id
 
     @staticmethod
     def do_nothing(packet):
@@ -78,8 +94,9 @@ class Agent:
             tp.deserialize()
             tp.printout()
         else:
-            print("=== Packet ===")
+            print("=== Begin ===")
             print(packet.data)
+            print("===  End  ===")
 
     def bind_udp_sockets(self):
         """ Bind UDP sockets to appropriate ports
