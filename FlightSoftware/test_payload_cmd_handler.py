@@ -1,5 +1,6 @@
 import pytest
 import sys, os
+import subprocess
 
 from spacepacket import Packet
 from payload_cmd_handler import PayloadCommandHandler
@@ -31,7 +32,7 @@ def test_shell():
     p = Packet()
     p.data = b"uname"
     p.data_len = len(p.data)
-    p.seq_flags |= Packet.SEQ_FLAG_LAST 
+    p.seq_flags |= Packet.SEQ_FLAG_FIRST | Packet.SEQ_FLAG_LAST
     p.pkt_id = PayloadCommandHandler.SHELL_CMD
     payload.dispatch(p)
 
@@ -69,4 +70,25 @@ def test_error_cases():
     p.data_len = 1234
     p.data = bytearray(1234)
     p.pkt_id = 0xDEADBEEF # unknown command ID
+    p.seq_flags |= Packet.SEQ_FLAG_FIRST | Packet.SEQ_FLAG_LAST
     payload.dispatch(p)
+
+def test_bad_command():
+    payload = PayloadCommandHandler()
+
+    Send.ENABLE_TRACE = True
+
+    # Run a bad shell command
+    p = Packet()
+    p.data = b"asdf;;"
+    p.data_len = len(p.data)
+    p.seq_flags |= Packet.SEQ_FLAG_FIRST | Packet.SEQ_FLAG_LAST
+    p.pkt_id = PayloadCommandHandler.SHELL_CMD
+
+    # Test: no exception
+    payload.dispatch(p)
+
+    # Test: the error message is in the result
+    rsl = Packet(Send.TRACE_QUEUE.pop())
+    assert "ERROR" in rsl.data
+    assert "Syntax error" in rsl.data

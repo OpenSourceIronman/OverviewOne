@@ -79,6 +79,7 @@ class PayloadCommandHandler:
 
         PayloadCommandHandler.shell_cmd = PayloadCommandHandler.shell_cmd + packet.data.decode("utf-8")
         shell_cmd = PayloadCommandHandler.shell_cmd
+        shell_rsl = ""
 
         if (packet.seq_flags & Packet.SEQ_FLAG_LAST):
 
@@ -87,11 +88,11 @@ class PayloadCommandHandler:
 
             # TODO: add some safeguards against timeout
             try:
-                shell_rsl = subprocess.check_output(shell_cmd, shell=True)
+                shell_rsl = subprocess.check_output(shell_cmd, shell=True, stderr=subprocess.STDOUT)
                 # Or, if we don't want to use the shell interpreter:
                 # shell_rsl = subprocess.check_output(shlex.split(shell_cmd), shell=False)
-            except Exception as e:
-                shell_rsl = repr(e)
+            except subprocess.CalledProcessError as e:
+                shell_rsl = "ERROR exit=%d %s" % (e.returncode, e.output)
 
             if PayloadCommandHandler.DEBUG:
                 print('================= BEGIN OUTPUT =================')
