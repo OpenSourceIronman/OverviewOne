@@ -56,6 +56,32 @@ class Send(object):
         # Close socket
         sock.close()
 
+    @staticmethod
+    def send_to_self(packet):
+        """
+        Transmit a packet to self.
+        This is for testing purposes.
+
+        Args:
+            packet : a ready-to-send Packet instance.
+
+        Returns:
+            Nothing
+        """
+
+        # Serialize the packet (including all headers and data) into a buffer of raw bytes
+        buf = packet.serialize()
+        
+        # Configure UDP socket to send to the bus
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+        # OK, send it!!!
+        service_name = Supernova.SERVICES[packet.service-1]
+        sock.sendto(buf, ('127.0.0.1',
+                          Supernova.service_recv_port(service_name, packet.dest_node)))
+        # Close socket
+        sock.close()
+
 
     @staticmethod
     def send_payload_cmd(src_payload_id, dest_payload_id, command, data):

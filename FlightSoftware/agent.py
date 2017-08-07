@@ -32,6 +32,7 @@ class Agent:
 
     TIMEOUT = 300 # seconds
     DEBUG = False
+    SUPERNOVA_ID_ENV_VAR = "SUPERNOVA_ID"
 
     def __init__(self):
         """ Initialize an Agent object
@@ -62,11 +63,11 @@ class Agent:
         """
 
         try:
-            payload_id = int(os.getenv("SUPERNOVA_ID")) # The Supernova ID of this process.
+            payload_id = int(os.getenv(Agent.SUPERNOVA_ID_ENV_VAR)) # The Supernova ID of this process.
             if payload_id < 1 or payload_id > 4:
                 raise ValueError()
         except Exception as e:
-            print("Must set the SUPERNOVA_ID environment variable to the bus ID.\n")
+            print("Must set the "+Agent.SUPERNOVA_ID_ENV_VAR+" environment variable to the bus ID.\n")
             print("Valid values are between 1 and 4.\n")
             sys.exit(1)
 
@@ -86,6 +87,22 @@ class Agent:
       """
 
       return
+
+    @staticmethod
+    def raise_exception(packet):
+      """ Raise an exception.
+
+      This is for testing purposes.
+
+      Args:
+          packet : A Packet instance
+
+      Returns:
+          Nothing.
+      """
+
+      if Agent.DEBUG: print("Raising an exception")
+      raise Exception()
 
     @staticmethod
     def print_it(packet):
@@ -116,6 +133,17 @@ class Agent:
                 # TODO: (failsafe) wait and retry
 
 
+    def close(self):
+        """ Close associated resources.
+
+        In production, this isn't generally needed (for the continuously-running agent),
+        but it's very useful for testing.
+        """
+
+        for i in Supernova.SERVICES:
+            self.service_sock[i].close()
+
+
     def run(self):
         """ Receive and process incoming packets
 
@@ -129,6 +157,8 @@ class Agent:
             self.supernova_sock should contain a set of bound sockets (e.g. by
                 calling bind_udp_sockets first)
         """
+
+        if Agent.DEBUG: print("Running main loop")
 
         while True:
             # Select function monitors all inputs and waits the specified timeoue period. Once a port is readable (has data to read) it is returned in the readable array.
@@ -157,7 +187,3 @@ class Agent:
             # Timeout condition
             if readable == []:
                 print('\nTimed out at ' + str(timeout) + ' seconds')
-
-            # Exception condition
-            elif exceptional != []:
-                print('Port error: '+repr(exceptional))

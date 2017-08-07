@@ -12,11 +12,11 @@ CORE_SOURCES = $(filter-out run_% test_% %_main.py, $(ALL_PYTHON))
 CORE_SOURCES_COV_OPTS = $(patsubst %.py,--cov=%,$(CORE_SOURCES))
 
 test:
-	SUPERNOVA_ID=1 \
+	SUPERNOVA_ID=4 \
 	pytest $(CORE_SOURCES_COV_OPTS) --cov-report term-missing
 
 test-verbose:
-	SUPERNOVA_ID=1 \
+	SUPERNOVA_ID=4 \
 	pytest -s $(CORE_SOURCES_COV_OPTS) --cov-report term-missing
 
 default: test
