@@ -46,7 +46,7 @@ def thread1_keyboard():
     print("----- Remote terminal ----- \n")
     while(True):
         cmd = raw_input()
-        Send.send_payload_cmd(Agent.get_my_id(), DEST_ID, PayloadCommandHandler.SHELL_CMD, cmd)
+        Send.send_payload_cmd(DEST_ID, PayloadCommandHandler.SHELL_CMD, cmd)
 
 
 def thread2_network(a):

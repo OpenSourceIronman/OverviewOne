@@ -46,3 +46,19 @@ def test_ports():
         assert(Supernova.service_recv_port(service, 1) + 1 ==
                Supernova.service_send_port(service, 1))
 
+def test_unset_bus_id():
+    prev_val = os.environ[Supernova.SUPERNOVA_ID_ENV_VAR] # save
+
+    # Test: unset environment variable
+    os.environ[Supernova.SUPERNOVA_ID_ENV_VAR] = ""
+    with pytest.raises(SystemExit) as ex:
+        Supernova.get_my_id()
+
+    # Test: out-of-range environment variable
+    os.environ[Supernova.SUPERNOVA_ID_ENV_VAR] = "99"
+    with pytest.raises(SystemExit) as ex:
+        Supernova.get_my_id()
+
+    os.environ[Supernova.SUPERNOVA_ID_ENV_VAR] = prev_val # restore
+
+

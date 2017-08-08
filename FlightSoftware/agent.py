@@ -4,12 +4,10 @@ Agent module
 Copyright SpaceVR, 2017.  All rights reserved.
 """
 
-import binascii
 import socket
 import time
 import select
 import sys
-import os
 
 from spacepacket import Packet,TelemetryPacket,AckPacket
 from supernova import Supernova
@@ -32,7 +30,6 @@ class Agent:
 
     TIMEOUT = 300 # seconds
     DEBUG = False
-    SUPERNOVA_ID_ENV_VAR = "SUPERNOVA_ID"
 
     def __init__(self):
         """ Initialize an Agent object
@@ -40,7 +37,7 @@ class Agent:
         All service handlers are initially set to do nothing.
         """
 
-        self.payload_id = Agent.get_my_id()
+        self.payload_id = Supernova.get_my_id()
         self.service_sock = {}
 
         # Service handler functions.
@@ -57,21 +54,6 @@ class Agent:
             "Time"              : Agent.do_nothing,
         }
 
-    @staticmethod
-    def get_my_id():
-        """ Returns the Supernova bus ID of this process.
-        """
-
-        try:
-            payload_id = int(os.getenv(Agent.SUPERNOVA_ID_ENV_VAR)) # The Supernova ID of this process.
-            if payload_id < 1 or payload_id > 4:
-                raise ValueError()
-        except Exception as e:
-            print("Must set the "+Agent.SUPERNOVA_ID_ENV_VAR+" environment variable to the bus ID.\n")
-            print("Valid values are between 1 and 4.\n")
-            sys.exit(1)
-
-        return payload_id
 
     @staticmethod
     def do_nothing(packet):

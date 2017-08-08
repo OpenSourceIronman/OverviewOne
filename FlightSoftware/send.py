@@ -84,7 +84,7 @@ class Send(object):
 
 
     @staticmethod
-    def send_payload_cmd(src_payload_id, dest_payload_id, command, data):
+    def send_payload_cmd(dest_payload_id, command, data):
 
         if not isinstance(data, bytes) and not isinstance(data, bytearray):
             raise TypeError("Data argument is not an array of bytes")
@@ -112,7 +112,7 @@ class Send(object):
         p.ack         = 0       # No, not an ACK
         p.auth_count  = 0       # ???
         p.pkt_subtype = 0x00    # Unused
-        p.src_node    = src_payload_id
+        p.src_node    = Supernova.get_my_id()
         p.pkt_subid   = 0x00    # Unused
         p.byp_auth    = 0x01    # Bypass authentication
 

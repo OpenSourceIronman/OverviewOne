@@ -17,7 +17,7 @@ def main():
     bc.noop()
 
     print("Sending shell command to self...")
-    Send.send_payload_cmd(my_id, my_id, 0x00, "ls")
+    Send.send_payload_cmd(my_id, 0x00, "ls")
 
 if __name__ == "__main__":
     main()

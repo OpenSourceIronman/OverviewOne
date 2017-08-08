@@ -100,14 +100,13 @@ class PayloadCommandHandler:
                 print('================== END OUTPUT ==================')
 
             # Send reponse packet
-            Send.send_payload_cmd(1, 4, PayloadCommandHandler.SHELL_RESP, shell_rsl)
+            # TODO: send back to packet source
+            Send.send_payload_cmd(4, PayloadCommandHandler.SHELL_RESP, shell_rsl)
 
     @staticmethod
     def run_echo(packet):
         """ The "echo" command simply sends back a packet with the same data.
 
         """
-
-        #TODO: are the src/dest wrong?
-        #send_payload_cmd(packet.dst_node, packet.src_node, PayloadCommandHandler.ECHO_RESP, shell_rsl)
-        Send.send_payload_cmd(4, 4, PayloadCommandHandler.ECHO_RESP, packet.data)
+        # TODO: send back to packet source
+        Send.send_payload_cmd(4, PayloadCommandHandler.ECHO_RESP, packet.data)

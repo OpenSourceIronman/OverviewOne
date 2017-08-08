@@ -1,6 +1,6 @@
 # Copyright SpaceVR, 2017.  All rights reserved.
 
-import sys
+import sys, os
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -8,6 +8,8 @@ assert sys.version_info[0:2] == (2,7)
 class Supernova:
     ''' Information about supernova service names and port mappings
     '''
+
+    SUPERNOVA_ID_ENV_VAR = "SUPERNOVA_ID"
 
     # Ordered list of Supernova bus services
     SERVICES = [
@@ -101,3 +103,22 @@ class Supernova:
     @staticmethod
     def service_send_port(name, payload_id):
         return 0x8000 + 0x0100*payload_id + 2*Supernova.service_id(name) + 1
+
+    @staticmethod
+    def get_my_id():
+        """ 
+        Returns the Supernova bus ID of this process.
+
+        Read value from an environment variable, and exit with error if it is not set.
+        """
+
+        try:
+            payload_id = int(os.getenv(Supernova.SUPERNOVA_ID_ENV_VAR)) # The Supernova ID of this process.
+            if payload_id < 1 or payload_id > 4:
+                raise ValueError()
+        except Exception as e:
+            print("Must set the "+Supernova.SUPERNOVA_ID_ENV_VAR+" environment variable to the bus ID.\n")
+            print("Valid values are between 1 and 4.\n")
+            sys.exit(1)
+
+        return payload_id

@@ -23,26 +23,11 @@ def test_handlers():
     p.data = bytearray(266)
     Agent.print_it(p)
 
-def test_unset_bus_id():
-    prev_val = os.environ[Agent.SUPERNOVA_ID_ENV_VAR] # save
-
-    # Test: unset environment variable
-    os.environ[Agent.SUPERNOVA_ID_ENV_VAR] = ""
-    with pytest.raises(SystemExit) as ex:
-        Agent.get_my_id()
-
-    # Test: out-of-range environment variable
-    os.environ[Agent.SUPERNOVA_ID_ENV_VAR] = "99"
-    with pytest.raises(SystemExit) as ex:
-        Agent.get_my_id()
-
-    os.environ[Agent.SUPERNOVA_ID_ENV_VAR] = prev_val # restore
-
 def test_socket_bind_error():
     # Block socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind((Supernova.payload_ip(Agent.get_my_id()),
-               Supernova.service_recv_port("Payload Command", Agent.get_my_id())) )
+    sock.bind((Supernova.payload_ip(Supernova.get_my_id()),
+               Supernova.service_recv_port("Payload Command", Supernova.get_my_id())) )
 
     a = Agent()
     a.bind_udp_sockets() # will fail gracefully
@@ -65,7 +50,7 @@ def test_startup_and_shutdown():
     # Send an ACK packet
     p = Packet()
     p.service = Supernova.service_id("Payload Command")
-    p.dest_node = Agent.get_my_id()
+    p.dest_node = Supernova.get_my_id()
     p.ack = 1
     Send.send_to_self(p)   
 
@@ -76,7 +61,7 @@ def test_startup_and_shutdown():
     # Send a payload command packet -- SHUTDOWN
     p = Packet()
     p.service = Supernova.service_id("Payload Command")
-    p.dest_node = Agent.get_my_id()
+    p.dest_node = Supernova.get_my_id()
     Send.send_to_self(p)   
 
     # Wait for and then assert that thread has exited.
@@ -105,7 +90,7 @@ def test_timeout():
     # Send a payload command packet -- SHUTDOWN
     p = Packet()
     p.service = Supernova.service_id("Payload Command")
-    p.dest_node = Agent.get_my_id()
+    p.dest_node = Supernova.get_my_id()
     Send.send_to_self(p)   
 
     # Wait for and then assert that thread has exited.
