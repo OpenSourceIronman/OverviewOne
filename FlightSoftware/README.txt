@@ -16,12 +16,13 @@ FlightSoftware/
   |
   +-- test_*.py
   |   These are pytest-based tests for the module of the associated name.
+  |   They are run automatically by pytest with the command 'make test'.
   |
   +-- run_*.py
-  |   These are executable programs, each with a main() function.
+  |   These are utility testing/demo programs, each with a main() function.
   |   - run_agent.py - Internal test program for receiving supernova bus traffic.
   |   - run_send.py - Internal test program for sending command packets.
-  |   - run_terminal.py - Internal test program for a two-way shell terminal.  (IN PROGRESS)
+  |   - run_terminal.py - Internal test program for a two-way shell terminal.
   |
   +-- bbb_*.py
   |   This is code specific to the BBB hardware, and manages the overall
@@ -48,7 +49,22 @@ FlightSoftware/
   |   Module that handles payload-specific command functionality.  This includes
   |   dispatching based on the command ID.  It also implements several common
   |   pieces of payload functionality (e.g. running shell commands).
-
+  |
+  +-- send.py
+  |   Module that handles sending data to the Supernova bus.
+  |
+  +-- flight_sm.py
+  |   Implementation of the Flight finite state machine.
+  |   It has a level of abstraction from the actual hardware so that
+  |   various sequences of events can be tested.
+  |
+  +-- hardware.py
+  |   Hardware layer implementation.
+  |   Most of the implementation consists of sending Supernova bus commands.
+  |
+  +-- hardware_mock.py
+  |   Hardware layer mock.
+  |   Should be a mirror of the above, but it simply logs and prints activities.
 
 ===========================================
 * Setting up PIP
@@ -58,6 +74,18 @@ If 'pip' is not installed, there is an Ubuntu package for it.
 Note that this installs the version for Python 2.7.
 
     sudo apt-get install python-pip
+
+
+===========================================
+* Required modules
+===========================================
+
+Running the software requires the following pip modules:
+
+    * enum34
+
+These can be installed by running 'pip install <modulename>'
+
 
 ===========================================
 * Testing
