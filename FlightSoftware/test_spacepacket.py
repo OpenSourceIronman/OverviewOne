@@ -192,3 +192,10 @@ def test_invalid_packets():
         p.data_len = 246 # Telemetry packets should have data_len = 247
         tp = TelemetryPacket(p)
         tp.deserialize()
+
+    # Exceptional: Invalid non-default telemetry packet (too small)
+    with pytest.raises(ValueError) as ex:
+        p.pkt_id = 111
+        p.data_len = 1
+        tp = TelemetryPacket(p)
+        tp.deserialize()
