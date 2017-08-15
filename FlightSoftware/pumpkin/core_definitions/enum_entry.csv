@@ -1,0 +1,927 @@
+﻿ENUM_ENTRY_RELID,ENUM_RELID,DISPLAY_NAME,VALUE,MEANING
+10,150,DISCARDED,0,VCC Discarded
+11,150,AUTHENTICATED,1,VCC Authenticated
+12,151,RESET,0,AES Module State
+13,151,SELF_TEST,1,AES Module State
+14,151,KEY_LOAD,2,AES Module State
+15,151,SYNC,3,AES Module State
+16,151,FOP_DATA,4,AES Module State
+17,151,FOP_AUTH,5,AES Module State
+18,151,FAULT,6,AES Module State
+19,151,ALARM,7,AES Module State
+20,152,INVALID,0,Invalid OTAR State
+21,152,VALID,1,Valid OTAR State
+22,153,NO_TEK_STORED,0,No TEK is stored
+23,153,TEK_STORED,1,TEK is stored
+24,154,INTERNAL_KEY,0,Use Internal Key
+25,154,PROM_KEY_1,1,Use PROM Key
+26,154,PROM_KEY_2,2,Use PROM Key
+27,154,PROM_KEY_3,3,Use PROM Key
+28,155,ECB,0,RDP AES Algorithm
+29,155,CTR,1,RDP AES Algorithm
+30,155,CFB,2,RDP AES Algorithm
+31,155,GCM,3,RDP AES Algorithm
+32,156,BINARY,0,Binary Mode
+33,156,TERNARY,1,Ternary Mode
+34,157,NRZ_L,0,NRZ-L Mode
+35,157,NRZ_M,1,NRZ-M Mode
+36,158,ENABLE_ACTIVE,0,Enable Active
+37,158,BARKER_ACTIVE,1,Barker Active
+40,80,INIT,0,MSG Acqusition Initialize State Machine
+41,80,SETUP,1,MSG Acquisition Processing Setup
+42,80,SYNC,2,MSG Acquisition Searching for Sync
+43,80,DATA,3,MSG Acquisition Reading Data Bytes
+44,80,CHECKSUM,4,MSG Acquisition Validate Checksum
+45,80,LOST,5,MSG Acquisition Sync Lost
+46,80,TRUNC,6,MSG Acquisition Message Truncated
+47,80,FAULT,7,MSG Acquisition Illegal State Transition
+50,85,BUS_STRUCT,10,Memory Space Bus Structure
+51,85,FILE_BUF,11,Memory Space File Buffer
+52,85,PL_TLM,12,Memory Space Payload Telemetry Buffer
+53,85,UNDEF,255,Memory Area Undefined
+1000,30,UART1,0,BIM Power Channel UART 0
+1001,30,UART2,1,BIM Power Channel UART 1
+1002,30,UART3,2,BIM Power Channel UART 2
+1003,30,TEMP,3,BIM Power Channel Temperature Sensors
+1004,30,ENET,4,BIM Power Channel Ethernet
+1005,30,IMU,5,BIM Power Channel IMU
+1010,31,PORT1,0,PIM Power Channel Payload Port 1
+1011,31,PORT2,1,PIM Power Channel Payload Port 2
+1012,31,PORT3,2,PIM Power Channel Payload Port 3
+1013,31,PORT4,3,PIM Power Channel Payload Port 4
+1020,32,MCU_RESET,0,BIM Reset MCU
+1021,32,I2C_RESET,1,BIM Reset MCU I2C Interface
+1022,32,SELF_TEST_START,2,BIM Start MCU Self Test
+1023,32,SELF_TEST_STOP,3,BIM Stop MCU Self Test
+1024,32,SELF_TEST_RESTART,4,BIM Restart MCU Self Test
+1025,32,ENET_RESET_OFF,13,BIM Ethernet Switch Reset Off
+1026,32,ENET_MODE,15,BIM Set Ethernet Switch Mode.  The BIM_PARAM value is the Ethernet mode (0 - 1).
+1027,32,ENET_RESET_ON,14,BIM Ethernet Switch Reset On
+1028,32,TEMP_TEST_START,16,BIM Start Temperature Sensor Test
+1029,32,TEMP_TEST_STOP,17,BIM Stop Temperature Sensor Test
+1030,32,TEMP_TEST_RESTART,18,BIM Restart Temperature Sensor Test
+1031,32,WDT_ENABLE,19,BIM Enable Watchdog Timer
+1032,32,TINI_ENABLE,20,BIM Enable TiNi Pin Puller
+1033,32,TINI_DISABLE,21,BIM Disable TiNi Pin Puller
+1034,32,TINI_ARM,22,BIM Arm TiNi Pin Puller
+1035,32,TINI_UNARM,23,BIM Unarm TiNi Pin Puller
+1036,32,TINI_FIRE,24,BIM Fire TiNi Pin Puller.  The BIM_PARAM value is burn time in seconds.
+1037,32,LED_OFF,5,BIM LED Off
+1038,32,LED_ON,6,BIM LED On
+1039,32,LED_FLASH,7,BIM LED Flash.  MCU heartbeat.
+1040,32,LED_ACTIVITY,8,BIM LED Activity.  Lights on I2C activity.
+1041,32,CLK_OFF,9,BIM Clock Off
+1042,32,CLK_ON,10,BIM Clock On.  The BIM_PARAM value is the clock divider (0 - 16).
+1043,32,DEBUG_OFF,11,BIM Debug Output Off
+1044,32,DEBUG_ON,12,BIM Debug Output On
+1045,32,UART_PASS_ENABLE,25,"BIM UART Passthrough Enable.  BIM_PARAM values 0, 1, and 2 indicate BIM UARTs 1, 2, and 3."
+1046,32,ENET_I2C_ENABLE,27,BIM Ethernet I2C Enable
+1047,32,ENET_I2C_DISABLE,28,BIM Ethernet I2C Disable
+1048,32,EEPROM_ENABLE,29,BIM EEPROM Enable
+1049,32,EEPROM_DISABLE,30,BIM EEPROM Disable
+1050,33,MCU_RESET,0,PIM Reset MCU
+1051,33,I2C_RESET,1,PIM Reset MCU I2C Interface
+1052,33,SELF_TEST_START,2,PIM Start MCU Self Test
+1053,33,SELF_TEST_STOP,3,PIM Stop MCU Self Test
+1054,33,SELF_TEST_RESTART,4,PIM Restart MCU Self Test
+1055,33,LED_OFF,5,PIM LED Off
+1056,33,LED_ON,6,PIM LED On
+1057,33,LED_FLASH,7,PIM LED Flash.  MCU heartbeat.
+1058,33,LED_ACTIVITY,8,PIM LED Activity.  Lights on I2C activity.
+1059,33,CLK_OFF,9,PIM Clock Off
+1060,33,CLK_ON,10,PIM Clock On.  The PIM_PARAM value is the clock divider (0 - 16).
+1061,33,DEBUG_OFF,11,PIM Debug Output Off
+1062,33,DEBUG_ON,12,PIM Debug Output On
+1080,51,NONE,0,Privilege Level None
+1081,51,RESTRICTED_LOW,1,Privilege Level Restricted Low
+1082,51,RESTRICTED_HIGH,2,Privilege Level Restricted High
+1090,5,NOACK,0,Packet No Acknowledge
+1091,5,ACK,1,Packet Acknowledge
+1100,32,MISC_HI,31,BIM Misc Discrete High
+1101,32,MISC_LO,32,BIM Misc Discrete Low
+1102,32,MISC_INPUT,33,BIM Misc Discrete Input
+1103,32,UART_PASS_DISABLE,26,"BIM UART Passthrough Disable.  BIM_PARAM values 0, 1, and 2 indicate BIM UARTs 1, 2, and 3."
+1180,35,BIM,0,SCPI BIM Module
+1181,35,PIM,1,SCPI PIM Module
+1182,35,GPS,2,SCPI GPS Module
+1183,35,BAT_PMK,3,SCPI Pumpkin Battery Module
+1184,35,BAT_PMK_SM,4,SCPI Pumpkin Battery Switch Module
+1200,40,CRC_MISMATCH,16,EPS CRC Code Does Not Match Data
+1201,40,UNKNOWN_CMD,1,EPS Unknown Command Received
+1202,40,BAD_CMD_DATA,2,EPS Incorrect Command Data
+1203,40,BAD_CMD_CHAN,3,EPS Unknown Channel Selected
+1204,40,INACTIVE_CHAN,4,EPS Inactive Selected Channel
+1205,40,RESET_OCCURRED,19,EPS A Reset Has Occurred
+1206,40,ADC_ERR,20,EPS ADC Acquisition Error
+1207,40,EE_READ_ERR,32,EPS EEPROM Read Error
+1208,40,SPI_ERR,48,EPS Internal SPI Bus Error
+1209,40,NO_ERR,0,EPS No Error Reported
+1250,60,MEM,0,Memory Tlm Item
+1251,60,RELTIME,1,Relative Time Tlm Item
+1252,60,PAD,2,Pad Tlm Item
+1300,52,ERROR,0,Event Log Error
+1301,52,AUTONOMY,1,Event Log Autonomy
+1302,52,EVENT,2,Event Log Event
+1303,52,OVERFLOW,3,Event Log Overflow
+1350,17,NULL,0,An undefined node.
+1351,17,UDP,1,The node uses UDP/IP for messaging.
+1352,17,SERIAL,2,The node uses serial ports for messaging.
+1353,17,BUS,3,The node is the Bus.
+1400,70,UNSET,0,Unset
+1401,70,BPSK,1,BPSK
+1402,70,OQPSK,2,OQPSK
+1403,70,QPSK,3,QPSK
+1404,70,BFSK,4,BFSK
+1405,70,MSK,5,MSK
+1406,70,CPM,6,CPM
+1410,71,UNSET,0,Unset
+1411,71,RAW,1,Raw
+1412,71,LEOPARD,2,Leopard
+1413,71,IPCL,3,IPCL
+1414,71,VW,4,VW
+1415,71,RFC2427,5,RFC2427
+1416,71,CHAIN,6,Protocol Chaining
+1420,72,RX_OFF,0,RX Off
+1421,72,RX_ON,1,Rx On
+1422,73,TX_OFF,2,TX Off
+1423,73,TX_ON,3,TX On
+1424,73,TX_AUTO,6,TX Auto
+1425,74,TX_4W,4,TX Power 4 W
+1426,74,TX_1W,5,TX Power 1 W
+1500,100,SELECT_TLM,0,Sending the command to select the next analog telemetry item.
+1501,100,READ_TLM,1,Reading out the next analog telemetry item.
+1502,100,SELECT_HKP,2,Sending the command to select the next digital housekeeping item.
+1503,100,READ_HKP,3,Reading out the next digital housekeeping item.
+1504,101,SELECT_TLM,0,Sending the command to select the next analog telemetry item.
+1505,101,READ_TLM,1,Reading out the next analog telemetry item.
+1506,101,SELECT_HKP,2,Sending the command to select the next digital housekeeping item.
+1507,101,READ_HKP,3,Reading out the next digital housekeeping item.
+1803,51,FULL,3,Privilege Level Full
+2000,50,NULL,0,Node NULL
+2001,50,PL_01,1,Node Payload 1
+2002,50,PL_02,2,Node Payload 2
+2003,50,PL_03,3,Node Payload 3
+2004,50,PL_04,4,Node Payload 4
+2005,50,PL_05,5,Node Payload 5
+2006,50,PL_06,6,Node Payload 6
+2007,50,PL_07,7,Node Payload 7
+2008,50,PL_08,8,Node Payload 8
+2009,50,PL_09,9,Node Payload 9
+2010,50,PL_10,10,Node Payload 10
+2011,50,PL_11,11,Node Payload 11
+2012,50,PL_12,12,Node Payload 12
+2013,50,PL_13,13,Node Payload 13
+2014,50,PL_14,14,Node Payload 14
+2015,50,PL_15,15,Node Payload 15
+2016,50,PL_16,16,Node Payload 16
+2017,50,PL_17,17,Node Payload 17
+2018,50,PL_18,18,Node Payload 18
+2019,50,PL_19,19,Node Payload 19
+2020,50,PL_20,20,Node Payload 20
+2021,50,PL_21,21,Node Payload 21
+2022,50,PL_22,22,Node Payload 22
+2023,50,PL_23,23,Node Payload 23
+2024,50,PL_24,24,Node Payload 24
+2025,50,PL_25,25,Node Payload 25
+2026,50,PL_26,26,Node Payload 26
+2027,50,PL_27,27,Node Payload 27
+2028,50,PL_28,28,Node Payload 28
+2029,50,PL_29,29,Node Payload 29
+2030,50,PL_30,30,Node Payload 30
+2031,50,PL_31,31,Node Payload 31
+2032,50,PL_32,32,Node Payload 32
+2033,50,PL_33,33,Node Payload 33
+2034,50,PL_34,34,Node Payload 34
+2035,50,PL_35,35,Node Payload 35
+2036,50,PL_36,36,Node Payload 36
+2037,50,PL_37,37,Node Payload 37
+2038,50,PL_38,38,Node Payload 38
+2039,50,PL_39,39,Node Payload 39
+2040,50,PL_40,40,Node Payload 40
+2041,50,PL_41,41,Node Payload 41
+2042,50,PL_42,42,Node Payload 42
+2043,50,PL_43,43,Node Payload 43
+2044,50,PL_44,44,Node Payload 44
+2045,50,PL_45,45,Node Payload 45
+2046,50,PL_46,46,Node Payload 46
+2047,50,PL_47,47,Node Payload 47
+2048,50,BUS,48,Node Bus
+2049,50,UMB,49,Node Umbilical
+2050,50,GSE,50,Node GSE
+2051,50,RF_TLM,51,Node RF Downlink Telemetry
+2052,50,ACS,52,Node ACS
+2053,50,GPS,53,Node GPS
+2054,50,RF_CMD,54,Node RF Command Uplink
+2100,53,NULL,0,Service Null
+2101,53,PL_CMD,1,Service Payload Command Forward
+2102,53,PL_TLM,2,Service Payload Telemetry
+2103,53,BUS_CMD,3,Service Bus Command
+2104,53,BUS_TLM_PKT,4,Service Bus Telemetry Packet
+2105,53,BUS_TLM_STREAM,5,Service Bus Telemetry Stream
+2106,53,PL_DATA_STORE,6,Service Payload Data Storage
+2107,53,PL_DATA_DOWNLINK,7,Service Payload Data Downlink
+2108,53,PL_DATA_LOAD,8,Service Payload Data Load
+2109,53,TIME_SYNC,9,Service Time Sync
+3463,4181,37,37,
+3464,4181,38,38,
+3465,4181,39,39,
+3466,4181,40,40,
+3467,4181,41,41,
+3468,4181,42,42,
+3469,4181,43,43,
+3470,4181,44,44,
+3471,4181,45,45,
+3472,4181,46,46,
+3473,4181,47,47,
+3474,4181,48,48,
+3475,4181,49,49,
+3476,4181,50,50,
+3477,4181,51,51,
+3478,4181,52,52,
+3479,4181,53,53,
+3480,4181,54,54,
+3481,4181,55,55,
+3482,4181,56,56,
+3483,4181,57,57,
+3484,4181,58,58,
+3485,4181,59,59,
+3486,4181,60,60,
+3487,4181,61,61,
+3488,4181,62,62,
+3489,4181,63,63,
+3490,4181,64,64,
+3491,4181,65,65,
+3492,4181,66,66,
+3493,4181,67,67,
+3494,4181,68,68,
+3495,4181,69,69,
+3496,4181,70,70,
+3497,4181,71,71,
+3498,4181,72,72,
+3499,4181,73,73,
+3500,4181,74,74,
+3501,4181,75,75,
+3502,4181,76,76,
+3503,4181,77,77,
+3504,4181,78,78,
+3505,4181,79,79,
+3506,4181,80,80,
+3507,4181,81,81,
+3508,4181,82,82,
+3509,4181,83,83,
+3510,4181,84,84,
+3511,4181,85,85,
+3512,4181,86,86,
+3513,4181,87,87,
+3514,4181,88,88,
+3515,4181,89,89,
+3516,4181,90,90,
+3517,4181,91,91,
+3518,4181,92,92,
+3519,4181,93,93,
+3520,4181,94,94,
+3521,4181,95,95,
+3522,4181,96,96,
+3523,4181,97,97,
+3524,4181,98,98,
+3525,4181,99,99,
+6200,4400,VALID,0,
+6201,4400,INVALID,1,
+6202,4401,SOL_COMPUTED,0,
+6203,4401,INSUFFICIENT_OBS,1,
+6204,4401,NO_CONVERGENCE,2,
+6205,4401,SINGULARITY,3,
+6206,4401,COV_TRACE,4,
+6207,4401,COLD_START,5,
+6208,4401,V_H_LIMIT,6,
+6209,4401,VARIANCE_EXCEEDS_LIMIT,7,
+6210,4401,INTEGRITY_WARNING,8,
+6211,4401,PENDING,9,
+6212,4401,INVALID_FIX,10,
+6213,4401,UNAUTHORIZED,11,
+6214,4402,NONE,0,
+6215,4402,FIXEDPOS,1,
+6216,4402,FIXEDHEIGHT,2,
+6217,4402,DOPPLER_VELOCITY,8,
+6218,4402,SINGLE,16,
+6219,4402,PSRDIFF,17,
+6220,4402,WAAS,18,
+6221,4402,PROPAGATED,19,
+6222,4402,OMNISTAR,20,
+6223,4402,L1_FLOAT,32,
+6224,4402,IONOFREE_FLOAT,33,
+6225,4402,NARROW_FLOAT,34,
+6226,4402,L1_INT,48,
+6227,4402,NARROW_INT,50,
+6228,4402,OMNISTAR_HP,64,
+6229,4402,OMNISTAR_XP,65,
+6230,4402,PPP_CONVERGING,68,
+6231,4402,PPP,69,
+6232,4402,OPERATIONAL,70,
+6233,4402,WARNING,71,
+6234,4402,OUT_OF_BOUNDS,72,
+6300,15,LOW,50,Telemetry Low Priority Level
+6301,15,NOMINAL,100,Telemetry Nominal Priority Level
+6302,15,HIGH,150,Telemetry High Priority Level
+6350,16,REAL_TIME,0,Real-time Telemetry Frame
+6351,16,LOG_FILE,1,FSW Log or File Dump Telemetry Frame
+6352,16,PL_DOWNLINK,2,Payload Downlink Service Telemetry Frame
+7000,12,HIGH_RATE,0,High Rate Activity
+7001,12,CYCLIC,1,Cyclic Activity
+7002,12,20_HZ,2,20 Hz Activity
+7050,14,NULL,0,Autonomy Function Null
+7052,14,CMD,1,Autonomy Function Raw Command
+7053,14,LOAD_SCS,2,Autonomy Function Load SCS
+7080,13,ABS,0,Absolute Time
+7081,13,MET,1,Mission Elapsed Time
+7090,299,UNDEFINED,0,Undefined
+7091,299,DEFINED,1,Defined
+7092,3,FALSE,0,False
+7093,3,TRUE,1,True
+7094,297,OFF,0,Off
+7095,297,ON,1,On
+7096,298,DISABLE,0,Disable
+7097,298,ENABLE,1,Enable
+7142,4,NO,0,No.
+7143,4,YES,1,Yes.
+7211,3221,OK,0,SSB indicates OK
+7212,3221,ERR,1,SSB indicates an error
+7213,3222,SUB_RES,0,Reserved
+7271,3261,NoEntry,0,Entry is undefined
+7272,3261,Idle,1,Entry is defined though idle
+7273,3261,Active,2,Entry is active in normal mode
+7275,3261,CountActive,3,Entry is in countdown report state - return to active
+7276,3261,CountIdle,4,Entry is in countdown report state - return to idle
+7277,3261,CountDelete,5,Entry is in countdown report state - delete entry
+7342,3263,NoEntry,0,Group Entry not Defined
+7343,3263,Idle,1,Group Entry Defined though Idle
+7344,3263,Active,2,Group Entry is Active
+7345,3264,00,0,Subid 0x00
+7346,3264,01,1,Subid 0x01
+7347,3264,02,2,Subid 0x02
+7348,3264,03,3,Subid 0x03
+7349,3264,04,4,Subid 0x04
+7350,3264,05,5,Subid 0x05
+7351,3264,06,6,Subid 0x06
+7352,3264,07,7,Subid 0x07
+7451,3301,GOTO,0,List Operation goto
+7452,3301,CALL,1,List Operation call
+7453,3301,RETURN,7,List Operation function return
+7491,3341,DONT_CHANGE,0,Don't Change the item
+7492,3341,CHANGE,1,Change the item
+7493,3342,FIRST,0,"Change for first pktid, subid"
+7494,3342,ALL,1,"Change for all packets, subids"
+7495,3343,SET_ENTRY,0,Set by Entry
+7496,3343,CHANGE_ENTRY,1,Change by Entry
+7497,3343,CHANGE_PKTID,2,Change by Packet ID
+7498,3343,CHANGE_GROUP,3,Change by Group
+7500,3344,SET,0,Permanent Change
+7501,3344,ADJUST,1,Temporary Change
+7507,3346,SYS_REBOOT,0,SW Reset System Reboot
+7511,3346,WDOG,1,SW Reset Hardware Watchdog
+7512,3346,APP_RESTART,2,SW Reset Application Restart
+7671,3301,HALT,2,List Operation Halt
+7672,3301,NEXT,3,List Operation next
+7711,3461,RF,0,RF Cmd Uplink Acquisition Interface
+7712,3461,UMB,1,UMB Acquisition Interface
+7713,3461,ACS,2,ACS Acquisition Interface
+7715,3461,GPS,3,GPS  Acquisition Interface
+7716,3461,PL_A,4,Payload A Acquisition Interface
+7717,3461,PL_B,5,Payload B Acquisition Interface
+7718,3461,PL_C,6,Payload C Acquisition Interface
+7752,3501,T1,0,Thread 1
+7753,3501,T2,1,Thread 2
+7754,3501,T3,2,Thread 3
+7755,3501,T4,3,Thread 4
+7756,3501,T5,4,Thread 5
+7757,3501,T6,5,Thread 6
+7758,3501,T7,6,Thread 7
+7759,3501,T8,7,Thread 8
+7771,3521,Idle,0,Idle
+7772,3521,Active,1,Active
+7773,3521,Delay,2,Delay
+7774,3521,Until,3,Until
+7775,3521,End,4,End
+7776,3521,Error,5,Error
+7851,3561,GROUP_8,1,TLM Group 8
+7852,3561,GROUP_7,2,TLM Group 7
+7853,3561,GROUP_6,4,TLM Group 6
+7854,3561,GROUP_5,8,TLM Group 5
+7855,3561,GROUP_4,16,TLM Group 4
+7856,3561,GROUP_3,32,TLM Group 3
+7857,3561,GROUP_2,64,TLM Group 2
+7858,3561,GROUP_1,128,TLM Group 1
+7871,3581,CODE,1,Select SSB by 16-bit Error Code
+7872,3581,CATEGORY,2,Select SSB's by Error Category
+7874,3581,ALL,3,Select ALL SSBs
+7875,3582,CLEAR_CNTRS,1,Clear SSB Bits and Counters
+7876,3583,RESET_ALL,0,Reset All
+7878,3583,RESET_CB,1,Reset Tlm Stream
+7879,3583,RESET_MEM_CHAR,2,Reset Mem Characteristics
+7880,3582,CLEAR_BIT,0,Clear SSB Bit Only
+7881,3583,RESET_REPORT,3,Reset Tlm Stream Reporting
+7882,3583,NORMALIZE_REPORT,4,Normalize Tlm Stream Reporting
+7883,3583,REMOVE_TST,5,Remove Tlm Stream Reporting Test Entries
+7884,3583,RESET_ITEMS,6,Reset Tlm Items
+7885,3583,NORMALIZE_ALL,7,Normalize All
+7900,4062,THREAD_HALT,0,SCS Thread Halt
+7901,4062,THREAD_EXE_L1,1,SCS Thread Begin Execution on List 1
+7902,4062,THREAD_EXE_L2,2,SCS Thread Begin Execution on List 2
+7903,4062,THREAD_EXE_L3,3,SCS Thread Begin Execution on List 3
+7904,4062,THREAD_EXE_L4,4,SCS Thread Begin Execution on List 4
+7905,4062,THREAD_EXE_L5,5,SCS Thread Begin Execution on List 5
+7906,4062,THREAD_EXE_L6,6,SCS Thread Begin Execution on List 6
+7907,4062,THREAD_EXE_L7,7,SCS Thread Begin Execution on List 7
+7908,4062,THREAD_EXE_L8,8,SCS Thread Begin Execution on List 8
+7909,4062,THREAD_EXE_L9,9,SCS Thread Begin Execution on List 9
+7910,4062,THREAD_EXE_L10,10,SCS Thread Begin Execution on List 10
+7911,4062,THREAD_STEP_IMMED,251,SCS Thread Step Immediate
+7912,4062,THREAD_STEP,252,SCS Thread Step
+7913,4062,THREAD_EXIT_WAIT,253,SCS Thread Exit Wait
+7914,4062,THREAD_PAUSE,254,SCS Thread Pause
+7915,4062,THREAD_RESUME,255,SCS Thread Resume
+7931,3583,RESET_MEM_DUMP,8,Reset Mem Dump
+7932,3583,RESET_PEEK,9,Reset Mem Peek
+7935,3583,RESET_FRAME,10,Reset Tlm Stream Frame Control
+7967,3641,0,0,Peek Entry 0
+7968,3641,1,1,Peek Entry 1
+7969,3641,2,2,Peek Entry 2
+7970,3641,3,3,Peek Entry 3
+7971,3641,4,4,Peek Entry 4
+8031,3681,UART1,0,UART1 (/dev/ttyO1)
+8032,3681,UART2,1,UART2 (/dev/ttyO2)
+8033,3682,9600,13,9600 Baud
+8034,3682,19200,14,19200 Baud
+8036,3682,38400,15,38400 Baud
+8037,3682,57600,4097,57600 Baud
+8038,3682,115200,4098,115200 Baud
+8152,3761,BNK0,0,Bank 0
+8155,3761,BNK1,1,Bank 1
+8156,3761,DEFLT,2,Default
+8157,3762,BNK0,0,Bank 0
+8158,3762,BNK1,1,Bank 1
+8159,3762,DEFLT,2,Default
+8170,3681,UART3,2,UART3 (/dev/ttyO3)
+8171,3681,UART4,3,UART4 (/dev/ttyO4)
+8172,3681,UART5,4,UART5 (/dev/ttyO5)
+8173,3681,USB0,5,USB UART0 (/dev/ttyUSB0)
+8174,3681,USB1,6,USB UART1 (/dev/ttyUSB1)
+8175,3681,USB2,7,USB UART2 (/dev/ttyUSB2)
+8176,3681,USB3,8,USB UART3 (/dev/ttyUSB3)
+8177,3681,GS0,9,Gadget UART 0 (/dev/ttyGS0)
+8178,3681,NONE,255,No serial device assigned.
+8191,3581,SSB,0,Select SSB Number (Bit number)
+8211,3781,DEFAULT,0,Load default configuration  No other parameters required.
+8212,3781,READ,1,"Read a saved configuration.  This option only operates on one bank, given in the BANK parameter."
+8213,3781,LOAD,2,Load saved configuration.  Both banks are tried and the first valid configuration is used.  No other parameters required.
+8214,3781,SET,3,Set the value of an item
+8215,3781,WRITE,4,Save current configuration.  Both banks are saved based on the current working values.  No other parameters required.
+8216,3781,ERASE,5,"Erase a saved configuration.  This option only operates on one bank, given in the BANK parameter."
+8220,3782,AUT_ENA_GLOBAL,0,NV Field 0 - Autonomy Global Enable.  Contains a single byte entry 0.
+8221,3782,AUT_ENA_SELECT,1,NV Field 1 - Autonomy Selected Enables.  Contains 16 bit entries 0 - 15.  Each bit is the enable flag for an Autonomy rule.
+8222,3782,AUT_RULE_0,2,NV Field 2 - Autonomy Rule 0
+8223,3782,AUT_RULE_1,3,NV Field 3 - Autonomy Rule 1
+8224,3782,AUT_RULE_2,4,NV Field 4 - Autonomy Rule 2
+8225,3782,SCID,5,NV Field 5 - Spacecraft ID.  Contains a single byte entry 0.
+8226,3782,INIT_BOOT_FLAG,6,NV Field 6 - Initial Boot Flag.  Contains a single byte entry 0.
+8227,3782,SCS_TIME_SELECT,7,NV Field 7 - SCS Time Selection.  Contains a single byte entry 0.
+8228,3782,NONE,9,NV Field - None
+8229,3782,LEAP_SECS,8,NV Field 8 - Leap Seconds.  Contains a single byte entry 0.
+8391,3881,NV_ENTRY_00,0,Autonomy Rule - NV Rule 0
+8392,3881,NV_ENTRY_01,1,Autonomy Rule - NV Rule 1
+8393,3881,NV_ENTRY_02,2,Autonomy Rule - NV Rule 2
+8394,3881,TEST_NOOP,3,Autonomy Rule - Test NOOP Command
+8395,3881,LOAD_SCS,4,Autonomy Rule - Load All SCS Command Lists
+8396,3881,EXE_SCS_1,5,Autonomy Rule - Execute SCS Command List 1
+8397,3881,AUT_SPARE_06,6,Autonomy Rule - RAM Spare
+8398,3881,AUT_SPARE_07,7,Autonomy Rule - RAM Spare
+8399,3881,AUT_SPARE_08,8,Autonomy Rule - RAM Spare
+8400,3881,AUT_SPARE_09,9,Autonomy Rule - RAM Spare
+8401,3881,AUT_SPARE_10,10,Autonomy Rule - RAM Spare
+8402,3881,AUT_SPARE_11,11,Autonomy Rule - RAM Spare
+8403,3881,AUT_SPARE_12,12,Autonomy Rule - RAM Spare
+8404,3881,AUT_SPARE_13,13,Autonomy Rule - RAM Spare
+8405,3881,AUT_SPARE_14,14,Autonomy Rule - RAM Spare
+8406,3881,AUT_SPARE_15,15,Autonomy Rule - RAM Spare
+8431,3901,EVT_ERROR,0,
+8432,3901,EVT_CTDH,1,
+8434,3901,EVT_SCS,2,
+8435,3901,EVT_PLD,3,
+8436,3901,EVT_AUTO,4,
+8437,3901,EVT_SCRIPT,5,
+8438,3901,EVT_OVERFLOW,6,
+8571,3981,NULL,0,No Autonomy function defined.
+8573,3981,LOAD_SCS,2,Load all 10 SCS command lists from disk to memory
+8584,3982,GA_DISABLE,0,Global Autonomy Disable
+8585,3982,GA_ENABLE,1,Global Autonomy Enable
+8586,3982,DISABLE_ALL,2,Disable All Actions
+8587,3982,ENABLE_ALL,3,Enable All Actions
+8588,3982,DISABLE_SELECTED,4,Disable Selected Actions
+8589,3982,ENABLE_SELECTED,5,Enable Selected Actions
+8590,3982,CP_ENA_FROM_NV,6,Copy Enable From NV variables
+8591,3982,CP_ENA_TO_NV,7,Copy Enable To NV variables
+8592,3982,RESET_ALL_PC,8,Reset All Persistence Counters
+8593,3982,RESET_SEL_PC,9,Reset Selected Persistence Counters
+8594,3982,RESET_ALL_OS,10,Reset All One Shots
+8595,3982,RESET_SEL_OS,11,Reset Selected One Shots
+8596,3982,RESET_ALL_DEL,12,Reset All Delays
+8597,3982,RESET_SEL_DEL,13,Reset Selected Delays
+8611,4001,NULL,0,No trigger defined.
+8612,4001,WITHIN_DELTA,1,Within Delta
+8613,4001,OUTSIDE_DELTA,2,Outside Delta
+8614,4001,GREATER,3,Greater
+8615,4002,PERS_RESET,0,
+8616,4002,PERS_ACCUM,1,
+8617,4003,ONE_SHOT,0,
+8618,4003,REPETATIVE,1,
+8619,4004,RELATIVE,0,
+8620,4004,ABSOLUTE,1,
+8631,3264,08,8,Subid 0x08
+8632,3264,09,9,Subid 0x09
+8633,3264,0A,10,Subid 0x0A
+8634,3264,0B,11,Subid 0x0B
+8635,3264,0C,12,Subid 0x0C
+8636,3264,0D,13,Subid 0x0D
+8637,3264,0E,14,Subid 0x0E
+8638,3264,0F,15,Subid 0x0F
+8851,3264,10,16,SubID 0x10
+8852,3264,11,17,SubID 0x11
+8853,3264,12,18,SubID 0x12
+8854,3264,13,19,SubID 0x13
+8855,3264,14,20,SubID 0x14
+8856,3264,15,21,SubID 0x15
+8857,3264,16,22,SubID 0x16
+8858,3264,17,23,SubID 0x17
+8871,4021,ACTIVE,1,Active State
+8872,4021,IDLE,0,Idle State
+8951,4061,CURRENT,0,Current Thread
+8952,4061,T1,1,Thread 1
+8953,4061,T2,2,Thread 2
+8954,4061,T3,3,Thread 3
+8955,4061,T4,4,Thread 4
+8956,4061,T5,5,Thread 5
+8957,4061,T6,6,Thread 6
+8958,4061,T7,7,Thread 7
+8959,4061,T8,8,Thread 8
+8971,4081,DISABLE_GLOBAL,0,Disable telemetry logging globally by stopping the telemetry log activity.
+8972,4081,ENABLE_GLOBAL,1,Enable telemetry logging globally by resuming the telemetry log activity.
+8973,4081,DISABLE_ALL,2,Disable all telemetry log entries
+8974,4081,ENABLE_ALL,3,Enable all telemetry log entries
+8975,4081,DISABLE_SELECTED,4,Disable selected telemetry log entry.  The telemetry log entry is required in the LOG_ENTRY parameter.
+8976,4081,ENABLE_SELECTED,5,Enable selected telemetry log entry.  The telemetry log entry is required in the LOG_ENTRY parameter.
+8978,4081,REMOVE,6,Remove Entry
+8991,4101,TLOG_ENT_00,0,Telemetry Log Entry 0
+8992,4101,TLOG_ENT_01,1,Telemetry Log Entry 1
+8993,4101,TLOG_ENT_02,2,Telemetry Log Entry 2
+8994,4101,TLOG_ENT_03,3,Telemetry Log Entry 3
+8995,4101,TLOG_ENT_04,4,Telemetry Log Entry 4
+8996,4101,TLOG_ENT_05,5,Telemetry Log Entry 5
+8997,4101,TLOG_ENT_06,6,Telemetry Log Entry 6
+8998,4101,TLOG_ENT_07,7,Telemetry Log Entry 7
+8999,4101,TLOG_ENT_08,8,Telemetry Log Entry 8
+9000,4101,TLOG_ENT_09,9,Telemetry Log Entry 9
+9001,4101,TLOG_ENT_10,10,Telemetry Log Entry 10
+9002,4101,TLOG_ENT_11,11,Telemetry Log Entry 11
+9003,4101,TLOG_ENT_12,12,Telemetry Log Entry 12
+9004,4101,TLOG_ENT_13,13,Telemetry Log Entry 13
+9005,4101,TLOG_ENT_14,14,Telemetry Log Entry 14
+9006,4101,TLOG_ENT_15,15,Telemetry Log Entry 15
+9007,4101,TLOG_ENT_16,16,Telemetry Log Entry 16
+9008,4101,TLOG_ENT_17,17,Telemetry Log Entry 17
+9009,4101,TLOG_ENT_18,18,Telemetry Log Entry 18
+9010,4101,TLOG_ENT_19,19,Telemetry Log Entry 19
+9011,4121,DISABLE,0,Disable Peformance Monitor statistics collection
+9012,4121,ENABLE,1,Enable Peformance Monitor statistics collection
+9013,4121,RESET,2,Reset the Performance Monitor accumulated statistics.
+9030,4101,TLOG_ENT_20,20,Telemetry Log Entry 20
+9031,4101,TLOG_ENT_21,21,Telemetry Log Entry 21
+9032,4101,TLOG_ENT_22,22,Telemetry Log Entry 22
+9033,4101,TLOG_ENT_23,23,Telemetry Log Entry 23
+9091,3583,RESET_SCS_CONTROL,11,Reset SCS Control
+9092,3583,RESET_SCS_ALL,12,Reset SCS All
+9093,3583,RESET_AUTONOMY,13,Reset Autonomy
+9094,3583,RESET_MEM_LOAD,14,Reset Mem Load
+9095,3583,RESET_FILE_DUMP,15,Reset File Dump
+9151,4181,00,0,
+9152,4181,01,1,
+9153,4181,02,2,
+9154,4181,03,3,
+9155,4181,04,4,
+9156,4181,05,5,
+9157,4181,06,6,
+9158,4181,07,7,
+9159,4181,08,8,
+9160,4181,09,9,
+9161,4181,10,10,
+9162,4181,11,11,
+9163,4181,12,12,
+9164,4181,13,13,
+9165,4181,14,14,
+9166,4181,15,15,
+9167,4181,16,16,
+9168,4181,17,17,
+9169,4181,18,18,
+9170,4181,19,19,
+9171,4181,20,20,
+9172,4181,21,21,
+9173,4181,22,22,
+9174,4181,23,23,
+9211,4201,INIREL_BYPASS,0,Bypass initialization
+9212,4201,INIREL_COMPARE,1,Perform initialization
+9238,3981,RAW_CMD,1,The Autonomy rule executes a single command when fired.
+9251,3982,CP_ENTRY_FROM_NV,14,Copy Entry from NV variables
+9252,3982,CP_ENTRY_TO_NV,15,Copy Entry to NV variables
+9351,4181,24,24,
+9451,4181,25,25,
+9452,4181,26,26,
+9453,4181,27,27,
+9454,4181,28,28,
+9455,4181,29,29,
+9456,4181,30,30,
+9457,4181,31,31,
+9458,4181,32,32,
+9459,4181,33,33,
+9460,4181,34,34,
+9461,4181,35,35,
+9462,4181,36,36,
+9471,4281,ERR,0,Error
+9472,4281,OK,1,OK
+9533,4324,SSOH_TLM,0,Log for Stored State Of Health Telemetry
+9534,4324,GPS_OD_DATA,1,Log for GPS Orbit Determination Data
+9535,4324,GPS_SC_DATA,2,Log for GPS Science Data
+9536,4324,EVENT,3,Log for Events
+9537,4324,IF,4,Log for Interface Data
+9538,4325,CYCLE_ONCE,0,Log Playback Cycle Once
+9539,4325,CYCLE_CONT,1,Log Playback Cycle Continuous
+9540,4326,PRIMARY,3,Primary Boot Relay Status
+9541,4326,REDUNDANT,0,Red Boot Relay Status
+9542,4327,DISABLED,0,Watchdog Reset Disabled
+9543,4327,ENABLED,1,Watchdog Reset Enabled
+9544,4328,NONE,0,No Watchdog Event
+9545,4328,OCCURRED,1,Watchdog Event Occurred
+9549,4330,VALID,0,GPS clock model is valid
+9550,4330,CONVERGING,1,GPS clock model is near validity
+9551,4330,ITERATING,2,GPS clock model is iterating towards validity
+9552,4330,INVALID,3,GPS clock model is not valid
+9553,4330,ERROR,4,GPS clock model error
+9554,4331,UNKNOWN,20,GPS time validity is unknown
+9555,4331,APPROXIMATE,60,GPS time is set approximately
+9556,4331,COARSEADJUSTING,80,GPS time is approaching coarse precision
+9557,4331,COARSE,100,GPS time is valid to coarse precision
+9558,4331,COARSESTEERING,120,GPS time is coarse set and is being steered
+9559,4331,FREEWHEELING,130,GPS position is lost and the range bias cannot be calculated
+9560,4331,FINEADJUSTING,140,GPS time is adjusting to fine precision
+9561,4331,FINE,160,GPS time has fine precision
+9562,4331,FINEBACKUPSTEERING,170,GPS time is fine set and is being steered by the backup system
+9563,4331,FINESTEERING,180,GPS time is fine set and is being steered
+9564,4331,SATTIME,200,GPS time from satellite.  Only used in logs containing sat. data
+9565,4332,INACTIVE,0,Log record inactive
+9566,4332,ACTIVE,1,Log record active
+9567,4333,INACTIVE,0,Log playback inactive
+9568,4333,SEQUENTIAL,1,Log playback sequential
+9569,4333,RANDOM,2,Log playback random
+9600,11,NULL,0,Activity Null
+9601,11,SPARE_01,1,Activity Spare ID
+9602,11,SPARE_02,2,Activity Spare ID
+9603,11,SPARE_03,3,Activity Spare ID
+9604,11,MSG_ACQ,4,Activity Serial Acquisition
+9605,11,TLM_STREAM,5,Activity Bus Telemetry Stream
+9606,11,BG_DIAG,6,Activity Background Diagnostics
+9607,11,DBG_SHELL,7,Activity Debug Monitor Shell
+9608,11,EPS,8,Activity EPS Collection
+9609,11,RF,9,Activity RF Interface
+9610,11,SCS_CMD,10,Activity Stored Command Sequence
+9611,11,ACS,11,Activity ACS Collection
+9612,11,TLM_ITEM,12,Activity Telemetry Item Definition
+9613,11,AUTONOMY,13,Activity Autonomy
+9614,11,EVENT_LOG,14,Activity Event Logging
+9615,11,TLM_LOG,15,Activity Telemetry Logging
+9616,11,SYSTEM,16,Activity System Maintenance
+9617,11,BIM,17,Activity BIM MCU Collection
+9618,11,PIM,18,Activity PIM MCU Collection
+9619,11,BATTERY,19,Activity Battery Collection
+9620,11,UDP_RECV,20,Activity UDP Receive
+9621,11,TLM_PKT,21,Activity Bus Telemetry Packet
+9622,11,LINUX_SHELL,22,Activity External Linux Shell
+9623,11,GPS,23,Activity GPS MCU Telemetry Collection
+9624,11,BAT_PMK_SM,24,Activity Battery Pumpkin Switch Module MCU Telemetry Collection
+9641,4407,IN_SPEC,0,Within spec
+9642,4407,WARNING,1,Warning
+9643,4408,OK,0,OK
+9644,4408,WARNING,1,Warning
+9645,4409,NO_ERROR,0,No Error
+9646,4409,ERROR,1,Error
+9800,4329,OK,0,OK
+9801,4329,BAD_APID,1,Bad Ap ID
+9802,4329,BAD_OPCODE,2,Bad Opcode
+9803,4329,BAD_DATA,3,Bad Data
+9804,4329,CMD_SRVC_OVERRUN,8,Command Service Overrun
+9805,4329,CMD_APID_OVERRUN,9,Command Ap ID Overrun
+9806,4329,NO_CMD_DATA,7,No Command Data
+9807,4329,TABLES_BUSY,12,Tables Busy
+9808,4329,FLASH_NOT_ARMED,13,Flash Not Armed
+9900,4500,UNDEFINED,0,Undefined
+9901,4500,RAW,1,Raw
+9902,4500,FIX_GAIN_NO_BIAS,2,Fixed Gain No Bias
+9903,4500,FIX_GAIN,3,Fixed Gain
+9904,4500,KALMAN,4,Kalman (MEKF)
+9905,4501,SUN_PT,0,Sun Point
+9906,4501,FINE_REF_PT,1,Fine Ref Point
+9907,4502,IDLE,0,Idle
+9908,4502,INT,1,Int
+9909,4502,EXT,2,Ext
+9910,4503,TRQ,0,TRQ
+9911,4503,SPD,1,SPD
+9912,4503,PWM,2,PWM
+9913,4504,FAULT,0,FAULT
+9914,4504,OK,1,OK
+9915,4505,POS,0,POS
+9916,4505,NEG,1,NEG
+9917,4506,IDLE,0,IDLE
+9918,4506,INIT,1,INITIALIZE
+9919,4506,STARID,2,STARID
+9920,4506,TRACK,3,TRACK
+9921,4506,PHOTO,4,PHOTO
+9922,4506,CAL,5,CAL
+9923,4507,IDLE,0,IDLE
+9924,4507,INIT,1,INIT
+9925,4507,WAIT_IMAGE1,2,WAITING FOR IMAGE 1
+9926,4507,WAIT_IMAGE2,3,WAITING FOR IMAGE 2
+9927,4507,CALC_RATE,4,CALCULATE RATE
+9928,4507,MK_UN_VECTORS,5,MAKE UNIT VECTORS
+9929,4507,WAIT_TRISTAR,6,AWAITING TRISTAR
+9930,4507,OK_FOUND_4,7,OK FOUND 4
+9931,4507,OK_FOUND_3,8,OK FOUND 3
+9932,4507,TIME_OUT,9,TIME OUT
+9933,4507,BAD,10,BAD
+9934,4507,NO_MATCH,11,NO_MATCH
+9935,4508,OK,0,OK
+9936,4508,BAD,2,BAD
+9937,4508,TOO_FEW_STARS,3,TOO FEW STARS
+9938,4508,QUEST_FAILED,4,QUEST FAILED
+9939,4508,RES_TOO_HIGH,5,RESIDUALS TOO HIGH
+9940,4509,OK,0,OK
+9941,4509,BAD,2,BAD
+9942,4510,UNDEFINED,0,UNDEFINED
+9943,4510,SEARCH_INIT,2,SEARCH_INIT
+9944,4510,SEARCHING,3,SEARCHING
+9945,4510,WAITING,4,WAITING
+9946,4510,CONVERGING,5,CONVERGING
+9947,4510,ON_SUN,6,ON_SUN
+9948,4510,NOT_ACTIVE,7,NOT_ACTIVE
+9949,4511,OFF,0,OFF
+9950,4511,ON_POS,1,ON_POS
+9951,4511,ON_NEG,2,ON_NEG
+9952,4511,AUTO,3,AUTO
+9953,4512,UNDEFINED,0,UNDEFINED
+9954,4512,MEASURED,4,MEASURED
+9955,4512,MODELED,5,MODELED
+9956,4513,DS,0,Disabled
+9957,4513,EN,1,Enabled
+9958,4514,POS,0,Positive
+9959,4514,NEG,1,Negative
+9960,4515,GOOD,0,GOOD
+9961,4515,COARSE,1,COARSE
+9962,4515,BAD,2,BAD
+9963,4516,NEW_DATA_IN,0,New Data In
+9964,4516,COMMITTING,1,Committing
+9965,4516,COMMITTED,2,Committed
+9966,4516,EXTRACTING,3,Extracting
+9967,4516,EXTRACTED,4,Extracted
+9968,4516,CALC_CRC,5,Calculating CRC
+9969,4516,CRC_READY,6,CRC Ready
+9970,4516,INV_TBL,7,Invalid Table
+9971,4516,IDLE,8,Idle
+9972,4516,FLASH_BURN_COPY,9,Flash Burn Copy
+9973,4516,FLASH_BURN_DIRECT,10,Flash Burn Direct
+9974,4516,FLASH_EXTRACT,11,Flash Extract
+9975,4516,FLASH_BURN_DONE,12,Flash Burn Done
+9976,4516,FLASH_EXTRACT_DONE,13,Flash Extract Done
+9980,4517,FLASH,0,FLASH
+9981,4517,Compiled,1,Compiled
+9982,4518,ERROR,0,Error
+9983,4518,AUTO,1,Auto
+9984,4518,EVENT,2,Event
+9985,4518,OVERFLOW,3,Overflow
+9986,4519,IDLE,0,Idle
+9987,4519,INTERNAL,1,Internal
+9988,4519,EXTERNAL,2,External
+9989,4520,ALL_WHEELS,0,All Wheels
+9990,4520,WHEEL_1,1,Wheel 1
+9991,4520,WHEEL_2,2,Wheel 2
+9992,4520,WHEEL_3,3,Wheel 3
+9993,4521,ALL_RODS,0,All Torque Rods
+9994,4521,ROD_1,1,Torque Rod 1
+9995,4521,ROD_2,2,Torque Rod 2
+9996,4521,ROD_3,3,Torque Rod 3
+9997,4522,OFF,0,Off
+9998,4522,ON_POS,1,On Positive
+9999,4522,ON_NEG,2,On Negative
+10000,4522,AUTO,3,Auto
+10001,4523,DS,0,Disable
+10002,4523,EN,1,Enable
+10003,4524,ONE,0,One
+10004,4524,1_5,1,1.5
+10005,4524,2,2,2
+10006,4524,3,3,3
+10007,4524,4,4,4
+10008,4524,SIX,5,Six
+10009,4524,EIGHT,6,Eight
+10010,4525,LINEAR,0,Linear
+10011,4525,LOG,1,Log
+11000,4600,HEX,0,Data Storage File ID is 16 Hex characters
+11001,4600,ASCII,1,Data Storage File ID is 8 ASCII characters
+11100,4700,MCU_RESET,0,GPS MCU Reset
+11101,4700,I2C_RESET,1,GPS I2C Reset
+11102,4700,SELF_TEST_START,2,GPS Self Test Start
+11103,4700,SELF_TEST_STOP,3,GPS Self Test Stop
+11104,4700,SELF_TEST_RESTART,4,GPS Self Test Restart
+11105,4700,MCU_LED_OFF,5,GPS MCU LED Off
+11106,4700,MCU_LED_ON,6,GPS MCU LED On
+11107,4700,MCU_LED_FLASH,7,GPS MCU LED Flash
+11108,4700,MCU_LED_ACTIVITY,8,GPS MCU LED Activity
+11109,4700,CLK_OFF,9,GPS Clock Off
+11110,4700,CLK_ON,10,GPS Clock On
+11111,4700,DEBUG_OFF,11,GPS Debug Off
+11112,4700,DEBUG_ON,12,GPS Debug On
+11113,4700,RCVR_PWR_OFF,13,GPS Receiver Power Off
+11114,4700,RCVR_PWR_ON,14,GPS Receiver Power On
+11115,4700,RESET_OFF,15,GPS Reset Off
+11116,4700,RESET_ON,16,GPS Reset On
+11117,4700,LED_OFF,17,GPS LED Off
+11118,4700,LED_ON,18,GPS LED On
+11119,4700,LED_GPS,19,GPS LED GPS
+11120,4700,PASS_OFF,20,GPS Passthrough Off
+11121,4700,PASS_ON,21,GPS Passthrough On
+11122,4700,LOG_OFF,22,GPS Log Off
+11123,4700,LOG_GGA,23,GPS Log GGA
+11124,4700,LOG_GSV,24,GPS Log GSV
+11125,4700,LOG_GSA,25,GPS Log GSA
+11126,4700,LOG_RMC,26,GPS Log RMC
+11127,4700,LOG_VTG,27,GPS Log VTG
+11128,4700,LOG_ZDA,28,GPS Log ZDA
+11129,4700,LOGPOS_BESTPOS,29,GPS Log Pos BESTPOS
+11130,4700,LOGPOS_BESTXYZA,30,GPS Log Pos BESTXYZA
+11131,4700,LOGPOS_BESTXYZB,31,GPS Log Pos BESTXYZB
+11133,4701,ERRIDX1,0,Error Index 0 for error categories with 1 index
+12000,41,MCU_RESET,0,Pumpkin Battery Reset MCU
+12001,41,I2C_RESET,1,Pumpkin Battery Reset MCU I2C Interface
+12002,41,SELF_TEST_START,2,Pumpkin Battery Start MCU Self Test
+12003,41,SELF_TEST_STOP,3,Pumpkin Battery Stop MCU Self Test
+12004,41,SELF_TEST_RESTART,4,Pumpkin Battery Restart MCU Self Test
+12005,41,LED_OFF,5,Pumpkin Battery LED Off
+12006,41,LED_ON,6,Pumpkin Battery LED On
+12007,41,LED_FLASH,7,Pumpkin Battery LED Flash.  MCU heartbeat.
+12008,41,LED_ACTIVITY,8,Pumpkin Battery LED Activity.  Lights on I2C activity.
+12009,41,CLK_OFF,9,Pumpkin Battery Clock Off
+12010,41,CLK_ON,10,Pumpkin Battery Clock On.  The BAT_PMK_PARAM value is the clock divider (0 - 16).
+12011,41,DEBUG_OFF,11,Pumpkin Battery Debug Output Off
+12012,41,DEBUG_ON,12,Pumpkin Battery Debug Output On
+12100,42,OK,0,Pumpkin Battery bq34z653 processed the function code with no errors detected.
+12101,42,BUSY,1,Pumpkin Battery bq34z653 is unable to process the function code at this time.
+12102,42,Reserved,2,"Pumpkin Battery bq34z653 detected an attempt to read or write to a function code reserved by this version of the specification, or bq34z653 detected an attempt to access an unsupported optional manufacturer function code."
+12103,42,Unsupported,3,Pumpkin Battery bq34z653 does not support this function code as defined in this version of the specification.
+12104,42,AccessDenied,4,Pumpkin Battery bq34z653 detected an attempt to write to a read-only function code.
+12105,42,Over_Underflow,5,Pumpkin Battery bq34z653 detected a data overflow or underflow.
+12106,42,BadSize,6,Pumpkin Battery bq34z653 detected an attempt to write to a function code with an incorrect data block.
+12107,42,UnknownError,7,Pumpkin Battery bq34z653 detected an unidentifiable error.
+12200,43,Charging,0,Pumpkin Battery bq34z653 is in charging mode.
+12201,43,Discharging,1,"Pumpkin Battery bq34z653 is in discharging mode or relaxation mode, or valid charge termination has occurred."
+12210,44,NOT_OVERVOLT,0,Pumpkin Battery overvoltage condition not occurring
+12211,44,OVERVOLT,1,Pumpkin Battery overvoltage condition occurring
+13000,4800,SHUNT,0,PIM Shunt Resistor
+13001,4800,I_LIMIT,1,PIM Current Limit
+13002,4800,I_OFFSET,2,PIM Current Offset
+13003,4800,I_SCALE,3,PIM Current Scaling Factor
+13010,4801,ETH_ON,0,PIM Ethernet Switch ON
+13011,4801,ETH_OFF,1,PIM Ethernet Switch OFF
+13012,4801,ETH_RESET,2,PIM Ethernet Switch RESET
+13013,4801,ETH_UNRESET,3,PIM Ethernet Switch UNRESET
+13020,4802,LED_BLUE,0,PIM Blue LED
+13021,4802,LED_RED,1,PIM Red LED
+13030,4803,LED_ON,0,PIM LED ON
+13031,4803,LED_OFF,1,PIM LED OFF
+13035,4804,NOT_PRESSED,0,PIM Button Not Pressed
+13036,4804,PRESSED,1,PIM Button Pressed
+14000,4900,PORT1,0,Pumpkin Battery Switch Module Port 1
+14001,4900,PORT2,1,Pumpkin Battery Switch Module Port 2
+14002,4900,PORT3,2,Pumpkin Battery Switch Module Port 3
+14003,4900,PORT4,3,Pumpkin Battery Switch Module Port 4
+14004,4900,PORT5,4,Pumpkin Battery Switch Module Port 5
+14010,4901,SHUNT,0,Pumpkin Battery Switch Module Shunt Resistor
+14011,4901,I_LIMIT,1,Pumpkin Battery Switch Module Current Limit
+14012,4901,I_OFFSET,2,Pumpkin Battery Switch Module Current Offset
+14013,4901,I_SCALE,3,Pumpkin Battery Switch Module Current Scaling Factor
+14020,4902,MCU_RESET,0,Pumpkin Battery Switch Module Reset MCU
+14021,4902,I2C_RESET,1,Pumpkin Battery Switch Module Reset MCU I2C Interface
+14022,4902,SELF_TEST_START,2,Pumpkin Battery Switch Module Start MCU Self Test
+14023,4902,SELF_TEST_STOP,3,Pumpkin Battery Switch Module Stop MCU Self Test
+14024,4902,SELF_TEST_RESTART,4,Pumpkin Battery Switch Module Restart MCU Self Test
+14025,4902,LED_OFF,5,Pumpkin Battery Switch Module LED Off
+14026,4902,LED_ON,6,Pumpkin Battery Switch Module LED On
+14027,4902,LED_FLASH,7,Pumpkin Battery Switch Module  LED Flash.  MCU heartbeat.
+14028,4902,LED_ACTIVITY,8,Pumpkin Battery Switch Module LED Activity.  Lights on I2C activity.
+14029,4902,CLK_OFF,9,Pumpkin Battery Switch Module Clock Off
+14030,4902,CLK_ON,10,Pumpkin Battery Switch Module Clock On.  The BAT_PMK_PARAM value is the clock divider (0 - 16).
+14031,4902,DEBUG_OFF,11,Pumpkin Battery Switch Module Debug Output Off
+14032,4902,DEBUG_ON,12,Pumpkin Battery Switch Module Debug Output On
