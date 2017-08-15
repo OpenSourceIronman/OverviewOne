@@ -18,11 +18,8 @@ class Tk1Software:
 
     def __init__(self):
         self.cmds = PayloadCommandHandler()
-        # cmds.handlers[0x10] = do_take_photo
 
         self.agent = Agent()
-        # Assume that the TK1 is payload ID 1 running on 192.168.1.71
-        self.agent.payload_id = 1
         self.agent.service_handler["Payload Command"] = self.cmds.dispatch
 
     def main(self):
@@ -30,6 +27,7 @@ class Tk1Software:
         self.agent.bind_udp_sockets()
         print("Waiting for bus")
         self.agent.run()
+
 
 if __name__ == "__main__":
     Tk1Software().main()
