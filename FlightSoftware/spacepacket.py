@@ -8,6 +8,8 @@ import struct
 import sys
 import copy
 
+from pumpkin.core_cmd_tlm import TLM, _bytes_to_dict
+
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
 
@@ -465,145 +467,38 @@ class TelemetryPacket(object):
         """
 
         self.base = packet
+        self.values = dict()
+
 
     def deserialize(self):
-        if self.base.data_len == 247:
+        if self.base.data_len == 266:
             raise ValueError("Telemetry packet is old format.  Check Supernova software version.")
-        if self.base.data_len != 266:
+        if self.base.data_len != 247:
             raise ValueError("Incorrect data length for packet: %d" % self.base.data_len)
 
-        data = self.base.data
+        packet_name = TLM.name_by_id[self.base.pkt_id]
+        bytes_expected = TLM.get_packet_len_bytes(packet_name)
+        if self.base.data_len < bytes_expected:
+            raise ValueError('{}: expected {} got {} bytes.'.format(packet_name,
+                bytes_expected, self.base.data_len))
+            
+        if TelemetryPacket.DEBUG: print("Telemetry packet : %s" % (packet_name))
 
-        # CDH fields
-        (self.sys_time, 
-            self.chd_fault_count, 
-            self.system_fault_count, 
-            self.files_saved, 
-            self.subsystem_status, 
-            self.temp_uc, 
-            self.system_cmd_count, 
-            self.cdh_spare) \
-        = struct.unpack("<iHIHBHIH",data[0:21])
-        
-        # ADCS fields
-        (self.cmd_status, 
-            self.cmd_reject_status, 
-            self.cmd_accept_count, 
-            self.cmd_reject_count, 
-            self.tai_seconds, 
-            self.q_ecef_wrt_eci1, 
-            self.q_ecef_wrt_eci2, 
-            self.q_ecef_wrt_eci3, 
-            self.q_ecef_wrt_eci4, 
-            self.position_wrt_eci1, 
-            self.position_wrt_eci2, 
-            self.position_wrt_eci3, 
-            self.velocity_wrt_eci1, 
-            self.velocity_wrt_eci2, 
-            self.velocity_wrt_eci3, 
-            self.q_body_wrt_eci1, 
-            self.q_body_wrt_eci2, 
-            self.q_body_wrt_eci3, 
-            self.q_body_wrt_eci4, 
-            self.rotisserie_rate, 
-            self.adcs_mode, 
-            self.filtered_speed_rpm1, 
-            self.filtered_speed_rpm2, 
-            self.filtered_speed_rpm3, 
-            self.attitude_st1, 
-            self.attitude_st2, 
-            self.attitude_st3, 
-            self.attitude_st4, 
-            self.att_status, 
-            self.rate_est_status, 
-            self.sun_point_state, 
-            self.sun_vector_body1, 
-            self.sun_vector_body2, 
-            self.sun_vector_body3, 
-            self.sun_vector_status, 
-            self.tlm_table_map, 
-            self.adcs_voltage_5p0, 
-            self.adcs_voltage_3p3, 
-            self.adcs_voltage_2p5, 
-            self.adcs_voltage_1p8, 
-            self.adcs_voltage_1p0, 
-            self.det_temp, 
-            self.box1_temp, 
-            self.box2_temp, 
-            self.motor1_temp, 
-            self.motor2_temp, 
-            self.motor3_temp, 
-            self.bus_voltage, 
-            self.position_ecef1, 
-            self.position_ecef2, 
-            self.position_ecef3, 
-            self.velocity_ecef1, 
-            self.velocity_ecef2, 
-            self.velocity_ecef3, 
-            self.gps_valid, 
-            self.gps_enabled, 
-            self.q_tracker_wrt_body1, 
-            self.q_tracker_wrt_body2, 
-            self.q_tracker_wrt_body3, 
-            self.q_tracker_wrt_body4, 
-            self.adcs_fault_count) \
-        = struct.unpack(">BBBBIiiiiiiiiiiiiiihBhhhiiiiBBBhhhBBBBBBBbhhhhhHiiiiiiBBiiiiH", data[21:183]) 
-         
-        # EPS and Battery
-        (self.vpcm12v, 
-            self.vpcm5v,
-            self.vpcm3v3,
-            self.vpcmbatv,
-            self.vidiode_out,
-            self.ipcm12v,
-            self.ipcm5v,
-            self.ipcm3v3,
-            self.ipcmbatv,
-            self.idiode_out, 
-            self.vbcr1,
-            self.vbcr2,
-            self.vbcr3,
-            self.vbcr4,
-            self.vbcr5,
-            self.vbcr6,
-            self.vbcr7,
-            self.vbcr8,
-            self.vbcr9,
-            self.battery_voltage_0,
-            self.battery_voltage_1,
-            self.battery_voltage_2,
-            self.temp_battery_0,
-            self.temp_battery_1,
-            self.temp_battery_2,
-            self.temp_motherboard,
-            self.temp_daughterboard,
-            self.eps_fault_count,
-            self.batt_fault_count) \
-        = struct.unpack("<HHHHHHHHHHHHHHHHHHHHHHHHHHHHH",data[183:241])
-        
-        # Radio
-        (self.radio_state,
-            self.rx_commands,
-            self.tx_commands,
-            self.tx_tlm,
-            self.radio_fault_count,
-            self.tx_duration,
-            self.rx_duration,
-            self.xfer_duration,
-            self.cycles_remaining,
-            self.cycle_time_remaining,
-            self.mode_state,
-            self.temp_radio) \
-        = struct.unpack("<BIIIHHHHHHBH",data[237:265])
+        # --- Definitions describe the data items in a packet & their types.
+        definitions = TLM.table[packet_name]
+        self.values = _bytes_to_dict(self.base.data, definitions)
 
         if TelemetryPacket.DEBUG: self.printout()
         
     def printout(self):        
         print "\n------------------- packet data -------------------"
 
+        print repr(self.values)
+
+        """
         print 'CDH DATA'
         print '----------'
-        print '  sys_time: ' + str(self.sys_time) + ' gps seconds'
+        print '  sys_time: ' + str(self.sys_time) + ' gps seconds'        
         # print '  chd_fault_count: ' + str(self.chd_fault_count)
         print '  system_fault_count: ' + str(self.system_fault_count)
         print '  system_cmd_count:  ' + str(self.system_cmd_count)
@@ -745,4 +640,5 @@ class TelemetryPacket(object):
         print '  mode_state: ' + str(self.mode_state)
         print 'TEMPERATURE'
         print '  temp_radio: ' + str(self.temp_radio) + ' C'
-        
+        """
+
