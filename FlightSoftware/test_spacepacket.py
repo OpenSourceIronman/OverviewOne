@@ -95,8 +95,9 @@ def test_telemetry_deserialize():
     '''
 
     p = Packet()
-    p.data_len = 266
-    p.data = bytearray(266)
+    p.pkt_id = 113
+    p.data_len = 247
+    p.data = bytearray(247)
 
     tp = TelemetryPacket(p)
     tp.deserialize()
@@ -143,8 +144,9 @@ def test_debug_output():
     p.serialize()
 
     # Insert telemetry data
-    p.data_len = 266
-    p.data = bytearray(266)
+    p.pkt_id = 113
+    p.data_len = 247
+    p.data = bytearray(247)
     tp = TelemetryPacket(p)
     tp.deserialize()
 
@@ -172,13 +174,21 @@ def test_invalid_packets():
 
     # Exceptional: Invalid telemetry packet (old format)
     with pytest.raises(ValueError) as ex:
-        p.data_len = 247 # Telemetry packets should have data_len = 266
+        p.pkt_id = 113
+        p.data_len = 266 # Telemetry packets should have data_len = 247
         tp = TelemetryPacket(p)
         tp.deserialize()
 
     # Exceptional: Invalid telemetry packet (too big)
     with pytest.raises(ValueError) as ex:
-        p.data_len = 267 # Telemetry packets should have data_len = 266
+        p.pkt_id = 113
+        p.data_len = 248 # Telemetry packets should have data_len = 247
         tp = TelemetryPacket(p)
         tp.deserialize()
-        
+
+    # Exceptional: Invalid telemetry packet (too small)
+    with pytest.raises(ValueError) as ex:
+        p.pkt_id = 113
+        p.data_len = 246 # Telemetry packets should have data_len = 247
+        tp = TelemetryPacket(p)
+        tp.deserialize()

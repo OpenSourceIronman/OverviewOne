@@ -19,8 +19,9 @@ def test_handlers():
 
     Agent.print_it(p)
     p.service = Supernova.service_id("Telemetry Packet")
-    p.data_len = 266
-    p.data = bytearray(266)
+    p.pkt_id = 113
+    p.data_len = 247
+    p.data = bytearray(247)
     Agent.print_it(p)
 
 def test_socket_bind_error():

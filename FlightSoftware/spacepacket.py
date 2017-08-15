@@ -336,125 +336,6 @@ class AckPacket(object):
 class TelemetryPacket(object):
     """ Telemetry packet
 
-    Properties:    
-        (CDH data)
-        self.sys_time
-        chd_fault_count 
-        system_fault_count
-        files_saved
-        subsystem_status 
-        temp_uc
-        system_cmd_count
-        cdh_spare
-
-        (ADCS data)
-        cmd_status 
-        cmd_reject_status 
-        cmd_accept_count 
-        cmd_reject_count
-        tai_seconds
-        q_ecef_wrt_eci1 
-        q_ecef_wrt_eci2 
-        q_ecef_wrt_eci3 
-        q_ecef_wrt_eci4
-        position_wrt_eci1 
-        position_wrt_eci2 
-        position_wrt_eci3 
-        velocity_wrt_eci1 
-        velocity_wrt_eci2 
-        velocity_wrt_eci3
-        q_body_wrt_eci1 
-        q_body_wrt_eci2
-        q_body_wrt_eci3 
-        q_body_wrt_eci4 
-        rotisserie_rate
-        adcs_mode
-        filtered_speed_rpm1 
-        filtered_speed_rpm2 
-        filtered_speed_rpm3
-        attitude_st1 
-        attitude_st2 
-        attitude_st3 
-        attitude_st4 
-        att_status
-        rate_est_status 
-        sun_point_state 
-        sun_vector_body1 
-        sun_vector_body2 
-        sun_vector_body3 
-        sun_vector_status 
-        tlm_table_map
-        adcs_voltage_5p0 
-        adcs_voltage_3p3 
-        adcs_voltage_2p5 
-        adcs_voltage_1p8 
-        adcs_voltage_1p0
-        det_temp 
-        box1_temp 
-        box2_temp 
-        motor1_temp 
-        motor2_temp 
-        motor3_temp 
-        bus_voltage
-        position_ecef1 
-        position_ecef2
-        position_ecef3 
-        velocity_ecef1 
-        velocity_ecef2 
-        velocity_ecef3 
-        gps_valid
-        gps_enabled
-        q_tracker_wrt_body1 
-        q_tracker_wrt_body2 
-        q_tracker_wrt_body3 
-        q_tracker_wrt_body4
-        adcs_fault_count
-
-        (EPS and Battery data)
-        vpcm12v
-        vpcm5v
-        vpcm3v3
-        vpcmbatv
-        vidiode_out
-        ipcm12v
-        ipcm5v
-        ipcm3v3
-        ipcmbatv
-        idiode_out
-        vbcr1
-        vbcr2
-        vbcr3
-        vbcr4
-        vbcr5
-        vbcr6
-        vbcr7
-        vbcr8
-        vbcr9
-        battery_voltage_0
-        battery_voltage_1
-        battery_voltage_2
-        temp_battery_0
-        temp_battery_1
-        temp_battery_2
-        temp_motherboard
-        temp_daughterboard
-        eps_fault_count
-        batt_fault_count
-
-        (Radio data)
-        radio_state
-        rx_commands
-        tx_commands
-        tx_tlm
-        radio_fault_count
-        tx_duration
-        rx_duration
-        xfer_duration
-        cycles_remaining
-        cycle_time_remaining
-        mode_state
-        temp_radio
-
     """
 
     DEBUG = False
@@ -471,17 +352,19 @@ class TelemetryPacket(object):
 
 
     def deserialize(self):
-        if self.base.data_len == 266:
-            raise ValueError("Telemetry packet is old format.  Check Supernova software version.")
-        if self.base.data_len != 247:
-            raise ValueError("Incorrect data length for packet: %d" % self.base.data_len)
 
         packet_name = TLM.name_by_id[self.base.pkt_id]
+
+        # Enforce size of default telemetry packets
+        if self.base.pkt_id == 113 and self.base.data_len == 266:
+            raise ValueError("Telemetry packet is old format.  Check Supernova software version.")
+        if self.base.pkt_id == 113 and self.base.data_len != 247:
+            raise ValueError("Incorrect data length for packet: %d" % self.base.data_len)
         bytes_expected = TLM.get_packet_len_bytes(packet_name)
         if self.base.data_len < bytes_expected:
             raise ValueError('{}: expected {} got {} bytes.'.format(packet_name,
                 bytes_expected, self.base.data_len))
-            
+
         if TelemetryPacket.DEBUG: print("Telemetry packet : %s" % (packet_name))
 
         # --- Definitions describe the data items in a packet & their types.
@@ -489,8 +372,8 @@ class TelemetryPacket(object):
         self.values = _bytes_to_dict(self.base.data, definitions)
 
         if TelemetryPacket.DEBUG: self.printout()
-        
-    def printout(self):        
+
+    def printout(self):
         print "\n------------------- packet data -------------------"
 
         print repr(self.values)
@@ -506,7 +389,7 @@ class TelemetryPacket(object):
         print '  subsystem_status: ' + str(self.subsystem_status)
         print 'TEMPERATURE'
         print '  temp_uc: ' + str(self.temp_uc) + ' C'
-        
+
         print 'ADCS DATA'
         print '-------------'
         print 'COMMAND TLM'
