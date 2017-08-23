@@ -86,10 +86,13 @@ class Send(object):
     @staticmethod
     def send_payload_cmd(dest_payload_id, command, data):
 
-        if not isinstance(data, bytes) and not isinstance(data, bytearray):
+        if isinstance(data, bytes) or isinstance(data, bytearray):
+            data_len = len(data)
+        elif data == None:
+            data_len = 0
+        else:
             raise TypeError("Data argument is not an array of bytes")
 
-        data_len = len(data)
         if data_len > Packet.MAX_DATA_SIZE:
             raise ValueError("Data length too long.  TODO")
 
