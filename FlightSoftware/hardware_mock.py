@@ -22,6 +22,8 @@ class HardwareMock:
                   (func_name, 
                    self.start_time))
 
+    def deploy_solar_panels(self):
+        self.log_and_print( sys._getframe().f_code.co_name )
     def turn_on_cpm(self):
         self.log_and_print( sys._getframe().f_code.co_name )
     def turn_off_cpm(self):
@@ -33,6 +35,8 @@ class HardwareMock:
     def run_capture_360(self, num_frames):
         self.log_and_print( sys._getframe().f_code.co_name )
     def run_capture_180(self, num_frames):
+        self.log_and_print( sys._getframe().f_code.co_name )
+    def send_payload_noop(self):
         self.log_and_print( sys._getframe().f_code.co_name )
     def abort_capture(self):
         self.log_and_print( sys._getframe().f_code.co_name )
