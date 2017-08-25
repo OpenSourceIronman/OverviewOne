@@ -23,6 +23,7 @@ FlightSoftware/
   |   - run_agent.py - Internal test program for receiving supernova bus traffic.
   |   - run_send.py - Internal test program for sending command packets.
   |   - run_terminal.py - Internal test program for a two-way shell terminal.
+  |   - run_hardware.py - Internal test program for hardware commands.
   |
   +-- bbb_*.py
   |   This is code specific to the BBB hardware, and manages the overall
@@ -46,6 +47,7 @@ FlightSoftware/
   |   Module that defines the utilities and properties about the Supernova bus.
   |
   +-- payload_cmd_handler.py
+  +-- payload_cmd_defs.py
   |   Module that handles payload-specific command functionality.  This includes
   |   dispatching based on the command ID.  It also implements several common
   |   pieces of payload functionality (e.g. running shell commands).
