@@ -122,3 +122,49 @@ class Supernova:
             sys.exit(1)
 
         return payload_id
+
+
+class BusCommands(object):
+    """ Send commands to the Supernova bus
+    """
+
+    # --- Command Definitions ------------------------
+
+    NO_OP = 0x10
+    """
+    Summary:     No operation
+    Description: This command does nothing except update the command execution statistics.
+
+    Data:
+        None
+    """
+
+    PIM_PWR_ON = 88
+    """
+    Summary:     PIM Power On
+    Description: Power on the selected PIM channel by sending MCU commands to the PIM.
+
+    Data:
+        UInt8 - channel
+    """
+
+    PIM_PWR_ON = 89
+    """
+    Summary:     PIM Power Off
+    Description: Power off the selected PIM channel by sending MCU commands to the PIM.
+
+    Data:
+        UInt8 - channel
+    """
+
+    PIM_CTRL = 90
+    """
+    Summary:     PIM Control
+    Description: Send control commands to the PIM MCU based on the action specified in the
+                 PIM_ACTION parameter. Some actions require an additional parameter value
+                 provided in PIM_PARAM.
+
+    Data:
+        UInt8 - action
+        UInt8 - param
+    """
