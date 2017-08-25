@@ -126,34 +126,31 @@ class Send(object):
         Send.send(p)
 
 
-class BusCommands(object):
-    """ Send commands to the Supernova bus
-    """
+    @staticmethod
+    def send_bus_cmd(command, data):
 
-    def __init__(self, src_payload_id):
-        """Construct object
+        if isinstance(data, bytes) or isinstance(data, bytearray):
+            data_len = len(data)
+        elif data == None:
+            data_len = 0
+        else:
+            raise TypeError("Data argument is not an array of bytes")
 
-        Args:
-            src_payload_id : an integer ID from which to send
-        """
-        self.src_payload_id = src_payload_id
-
-    def noop(self):
-        """Send a no-operation command to the bus controller
-        """
+        if data_len > Packet.MAX_DATA_SIZE:
+            raise ValueError("Data length too long.  TODO")
 
         p = Packet() # empty packet
 
         # --- Primary header
         # This is a bus command
         p.service = Supernova.service_id("Bus Command")
-        # And so we need to direct it to the bus controller
         p.dst_node = Supernova.BUS_CONTROLLER_PAYLOAD_ID
         p.pkt_type = 1 # 0: telemetry, 1: command
         # It's a single packet, so set the sequence flags appropriately.
+        # TODO: support packet sequences
         p.seq_count = 0x00  # first (and last) packet
         p.seq_flags = 0x03  # first and last packet
-        p.pkt_id    = 0x10  # "No operation" bus command
+        p.pkt_id    = command
 
         # --- Secondary header
         p.scid        = 0       # Spacecraft ID
@@ -161,12 +158,12 @@ class BusCommands(object):
         p.ack         = 0       # No, not an ACK
         p.auth_count  = 0       # ???
         p.pkt_subtype = 0x00    # Unused
-        p.src_node    = self.src_payload_id
+        p.src_node    = Supernova.get_my_id()
         p.pkt_subid   = 0x00    # Unused
         p.byp_auth    = 0x01    # Bypass authentication
 
         # --- Data
-        p.data_len = 0
-        p.data     = None
+        p.data_len = data_len
+        p.data     = data
 
         Send.send(p)
