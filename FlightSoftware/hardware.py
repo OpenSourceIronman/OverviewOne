@@ -9,6 +9,7 @@ import sys
 
 from send import Send
 from payload_cmd_defs import PayloadCommandId
+from supernova import BusCommands
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -45,10 +46,27 @@ class Hardware:
         raise NotImplementedError()
 
 
+    def flash_pim_led(self):
+        """
+        Flash the LED on the PIM module.
+        """
+
+        # Maybe...
+        # Send.send_bus_cmd(BusCommands.PIM_CTRL,                          
+        #                   bytearray([0x07, 0x00]) )  # LED_FLASH
+
+        raise NotImplementedError()
+
+
     def turn_on_cpm(self):
         """
         Send a command to the power manager to power-up the TK1 payload computer.
         """
+
+        # Maybe...
+        # Send.send_bus_cmd(BusCommands.PIM_POWER_ON,                          
+        #                   bytearray([0x01]) )  # <--- This is the port ID
+
         raise NotImplementedError()
 
 
