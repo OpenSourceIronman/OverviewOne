@@ -7,7 +7,6 @@ Copyright SpaceVR, 2017.  All rights reserved.
 """
 
 from enum import Enum
-from hardware import Hardware
 
 class State(Enum):
     """
@@ -59,14 +58,24 @@ class Action:
     All actions associated with state transitions.
     """
 
+    # There is a singleton instance of this class, set when it is constructed
+    # during the initialization of the top-level software.
+    # (And for testing purposes, a hardware mock instance can be injected.)
+    HARDWARE = None
+
+    @staticmethod
+    def hw():
+        """ Return the global singleton instance. """
+        return Action.HARDWARE
+
     @staticmethod
     def do_power_payload():
-        hw = Hardware.get()
+        hw = Action.hw()
         hw.turn_on_cpm()
 
     @staticmethod
     def do_power_cameras():
-        hw = Hardware.get()
+        hw = Action.hw()
         hw.turn_on_cameras()
 
     @staticmethod
