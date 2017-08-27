@@ -17,6 +17,23 @@ class State(Enum):
     # Startup state
     INITIAL,
 
+    MAIN_START_SEQ0,
+    MAIN_DONE_SEQ0,
+
+    # Wait for O1 to clear the ISS
+    MAIN_EXIT_ISS_SAFETY_ZONE,
+
+    MAIN_START_POWER_CHECK,
+    MAIN_DONE_POWER_CHECK,
+
+    MAIN_START_GLOBALSTAR_TRANSMIT,
+    MAIN_DONE_GLOBALSTAR_TRANSMIT,
+
+    MAIN_START_SEQ2,
+
+    # ---- SEQ0
+    # This is executed once, immediately upon satellite deployment.
+
     # Begun powering up PIM
     SEQ0_POWER_PAYLOAD,
 
@@ -26,18 +43,19 @@ class State(Enum):
     # Recording images.
     SEQ0_RECORDING,
 
-    # Have exited the ISS safety zone.
-    EXIT_SAFETY_ZONE,
-
     # Error condition.  (WE SHOULD NEVER REACH THIS.)
     ERROR
-    ) = range(6)
+    ) = range(13)
 
 
 class Condition:
     """
     All predicates that define state transition conditions.
     """
+
+    @staticmethod
+    def always():
+        return True
 
     @staticmethod
     def can_power_payload():
@@ -50,6 +68,10 @@ class Condition:
     @staticmethod
     def out_of_iss_safety_zone():
         # Time > 180s
+        return True
+
+    @staticmethod
+    def received_go_command():
         return True
 
 
@@ -66,6 +88,10 @@ class Action:
     def hw():
         """ Return the global singleton instance. """
         return Action.HARDWARE
+
+    @staticmethod
+    def nothing():
+        None
 
     @staticmethod
     def do_power_payload():
@@ -93,17 +119,61 @@ class Transitions:
         #     TRANSITION CONDITION
         #     TRANSITION ACTION
         # +---+--------------------------+---------------------
-        ( State.INITIAL,                 State.SEQ0_POWER_PAYLOAD,
-              Condition.can_power_payload,
-              Action.do_power_payload),
+        ( State.INITIAL,                 State.MAIN_START_SEQ0,
+              Condition.always,
+              Action.nothing),
+
+        ( State.MAIN_DONE_SEQ0,          State.MAIN_EXIT_ISS_SAFETY_ZONE,
+              Condition.always,
+              Action.nothing),
+
+        ( State.MAIN_EXIT_ISS_SAFETY_ZONE, State.MAIN_START_POWER_CHECK,
+              Condition.out_of_iss_safety_zone,
+              Action.nothing),
+
+        ( State.MAIN_DONE_POWER_CHECK,   State.MAIN_START_GLOBALSTAR_TRANSMIT,
+              Condition.always,
+              Action.nothing),
+
+        ( State.MAIN_DONE_GLOBALSTAR_TRANSMIT, State.MAIN_START_SEQ2,
+              Condition.received_go_command,
+              Action.nothing),
+        ( State.MAIN_DONE_GLOBALSTAR_TRANSMIT, State.MAIN_START_POWER_CHECK,
+              Condition.always,
+              Action.nothing),
+
+        # -------------- SEQ0 ---------------------------------
+
+        # !!!!!! TODO !!!!!!!!!!
+
+        ( State.MAIN_START_SEQ0,      State.SEQ0_POWER_PAYLOAD,
+              Condition.always,
+              Action.nothing),
 
         ( State.SEQ0_POWER_PAYLOAD,      State.SEQ0_POWER_CAMERAS,
               Condition.can_power_cameras,
               Action.do_power_cameras),
 
-        ( State.SEQ0_RECORDING,          State.EXIT_SAFETY_ZONE,
-              Condition.out_of_iss_safety_zone,
-              Action.do_exit_iss_safety_zone),
+        ( State.SEQ0_RECORDING,          State.MAIN_DONE_SEQ0,
+              Condition.always,
+              Action.nothing),
+
+
+        # -------------- POWER_CHECK SEQ ---------------------
+
+        # !!!!!! TODO !!!!!!!!!!
+        ( State.MAIN_START_POWER_CHECK,  State.MAIN_DONE_POWER_CHECK,
+              Condition.always,
+              Action.nothing),
+
+
+        # -------------- GLOBALSTAR_TRANSMIT SEQ ---------------------
+
+        # !!!!!! TODO !!!!!!!!!!
+        ( State.MAIN_START_GLOBALSTAR_TRANSMIT,  State.MAIN_DONE_GLOBALSTAR_TRANSMIT,
+              Condition.always,
+              Action.nothing),
+
     ]
 
     @staticmethod
