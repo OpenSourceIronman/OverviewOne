@@ -24,8 +24,6 @@ def print_usage():
         else:
             print("    %-30.30s | args= %s" % (name, repr(args)) )
 
-    print("\nNOTE: arguments are not yet supported.")
-
 
 def main():
     if len(sys.argv) == 1 or sys.argv[1] == "--help":
@@ -34,20 +32,24 @@ def main():
 
     hw = Hardware()
     cmd = sys.argv[1]
+    cmd_args = sys.argv[2:]
 
     for (name, func) in inspect.getmembers(hw, inspect.ismethod):
         if name != cmd:
             continue
 
         args = inspect.getargspec(func).args[1:] # exclude 'self'
-        if len(args) > 0:
-            # TODO: add support for arguments.
-            print("Error: Commands with arguments not yet supported.")
-            sys.exit(1)
+        if len(args) != len(cmd_args):
+            print("Error: Command %s requires %d arguments but %d provided." %
+                      (cmd, len(args), len(cmd_args)))
+
+        # Parse all arguments as integers
+        # NOTE: this assumes that all arguments *are* integers / booleans
+        cmd_args_parsed = [int(a) for a in cmd_args]
 
         # OK, run the command!
         try:
-            rval = func()
+            rval = func(*cmd_args_parsed)
         except NotImplementedError as ex:
             print("Error: Command not yet implemented.")
             sys.exit(1)            
