@@ -57,7 +57,6 @@ class Action:
     """
     All actions associated with state transitions.
     """
-
     # There is a singleton instance of this class, set when it is constructed
     # during the initialization of the top-level software.
     # (And for testing purposes, a hardware mock instance can be injected.)
@@ -71,12 +70,12 @@ class Action:
     @staticmethod
     def do_power_payload():
         hw = Action.hw()
-        hw.turn_on_cpm()
+        hw.power_cpm(True)
 
     @staticmethod
     def do_power_cameras():
         hw = Action.hw()
-        hw.turn_on_cameras()
+        hw.power_cameras(True)
 
     @staticmethod
     def do_exit_iss_safety_zone():

@@ -17,26 +17,37 @@ class HardwareMock:
         # Time will advance manually in our mock hardware layer
         self.start_time = 0
     
-    def log_and_print(self, func_name):
-        print("HardwareMock::%-15.15s time=%0.1f\n" % 
+    def log_and_print(self, func_name, extra=""):
+        print("HardwareMock::%-15.15s time=%0.1f %s \n" % 
                   (func_name, 
-                   self.start_time))
+                   self.start_time,
+                   extra))
 
     def deploy_solar_panels(self):
         self.log_and_print( sys._getframe().f_code.co_name )
-    def turn_on_cpm(self):
-        self.log_and_print( sys._getframe().f_code.co_name )
-    def turn_off_cpm(self):
-        self.log_and_print( sys._getframe().f_code.co_name )
-    def turn_on_cameras(self):
-        self.log_and_print( sys._getframe().f_code.co_name )
+    def power_eyestar(self, enable):
+        self.log_and_print( sys._getframe().f_code.co_name, "ON" if enable else "OFF" )
+    def power_cpm(self, enable):
+        self.log_and_print( sys._getframe().f_code.co_name, "ON" if enable else "OFF" )
+    def power_cameras(self, enable):
+        self.log_and_print( sys._getframe().f_code.co_name, "ON" if enable else "OFF" )
+    def power_gps(self, enable):
+        self.log_and_print( sys._getframe().f_code.co_name, "ON" if enable else "OFF" )
     def turn_on_ffameras(self):
         self.log_and_print( sys._getframe().f_code.co_name )
     def run_capture_360(self, num_frames):
-        self.log_and_print( sys._getframe().f_code.co_name )
+        self.log_and_print( sys._getframe().f_code.co_name, "Num_frames=%d" % num_frames )
     def run_capture_180(self, num_frames):
-        self.log_and_print( sys._getframe().f_code.co_name )
-    def send_payload_noop(self):
+        self.log_and_print( sys._getframe().f_code.co_name, "Num_frames=%d" % num_frames )
+    def run_payload_noop(self):
         self.log_and_print( sys._getframe().f_code.co_name )
     def abort_capture(self):
+        self.log_and_print( sys._getframe().f_code.co_name )
+    def point_cells_to_sun(self):
+        self.log_and_print( sys._getframe().f_code.co_name )
+    def point_cameras_to_ground(self):
+        self.log_and_print( sys._getframe().f_code.co_name )
+    def point_antenna_to_transmit(self):
+        self.log_and_print( sys._getframe().f_code.co_name )
+    def transmit_health_data(self):
         self.log_and_print( sys._getframe().f_code.co_name )
