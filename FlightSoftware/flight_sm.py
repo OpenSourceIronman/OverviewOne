@@ -68,7 +68,7 @@ class Condition:
     @staticmethod
     def out_of_iss_safety_zone():
         # Time > 180s
-        return True
+        return Action.hw().time() > 180
 
     @staticmethod
     def received_go_command():
@@ -195,4 +195,4 @@ class Transitions:
                 t_action()
                 return t_next
         # No transition is possible.  Remain in current state.
-        t_next = t_current
+        return current_state

@@ -16,7 +16,14 @@ class HardwareMock:
     def __init__(self):
         # Time will advance manually in our mock hardware layer
         self.start_time = 0
+        self.cur_time = self.start_time
     
+    def time(self):
+        return self.cur_time
+
+    def advance_time(self, delta):
+        self.cur_time = self.cur_time + delta
+
     def log_and_print(self, func_name, extra=""):
         print("HardwareMock::%-15.15s time=%0.1f %s \n" % 
                   (func_name, 
