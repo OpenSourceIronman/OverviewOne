@@ -42,8 +42,24 @@ class Hardware:
     def deploy_solar_panels(self):
         """
         Send a command to the bus to trigger solar panel deployment.
+
+        TODO: should the burns happen sequentially or at once?
         """
-        raise NotImplementedError()
+
+        burn_time = 10 #seconds
+
+        for num in range(1,5):
+            Send.send_bus_cmd(BusCommands.MAI_CMD,
+                              bytearray([0x05, num, 0x00]) )
+            Send.send_bus_cmd(BusCommands.MAI_CMD,
+                              bytearray([0x07, num, 0x00]) )
+            Send.send_bus_cmd(BusCommands.MAI_CMD,
+                              bytearray([0x09, num, burn_time]) )
+
+            # XXX: On the simulator, a small delay is required or the
+            # XXX: fourth wire fails to fire.
+            time.sleep(0.1)
+
 
     def power_cpm(self, enable):
         """
