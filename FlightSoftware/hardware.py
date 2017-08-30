@@ -34,6 +34,9 @@ class Hardware:
 
     PAYLOAD_BUS_ID = 1
 
+    def time(self):
+        return time.time() - self.start_time
+
     # --- BEGIN Hardware API
     #
     # Implementing a method here means that a corresponding version should be added
