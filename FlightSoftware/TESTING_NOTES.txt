@@ -1,0 +1,38 @@
+-----------------------------------------
+Instructions for manually testing
+   ADACS commands on the Pumpkin test bus
+-----------------------------------------
+
+1. Connect to the test bus
+
+  $ ssh root@192.168.1.73
+
+  The password is "password".
+
+2. Start a Supernova process
+
+  $ /home/debian/sn
+
+  Leave this process running.  You may want to connect again.
+
+3. Enable the MAI power
+
+  $ python /root/test/MAI_power.py ON
+
+4. Start receiving the MAI telemetry
+
+  $ python /root/test/mai_telemetry.py 
+
+  Leave this process running.  You may want to connect again.
+
+5. Send some MAI commands
+
+  $ python MAI_command.py M 0
+
+  ... and observe the telemetry change.
+
+  $ python MAI_command.py M 3
+
+  ... and observe the telemetry change.
+
+6. That's as far as we got.
