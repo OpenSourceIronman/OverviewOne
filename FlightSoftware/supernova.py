@@ -169,7 +169,7 @@ class BusCommands(object):
         UInt8 - param
     """
 
-    MAI_CMD = 0xAB
+    PRM_CMD = 0xAB
     """
     Summary:     PRM Control
     Description: Burn wires for solar panels.

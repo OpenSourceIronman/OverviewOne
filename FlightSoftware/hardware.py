@@ -49,11 +49,11 @@ class Hardware:
         burn_time = 10 #seconds
 
         for num in range(1,5):
-            Send.send_bus_cmd(BusCommands.MAI_CMD,
+            Send.send_bus_cmd(BusCommands.PRM_CMD,
                               bytearray([0x05, num, 0x00]) )
-            Send.send_bus_cmd(BusCommands.MAI_CMD,
+            Send.send_bus_cmd(BusCommands.PRM_CMD,
                               bytearray([0x07, num, 0x00]) )
-            Send.send_bus_cmd(BusCommands.MAI_CMD,
+            Send.send_bus_cmd(BusCommands.PRM_CMD,
                               bytearray([0x09, num, burn_time]) )
 
             # XXX: On the simulator, a small delay is required or the
