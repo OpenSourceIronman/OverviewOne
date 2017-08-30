@@ -67,8 +67,8 @@ class Condition:
 
     @staticmethod
     def out_of_iss_safety_zone():
-        # Time > 180s
-        return Action.hw().time() > 180
+        # Time > 1800s
+        return Action.hw().time() > 1800
 
     @staticmethod
     def received_go_command():
