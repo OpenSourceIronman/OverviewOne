@@ -168,3 +168,17 @@ class BusCommands(object):
         UInt8 - action
         UInt8 - param
     """
+
+    MAI_CMD = 0xAB
+    """
+    Summary:     PRM Control
+    Description: Burn wires for solar panels.
+
+    Data:
+        UInt8 - command
+           * 0x05 = ENABLE
+           * 0x07 = ARM
+           * 0x09 = FIRE
+        UInt8 - prm number
+        UInt8 - time (seconds)
+    """
