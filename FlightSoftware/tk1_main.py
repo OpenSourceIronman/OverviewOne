@@ -39,11 +39,11 @@ class Tk1Main:
         handler = PayloadCommandHandler()
 
         handler.handlers.update( {
-            PayloadCommandId.ABORT_CAPTURE.value : Tk1Main.do_abort_capture,
-            PayloadCommandId.CAPTURE_360.value   : Tk1Main.do_capture_360,
-            PayloadCommandId.CAPTURE_180.value   : Tk1Main.do_capture_180,
-            PayloadCommandId.CAMERA_POWER_ON.value  : Tk1Main.do_cameras_on,
-            PayloadCommandId.CAMERA_POWER_OFF.value : Tk1Main.do_cameras_off,
+            PayloadCommandId.ABORT_CAPTURE : Tk1Main.do_abort_capture,
+            PayloadCommandId.CAPTURE_360   : Tk1Main.do_capture_360,
+            PayloadCommandId.CAPTURE_180   : Tk1Main.do_capture_180,
+            PayloadCommandId.CAMERA_POWER_ON  : Tk1Main.do_cameras_on,
+            PayloadCommandId.CAMERA_POWER_OFF : Tk1Main.do_cameras_off,
         } )
 
         if Tk1Main.DEBUG: PayloadCommandHandler.DEBUG = True

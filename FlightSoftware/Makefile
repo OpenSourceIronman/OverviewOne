@@ -6,7 +6,8 @@
 ALL_PYTHON = $(wildcard *.py)
 
 # The core sources exclude test and executable code.
-CORE_SOURCES = $(filter-out run_% test_% %_main.py, $(ALL_PYTHON))
+# Also exclude the local copy of enum.py from the Python stdlib.
+CORE_SOURCES = $(filter-out run_% test_% %_main.py local_enum.py, $(ALL_PYTHON))
 
 # Options to 'pytest' to report coverage on all core modules.
 CORE_SOURCES_COV_OPTS = $(patsubst %.py,--cov=%,$(CORE_SOURCES))

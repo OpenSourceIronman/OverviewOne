@@ -6,7 +6,7 @@ Copyright SpaceVR, 2017.  All rights reserved.
 """
 
 import sys
-from enum import Enum
+from local_enum import Enum
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)

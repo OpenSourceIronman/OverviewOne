@@ -6,7 +6,7 @@ Flight state machine for BBB flight software.
 Copyright SpaceVR, 2017.  All rights reserved.
 """
 
-from enum import Enum
+from local_enum import Enum
 
 class State(Enum):
     """

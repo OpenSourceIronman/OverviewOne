@@ -9,7 +9,7 @@ Copyright SpaceVR, 2017.  All rights reserved.
 import sys
 import time
 import threading
-from enum import Enum
+from local_enum import Enum
 
 from agent import Agent
 from payload_cmd_handler import PayloadCommandHandler
