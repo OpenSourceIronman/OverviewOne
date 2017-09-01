@@ -103,11 +103,13 @@ class Hardware:
         """
 
         if (enable):
-            None # TODO
+            Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
+                                  PayloadCommandId.CAMERA_POWER_ON,
+                                  None )
         else:
-            None # TODO
-
-        raise NotImplementedError()
+            Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
+                                  PayloadCommandId.CAMERA_POWER_OFF,                     
+                                  None )
 
 
     def power_eyestar(self, enable):
@@ -131,7 +133,7 @@ class Hardware:
         """
 
         Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
-                              PayloadCommandId.CAPTURE_360.value,
+                              PayloadCommandId.CAPTURE_360,
                               bytearray([num_frames]) ) # no data
 
     def run_capture_180(self, num_frames):
@@ -141,7 +143,7 @@ class Hardware:
         """
 
         Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
-                              PayloadCommandId.CAPTURE_180.value,
+                              PayloadCommandId.CAPTURE_180,
                               bytearray([num_frames]) ) # no data
 
 
@@ -150,7 +152,7 @@ class Hardware:
         Send a command to the payload computer to abort any image capture operation.
         """
         Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
-                              PayloadCommandId.ABORT_CAPTURE.value,
+                              PayloadCommandId.ABORT_CAPTURE,
                               None) # no data
 
     def point_cells_to_sun(self):
@@ -201,6 +203,6 @@ class Hardware:
         Send a no-op command to the payload.
         """
         Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
-                              PayloadCommandId.NO_OP.value,
+                              PayloadCommandId.NO_OP,
                               None) # no data        
 

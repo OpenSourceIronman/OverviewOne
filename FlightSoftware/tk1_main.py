@@ -7,6 +7,7 @@ Copyright SpaceVR, 2017.  All rights reserved.
 """
 
 import sys
+import subprocess
 
 from agent import Agent
 from payload_cmd_handler import PayloadCommandHandler
@@ -15,7 +16,9 @@ from payload_cmd_defs import PayloadCommandId
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
 
-class Tk1Software:
+class Tk1Main:
+
+    DEBUG = False
 
     def __init__(self):
         """ Constructor """
@@ -36,10 +39,15 @@ class Tk1Software:
         handler = PayloadCommandHandler()
 
         handler.handlers.update( {
-            PayloadCommandId.ABORT_CAPTURE.value : self.do_abort_capture,
-            PayloadCommandId.CAPTURE_360.value   : self.do_capture_360,
-            PayloadCommandId.CAPTURE_180.value   : self.do_capture_180,
+            PayloadCommandId.ABORT_CAPTURE.value : Tk1Main.do_abort_capture,
+            PayloadCommandId.CAPTURE_360.value   : Tk1Main.do_capture_360,
+            PayloadCommandId.CAPTURE_180.value   : Tk1Main.do_capture_180,
+            PayloadCommandId.CAMERA_POWER_ON.value  : Tk1Main.do_cameras_on,
+            PayloadCommandId.CAMERA_POWER_OFF.value : Tk1Main.do_cameras_off,
         } )
+
+        if Tk1Main.DEBUG: PayloadCommandHandler.DEBUG = True
+
         return handler
 
     def main(self):
@@ -47,9 +55,9 @@ class Tk1Software:
         Start up the Pumpkin Supernova agent and wait for commands.
         """
 
-        print("Binding UDP sockets")
+        if Tk1Main.DEBUG: print("Binding UDP sockets")
         self.agent.bind_udp_sockets()
-        print("Waiting for bus")
+        if Tk1Main.DEBUG: print("Waiting for bus")
         self.agent.run()
 
     @staticmethod
@@ -73,5 +81,43 @@ class Tk1Software:
         """
         raise NotImplementedError()
 
+    @staticmethod
+    def do_cameras_on(packet):
+        """
+        Power on the cameras.
+        """
+
+        if Tk1Main.DEBUG: print("Powering on cameras")
+
+        try:
+           # Maybe:
+           # subprocess.check_call(["../GPIOControl", "1"])
+           # XXX: Do we even have a program to turn on/off the pins?
+           None
+        except Exception as e:
+           # TODO: log error somewhere appropriate
+           None
+
+        raise NotImplementedError()
+
+    @staticmethod
+    def do_cameras_off(packet):
+        """
+        Power off the cameras.
+        """
+
+        if Tk1Main.DEBUG: print("Powering off cameras")
+
+        try:
+           # Maybe:
+           # subprocess.check_call(["../GPIOControl", "1"])
+           # XXX: Do we even have a program to turn on/off the pins?
+           None
+        except Exception as e:
+           # TODO: log error somewhere appropriate
+           None
+
+        raise NotImplementedError()
+
 if __name__ == "__main__":
-    Tk1Software().main()
+    Tk1Main().main()

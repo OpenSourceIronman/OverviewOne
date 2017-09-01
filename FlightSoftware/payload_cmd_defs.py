@@ -58,3 +58,23 @@ class PayloadCommandId(Enum):
         UInt8 - Number of frames (per camera)
     """
 
+    # ---
+    CAMERA_POWER_ON = 0x14
+    """
+    Summary:     Power on the cameras.
+    Description: This should enable the appropriate GPIO pins.
+
+    Data:
+        None
+    """
+
+    # ---
+    CAMERA_POWER_OFF = 0x15
+    """
+    Summary:     Power off the cameras.
+    Description: This should disable the appropriate GPIO pins.
+
+    Data:
+        None
+    """
+
