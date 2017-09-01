@@ -129,15 +129,20 @@ class Hardware:
         Send a command to the payload to run a 360-degree (eight camera) capture
         for the specified number of frames.
         """
-        raise NotImplementedError()
 
+        Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
+                              PayloadCommandId.CAPTURE_360.value,
+                              bytearray([num_frames]) ) # no data
 
     def run_capture_180(self, num_frames):
         """
         Send a command to the payload to run a 180-degree (four camera) capture
         for the specified number of frames.
         """
-        raise NotImplementedError()
+
+        Send.send_payload_cmd(Hardware.PAYLOAD_BUS_ID,
+                              PayloadCommandId.CAPTURE_180.value,
+                              bytearray([num_frames]) ) # no data
 
 
     def abort_capture(self):
