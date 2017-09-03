@@ -13,6 +13,7 @@ import os
 import subprocess
 import signal
 
+from capture_main import CaptureMain
 from agent import Agent
 from payload_cmd_handler import PayloadCommandHandler
 from payload_cmd_defs import PayloadCommandId
@@ -23,9 +24,6 @@ assert sys.version_info[0:2] == (2,7)
 class Tk1Main:
 
     DEBUG = False
-
-    # This is the root directory where all photos are stored.
-    FILE_ROOT = "/home/ahurst/spacevr/test_photos/"
 
     def __init__(self):
         """ Constructor """
@@ -171,11 +169,11 @@ class Tk1Main:
 
     def delete_all(self):
         """
-        Delete all files in the FILE_ROOT directory.
+        Delete all files in the CaptureMain.FILE_ROOT directory.
         """
 
         num_deleted = 0
-        for filename in os.listdir(directory):
+        for filename in os.listdir(CaptureMain.FILE_ROOT):
             os.delete(filename)
             num_deleted += 1
 
