@@ -6,8 +6,12 @@ Main entry point for TK1 flight software.
 Copyright SpaceVR, 2017.  All rights reserved.
 """
 
+
+import time
 import sys
+import os
 import subprocess
+import signal
 
 from agent import Agent
 from payload_cmd_handler import PayloadCommandHandler
@@ -20,12 +24,17 @@ class Tk1Main:
 
     DEBUG = False
 
+    # This is the root directory where all photos are stored.
+    FILE_ROOT = "/home/ahurst/spacevr/test_photos/"
+
     def __init__(self):
         """ Constructor """
 
         self.cmds = self.create_payload_cmd_handler()
         self.agent = Agent()
         self.agent.service_handler["Payload Command"] = self.cmds.dispatch
+
+        self.capture_proc = None
 
 
     def create_payload_cmd_handler(self):
@@ -39,50 +48,72 @@ class Tk1Main:
         handler = PayloadCommandHandler()
 
         handler.handlers.update( {
-            PayloadCommandId.ABORT_CAPTURE : Tk1Main.do_abort_capture,
-            PayloadCommandId.CAPTURE_360   : Tk1Main.do_capture_360,
-            PayloadCommandId.CAPTURE_180   : Tk1Main.do_capture_180,
-            PayloadCommandId.CAMERA_POWER_ON  : Tk1Main.do_cameras_on,
-            PayloadCommandId.CAMERA_POWER_OFF : Tk1Main.do_cameras_off,
+            PayloadCommandId.ABORT_CAPTURE : self.do_abort_capture,
+            PayloadCommandId.CAPTURE_360   : self.do_capture_360,
+            PayloadCommandId.CAPTURE_180   : self.do_capture_180,
+            PayloadCommandId.CAMERA_POWER_ON  : self.do_cameras_on,
+            PayloadCommandId.CAMERA_POWER_OFF : self.do_cameras_off,
         } )
 
         if Tk1Main.DEBUG: PayloadCommandHandler.DEBUG = True
 
         return handler
 
+
     def main(self):
         """
         Start up the Pumpkin Supernova agent and wait for commands.
         """
-
+        
         if Tk1Main.DEBUG: print("Binding UDP sockets")
         self.agent.bind_udp_sockets()
         if Tk1Main.DEBUG: print("Waiting for bus")
         self.agent.run()
 
-    @staticmethod
-    def do_abort_capture(packet):
+
+    def do_abort_capture(self, packet):
         """
         Immediately terminate any camera captures that are in progress.
         """
-        raise NotImplementedError()
 
-    @staticmethod
-    def do_capture_180(packet):
-        """
-        Capture a 360-degree sequence.
-        """
-        raise NotImplementedError()
+        if self.capture_proc and not self.capture_proc.poll():
+            if Tk1Main.DEBUG: print("Aborting capture")
+            # Send a SIGTERM to capture process
+            self.capture_proc.send_signal(signal.SIGTERM)
+        else:
+            if Tk1Main.DEBUG: print("No capture to abort")
 
-    @staticmethod
-    def do_capture_360(packet):
+
+
+    def do_capture_180(self, packet):
         """
         Capture a 180-degree sequence.
         """
-        raise NotImplementedError()
 
-    @staticmethod
-    def do_cameras_on(packet):
+        if (packet.data_len <= 8):
+            # Ignore bad packets.
+            return
+
+        (num_frames, start_time) = struct.unpack("ll", packet.data)
+
+        self.capture(4, num_frames, start_time)
+
+
+    def do_capture_360(self, packet):
+        """
+        Capture a 360-degree sequence.
+        """
+
+        if (packet.data_len <= 8):
+            # Ignore bad packets.
+            return
+
+        (num_frames, start_time) = struct.unpack("ll", packet.data)
+
+        self.capture(8, num_frames, start_time)
+
+
+    def do_cameras_on(self, packet):
         """
         Power on the cameras.
         """
@@ -100,8 +131,8 @@ class Tk1Main:
 
         raise NotImplementedError()
 
-    @staticmethod
-    def do_cameras_off(packet):
+
+    def do_cameras_off(self, packet):
         """
         Power off the cameras.
         """
@@ -119,5 +150,41 @@ class Tk1Main:
 
         raise NotImplementedError()
 
+    # -------------------------------------------------------
+
+    def capture(self, num_cameras, num_frames, start_time):
+
+        if self.capture_proc and not self.capture_proc.poll():
+            # Previous capture process is still running.
+
+            # TODO: Need to consider what the behavior should be here.
+            if Tk1Main.DEBUG: print("Previous capture still in progress.")
+            return
+
+        if Tk1Main.DEBUG:
+            print("Starting new capture.  Cameras=%d, Frames=%d" %
+                  (num_cameras, num_frames))
+
+        # Run capture in the background
+        self.capture_proc = subprocess.Popen(["./capture_main.py"])
+
+
+    def delete_all(self):
+        """
+        Delete all files in the FILE_ROOT directory.
+        """
+
+        num_deleted = 0
+        for filename in os.listdir(directory):
+            os.delete(filename)
+            num_deleted += 1
+
+        if Tk1Main.DEBUG: print("Deleted %d files" % num_deleted)
+
+
 if __name__ == "__main__":
+    # Was --debug passed on the command line?
+    if "--debug" in sys.argv:
+	Tk1Main.DEBUG = True
+
     Tk1Main().main()

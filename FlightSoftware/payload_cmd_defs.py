@@ -44,7 +44,8 @@ class PayloadCommandId(Enum):
                  They must be powered on.
 
     Data:
-        UInt8 - Number of frames (per camera)
+        UInt32 - Number of frames (per camera)
+        UInt32 - Timestamp start offset (epoch seconds)
     """
 
     # ---
@@ -55,7 +56,8 @@ class PayloadCommandId(Enum):
                  They must be powered on.
 
     Data:
-        UInt8 - Number of frames (per camera)
+        UInt32 - Number of frames (per camera)
+        UInt32 - Timestamp start offset (epoch seconds)
     """
 
     # ---
