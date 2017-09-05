@@ -11,6 +11,7 @@ import signal
 import argparse
 import os, os.path
 import subprocess
+import time
 
 # Assert Python 2.7
 assert sys.version_info[0:2] == (2,7)
@@ -41,6 +42,8 @@ class CaptureMain:
         The command line arguments are parsed here.
         """
 
+        self.start_time = time.time() # Epoch seconds.
+
         signal.signal(signal.SIGTERM, CaptureMain.sigterm_handler)
 
         parser = argparse.ArgumentParser(description='Capture photo sequence.')
@@ -48,6 +51,8 @@ class CaptureMain:
                             help='Number of frames to capture (default=1)')
         parser.add_argument('--cameras', type=int, nargs=1, default=1,
                             help='Number of cameras to capture (default=1)')
+        parser.add_argument('--timestamp', type=int, nargs=1,
+                            help='Actual time (epoch seconds) at start (default=system)')
         parser.add_argument('--debug', action='store_true',
                             help='Enable debug output')
 
@@ -57,6 +62,33 @@ class CaptureMain:
         if args.debug: CaptureMain.DEBUG = True
         self.nframes = args.frames
         self.ncameras = args.cameras
+        if args.timestamp:
+            self.timestamp = args.timestamp
+        else:
+            self.timestamp = self.start_time
+
+
+    def set_exif_timestamp(self, filename, epochsecs):
+        """
+        Add EXIF tag for DateTimeOriginal.
+
+        Use exiftool (perl) command line utility.
+        Run in a background process.  Q: Is this too slow
+        """
+
+        try:
+            date = subprocess.check_output(
+                'date --rfc-3339=seconds --date=@'+str(epochsecs),
+                shell=True)
+
+            if CaptureMain.DEBUG: print("    timestamp is "+date)
+
+            # Spawn process
+            subprocess.Popen(
+                ['exiftool', '-DateTimeOriginal="'+date+'" '+filename])
+
+        except Exception as e:
+            if CaptureMain.DEBUG: print("ERROR setting EXIF time "+repr(e))
 
 
     def do_one(self, filename, camera):
@@ -68,20 +100,23 @@ class CaptureMain:
             camera   - numeric ID of camera (between 0 and 7)
         """
 
-        return # TODO: test
+        # Time for this photo is the start timestamp plus the number of elapsed seconds
+        epochsecs = time.time() - self.start_time + self.timestamp
 
         p = subprocess.Popen(
-            ["sudo", "./snapshot", filename,
-                     "--dev", ("/dev/still%d" % i),
+            ["sudo", "../UVCstill/snapshot", filename,
+                     "--dev", "/dev/still%d" % camera,
                      "--format", "jpg",
                      "--size", str(4192), str(3104),
-                     "--suspend", "--resume"], # TODO: still needed?
+                     "--suspend", "--resume"],
             stdout=subprocess.PIPE)
         try:
             (output, err) = p.communicate(timeout=30)
             output_str = output.decode("utf-8")
         except Exception as e:
-            None
+            if CaptureMain.DEBUG: print("ERROR during capture "+repr(e))
+
+        self.set_exif_timestamp(filename, epochsecs)
 
 
     def main(self):
