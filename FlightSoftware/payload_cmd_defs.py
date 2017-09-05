@@ -80,3 +80,16 @@ class PayloadCommandId(Enum):
         None
     """
 
+    # ---
+    CAPTURE_CUSTOM = 0x16
+    """
+    Summary:     Capture a custom sequence.
+    Description: The cameras must be powered on.
+
+    Data:
+        UInt8 - Number of cameras
+        UInt8 - Number of frames (per camera)
+        UInt32 - Timestamp start offset (epoch seconds)
+        UInt32 - Frame width (must be valid size)
+        UInt32 - Frame height (must be valid size)        
+    """

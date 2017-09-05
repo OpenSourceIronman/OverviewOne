@@ -51,6 +51,8 @@ class CaptureMain:
                             help='Number of frames to capture (default=1)')
         parser.add_argument('--cameras', type=int, nargs=1, default=1,
                             help='Number of cameras to capture (default=1)')
+        parser.add_argument('--size', type=int, nargs=2,
+                            help='Frame size')
         parser.add_argument('--timestamp', type=int, nargs=1,
                             help='Actual time (epoch seconds) at start (default=system)')
         parser.add_argument('--debug', action='store_true',
@@ -66,7 +68,10 @@ class CaptureMain:
             self.timestamp = args.timestamp
         else:
             self.timestamp = self.start_time
-
+        if args.size:
+            self.framesize = args.size
+        else:
+            self.framesize = (4192, 3104)
 
     def set_exif_timestamp(self, filename, epochsecs):
         """
@@ -107,7 +112,7 @@ class CaptureMain:
             ["sudo", "../UVCstill/snapshot", filename,
                      "--dev", "/dev/still%d" % camera,
                      "--format", "jpg",
-                     "--size", str(4192), str(3104),
+                     "--size", str(self.framesize[0]), str(self.framesize[1]),
                      "--suspend", "--resume"],
             stdout=subprocess.PIPE)
         try:

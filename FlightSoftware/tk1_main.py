@@ -49,6 +49,7 @@ class Tk1Main:
             PayloadCommandId.ABORT_CAPTURE : self.do_abort_capture,
             PayloadCommandId.CAPTURE_360   : self.do_capture_360,
             PayloadCommandId.CAPTURE_180   : self.do_capture_180,
+            PayloadCommandId.CAPTURE_CUSTOM: self.do_capture_custom,
             PayloadCommandId.CAMERA_POWER_ON  : self.do_cameras_on,
             PayloadCommandId.CAMERA_POWER_OFF : self.do_cameras_off,
         } )
@@ -111,6 +112,21 @@ class Tk1Main:
         self.capture(8, num_frames, start_time)
 
 
+    def do_capture_custom(self, packet):
+        """
+        Capture a custom sequence.
+        """
+
+        if (packet.data_len <= 14):
+            # Ignore bad packets.
+            return
+
+        (num_cameras, num_frames,  start_time, width, height) 
+             = struct.unpack("hhlll", packet.data)
+
+        self.capture(num_cameras, num_frames, start_time, widht, height)
+
+
     def do_cameras_on(self, packet):
         """
         Power on the cameras.
@@ -150,7 +166,8 @@ class Tk1Main:
 
     # -------------------------------------------------------
 
-    def capture(self, num_cameras, num_frames, start_time):
+    def capture(self, num_cameras, num_frames, start_time,
+                      width=None, height=None):
 
         if self.capture_proc and not self.capture_proc.poll():
             # Previous capture process is still running.
@@ -163,8 +180,19 @@ class Tk1Main:
             print("Starting new capture.  Cameras=%d, Frames=%d" %
                   (num_cameras, num_frames))
 
+        cmdline = ['./capture_main.py',
+                   '--frames', str(num_frames),
+                   '--cameras', str(num_cameras)
+                  ]
+
+        if start_time:
+            cmdline.extend(['--timestamp', str(start_time)])
+
+        if width and height:
+            cmdline.extend(['--size', str(width), str(height)])
+
         # Run capture in the background
-        self.capture_proc = subprocess.Popen(["./capture_main.py"])
+        self.capture_proc = subprocess.Popen(cmdline)
 
 
     def delete_all(self):
