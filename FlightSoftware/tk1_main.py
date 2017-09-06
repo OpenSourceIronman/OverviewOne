@@ -25,6 +25,8 @@ class Tk1Main:
 
     DEBUG = False
 
+    KERNEL_MOD_PATH = "../UVCStill/uvcstill.ko"
+
     def __init__(self):
         """ Constructor """
 
@@ -52,6 +54,7 @@ class Tk1Main:
             PayloadCommandId.CAPTURE_CUSTOM: self.do_capture_custom,
             PayloadCommandId.CAMERA_POWER_ON  : self.do_cameras_on,
             PayloadCommandId.CAMERA_POWER_OFF : self.do_cameras_off,
+            PayloadCommandId.RELOAD_KERNEL_MODULE : self.reload_kernel_module,
         } )
 
         if Tk1Main.DEBUG: PayloadCommandHandler.DEBUG = True
@@ -163,6 +166,44 @@ class Tk1Main:
            None
 
         raise NotImplementedError()
+
+
+    def reload_kernel_module(self, packet):
+        """
+        Unload the uvcstill kernel module,
+                 unattach any devices for uvcvideo,
+                 and reload uvcstill.
+        """
+
+        # Check that we have the kernel driver
+        if not os.path.isfile(KERNEL_MOD_PATH):
+            if Tk1Main.DEBUG: print("Failed to find kernel driver")
+            return
+
+        # Unload module
+        try:
+            subprocess.check_call(["sudo", "rmmod", "uvcstill"])
+        except Exception as e:
+            # TODO: log error somewhere appropriate
+            if Tk1Main.DEBUG: print("Failed to unbind devices")
+
+        # Unbind any uvcvideo devices
+        for f in os.listdir("/sys/bus/usb/drivers/uvcvideo/"):
+            if re.match(".*:1.0", f):
+                try:
+                    subprocess.check_call("sudo sh -c 'echo %s > /sys/bus/usb/drivers/uvcvideo/unbind'" % f, 
+                                          shell=True)
+                except Exception as e:
+                    # TODO: log error somewhere appropriate
+                    if Tk1Main.DEBUG: print("Failed to unbind devices")
+
+        # Reload module
+        try:
+            subprocess.check_call(["sudo", "insmod", KERNEL_MOD_PATH])
+        except Exception as e:
+            # TODO: log error somewhere appropriate
+            if Tk1Main.DEBUG: print("Failed to unbind devices")
+
 
     # -------------------------------------------------------
 

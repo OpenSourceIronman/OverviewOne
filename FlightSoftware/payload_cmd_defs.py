@@ -93,3 +93,16 @@ class PayloadCommandId(Enum):
         UInt32 - Frame width (must be valid size)
         UInt32 - Frame height (must be valid size)        
     """
+
+    # ---
+    RELOAD_KERNEL_MODULE = 0x17
+    """
+    Summary:     Reload the uvcstill kernel module.
+    Description: Unload the uvcstill kernel module,
+                 unattach any devices for uvcvideo,
+                 and reload uvcstill.
+
+    Data:
+        None
+    """
+
