@@ -169,6 +169,24 @@ class BusCommands(object):
         UInt8 - param
     """
 
+    MAI_NOOP = 0x90
+    """
+    Summary:     ADACS No-op
+    Description: Probably does nothing and exists for testing.  Need more info.
+    Data:
+        ???
+    """
+
+
+    MAI_CMD = 0x91
+    """
+    Summary:     ADACS Control
+    Description: Sends control commands to the MAI module.  The various sub-commands and
+                 values are defined below.
+    Data:
+        40 bytes of ADCS
+    """
+
     PRM_CMD = 0xAB
     """
     Summary:     PRM Control
@@ -182,3 +200,4 @@ class BusCommands(object):
         UInt8 - prm number
         UInt8 - time (seconds)
     """
+
