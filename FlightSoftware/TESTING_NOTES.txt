@@ -1,7 +1,6 @@
------------------------------------------
-Instructions for manually testing
-   ADACS commands on the Pumpkin test bus
------------------------------------------
+----------------------------------------------------------
+I. Manually testing ADACS commands on the Pumpkin test bus
+----------------------------------------------------------
 
 1. Connect to the test bus
 
@@ -13,7 +12,7 @@ Instructions for manually testing
 
   $ /home/debian/sn
 
-  Leave this process running.  You may want to connect again.
+  Leave this process running.  You may want to open another window.
 
 3. Enable the MAI power
 
@@ -23,7 +22,7 @@ Instructions for manually testing
 
   $ python /root/test/mai_telemetry.py 
 
-  Leave this process running.  You may want to connect again.
+  Leave this process running.  You may want to open another window.
 
 5. Send some MAI commands
 
@@ -36,3 +35,41 @@ Instructions for manually testing
   ... and observe the telemetry change.
 
 6. That's as far as we got.
+
+
+----------------------------------------------------------
+II. Testing TK1 commands using O1 software.
+----------------------------------------------------------
+
+1. Connect to the BBB
+
+  $ ssh root@192.168.1.70
+
+  The password is "password".
+
+2. Start a Supernova process
+
+  $ /home/debian/sn
+
+  Leave this process running.  You may want to open another window.
+
+3. On the TK1 (or other 192.168.1.71 machine), set the SUPERNOVA_ID
+
+  $ export SUPERNOVA_ID=1
+
+4. On the TK1 (or other 192.168.1.71 machine), run the main agent.
+
+  $ FlightSoftware/tk1_main.py
+
+  Leave this process running.  You may want to open another window.
+
+4. On *either* the TK1 or the BBB, issue a command.  For example, any of:
+
+  $ ./run_hardware.py power_cameras 0
+  $ ./run_hardware.py power_cameras 1
+
+  These should be handled by the tk1_main.py process.  If they are
+  unimplemented there, an exception will be thrown (and the process
+  will die).
+
+  
