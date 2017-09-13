@@ -165,7 +165,7 @@ class Hardware:
         """
 
         # TODO: Does the sun-pointing mode need an offset to for our solar panel angle?
-        self.mai_set_mode(1, 7)
+        self.mai_set_mode(7)
 
     def point_cameras_to_ground(self):
         """
@@ -173,7 +173,7 @@ class Hardware:
         Point the cameras toward the -Z nadir.
         """
         # TODO: Does this actually point the antenna to ground?
-        self.mai_set_mode(1, 3)
+        self.mai_set_mode(3)
 
     def point_antenna_to_transmit(self):
         """
@@ -182,11 +182,12 @@ class Hardware:
         """
 
         # XXX: Presumable we've stored the latest ground station coordinates.
-
-        # XXX: Otherwise:
         # self.mai_set_latlong(longitude, latitude, start_time, stop_time):
 
-        self.mai_set_mode(1, 4)
+        # XXX: Example
+        self.mai_set_latlong(75, 50, 0, 999999999)
+
+        self.mai_set_mode(4)
 
     def transmit_health_data(self):
         """
