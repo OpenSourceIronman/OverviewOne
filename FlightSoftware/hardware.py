@@ -187,6 +187,11 @@ class Hardware:
         # XXX: Example
         self.mai_set_latlong(75, 50, 0, 999999999)
 
+        # NOTE: executing these two commands immediately in
+        #   in sequence appears to cause a Supernova ACS_READ_ERROR.
+        #   This does not appear to have any effect on the uptake
+        #   of the commands.
+
         self.mai_set_mode(4)
 
     def transmit_health_data(self):
